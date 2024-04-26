@@ -37,7 +37,7 @@ class UserExternalService implements UserExternalServiceInterface
             $user->id = $body['user']['id'];
             $user->email = $body['user']['email'];
         }
-        dd($user);
+
         return $user;
     }
 

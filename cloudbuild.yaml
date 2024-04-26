@@ -19,31 +19,31 @@ steps:
       [
         "build",
         "-t",
-        "gcr.io/avatar-419000/github.com/fjborquez/aang:$SHORT_SHA",
+        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:$SHORT_SHA",
         "-t",
-        "gcr.io/avatar-419000/github.com/fjborquez/aang:latest",
+        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:latest",
         ".",
       ]
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "push",
-        "gcr.io/avatar-419000/github.com/fjborquez/aang:$SHORT_SHA",
+        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:$SHORT_SHA",
       ]
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "push",
-        "gcr.io/avatar-419000/github.com/fjborquez/aang:latest",
+        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:latest",
       ]
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       [
         "run",
         "deploy",
-        "aang",
+        "katara-back",
         "--image",
-        "gcr.io/avatar-419000/github.com/fjborquez/aang:$SHORT_SHA",
+        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:$SHORT_SHA",
         "--region",
         "southamerica-east1",
         "--platform",
@@ -64,6 +64,6 @@ steps:
     env:
       - "PORT=8080"
 images:
-  - gcr.io/avatar-419000/github.com/fjborquez/aang:$SHORT_SHA
-  - gcr.io/avatar-419000/github.com/fjborquez/aang:latest
+  - gcr.io/avatar-419000/github.com/fjborquez/katara-back:$SHORT_SHA
+  - gcr.io/avatar-419000/github.com/fjborquez/katara-back:latest
 timeout: 2400s
