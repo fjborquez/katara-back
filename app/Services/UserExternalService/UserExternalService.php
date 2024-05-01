@@ -52,4 +52,22 @@ class UserExternalService implements UserExternalServiceInterface
         $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/person');
         return $response->json();
     }
+
+    public function personUpdate(int $id, array $data = []): bool
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/person/' . $id, $data);
+        return $response->body();
+    }
+
+    public function userUpdate(int $id, array $data = []): bool
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/user/' . $id, $data);
+        return $response->body();
+    }
+
+    public function getPerson(int $id): array
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/person/' . $id);
+        return $response->json();
+    }
 }
