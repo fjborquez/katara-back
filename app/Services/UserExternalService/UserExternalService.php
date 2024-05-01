@@ -46,4 +46,10 @@ class UserExternalService implements UserExternalServiceInterface
         $response = Http::accept('application/json')->retry(3, 100)->delete(Config::get('aang.url') . '/person/' . $id);
         return $response->body();
     }
+
+    public function userList(): array
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/person');
+        return $response->json();
+    }
 }
