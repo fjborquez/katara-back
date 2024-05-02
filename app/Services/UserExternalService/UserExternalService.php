@@ -70,4 +70,14 @@ class UserExternalService implements UserExternalServiceInterface
         $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/person/' . $id);
         return $response->json();
     }
+
+    public function enable(int $id): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/user/' . $id . '/enable');
+    }
+
+    public function disable(int $id): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/user/' . $id . '/disable');
+    }
 }

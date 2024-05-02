@@ -17,4 +17,8 @@ interface UserExternalServiceInterface
     public function userUpdate(int $id, array $data = []): bool;
 
     public function getPerson(int $id): array;
+
+    public function enable(int $id): void;
+
+    public function disable(int $id): void;
 }
