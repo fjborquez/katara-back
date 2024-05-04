@@ -49,7 +49,7 @@ class UserExternalService implements UserExternalServiceInterface
 
     public function userList(): array
     {
-        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/person');
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/user');
         return $response->json();
     }
 
