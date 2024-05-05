@@ -7,4 +7,5 @@ return [
     App\Providers\UserListServiceProvider::class,
     App\Providers\UserRegistrationServiceProvider::class,
     App\Providers\UserUpdateServiceProvider::class,
+    App\Providers\NutritionalRestrictionServiceProvider::class,
 ];

@@ -21,4 +21,6 @@ interface UserExternalServiceInterface
     public function enable(int $id): void;
 
     public function disable(int $id): void;
+
+    public function nutritionalRestrictionList(): array;
 }
