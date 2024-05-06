@@ -86,4 +86,9 @@ class UserExternalService implements UserExternalServiceInterface
         $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/nutritional-restriction');
         return $response->json();
     }
+
+    public function nutritionalProfileCreate(int $id, array $data = []): void
+    {
+        Http::accept('application/json')->retry(3, 100)->post(Config::get('aang.url') . '/person/' . $id . '/nutritional-profile', $data);
+    }
 }

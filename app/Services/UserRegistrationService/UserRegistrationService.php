@@ -48,6 +48,12 @@ class UserRegistrationService implements UserRegistrationServiceInterface {
         $userRegistered->idUser = $userCreated->id;
         $userRegistered->email = $userCreated->email;
 
+        try {
+            $this->userExternalService->nutritionalProfileCreate($personCreated->id, $data);
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+
         return $userRegistered;
     }
 }
