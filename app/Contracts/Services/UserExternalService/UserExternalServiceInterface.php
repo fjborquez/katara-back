@@ -25,4 +25,8 @@ interface UserExternalServiceInterface
     public function nutritionalRestrictionList(): array;
 
     public function nutritionalProfileCreate(int $id, array $data = []): void;
+
+    public function getNutritionalProfile(int $id): array;
+
+    public function getUser(int $id): object;
 }
