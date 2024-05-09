@@ -29,4 +29,6 @@ interface UserExternalServiceInterface
     public function getNutritionalProfile(int $id): array;
 
     public function getUser(int $id): object;
+
+    public function updateNutritionalProfile(int $id, array $data = []): void;
 }
