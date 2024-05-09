@@ -9,4 +9,5 @@ return [
     App\Providers\UserUpdateServiceProvider::class,
     App\Providers\NutritionalRestrictionServiceProvider::class,
     App\Providers\NutritionalProfileServiceProvider::class,
+    App\Providers\UserGetServiceProvider::class,
 ];
