@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\Services\UserActivationService\UserActivationServiceInterface;
-use App\Http\Controllers\UserActivation;
+use App\Services\UserActivationService\UserActivationService;
 use Illuminate\Support\ServiceProvider;
 
 class UserActivationServiceProvider extends ServiceProvider
@@ -23,7 +23,7 @@ class UserActivationServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             UserActivationServiceInterface::class,
-            UserActivation::class
+            UserActivationService::class
         );
     }
 }
