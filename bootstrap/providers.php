@@ -11,4 +11,5 @@ return [
     App\Providers\NutritionalProfileServiceProvider::class,
     App\Providers\UserGetServiceProvider::class,
     App\Providers\UserHousesGetServiceProvider::class,
+    App\Providers\UserHouseCreateServiceProvider::class,
 ];

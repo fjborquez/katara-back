@@ -31,4 +31,8 @@ interface UserExternalServiceInterface
     public function getUser(int $id): object;
 
     public function updateNutritionalProfile(int $id, array $data = []): void;
+
+    public function createHouse(array $data = []): object;
+
+    public function createPersonHouseRelation(int $personId, array $houses): void;
 }
