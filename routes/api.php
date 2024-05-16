@@ -6,6 +6,7 @@ use App\Http\Controllers\UserActivation;
 use App\Http\Controllers\UserGet;
 use App\Http\Controllers\UserHousesCreate;
 use App\Http\Controllers\UserHousesGet;
+use App\Http\Controllers\UserHouseUpdate;
 use App\Http\Controllers\UserList;
 use App\Http\Controllers\UserRegistration;
 use App\Http\Controllers\UserUpdate;
@@ -20,5 +21,6 @@ Route::put('/user/{id}/disable', [UserActivation::class, 'disable']);
 Route::get('/user/{id}/nutritional-profile', [NutritionalProfile::class, 'get']);
 Route::get('/user/{id}/houses', [UserHousesGet::class, 'getAll']);
 Route::post('/user/{id}/houses', [UserHousesCreate::class, 'create']);
+Route::put('/user/{id}/houses', [UserHouseUpdate::class, 'update']);
 
 Route::get('/nutritional-restriction', [NutritionalRestriction::class, 'getList']);

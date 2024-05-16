@@ -35,4 +35,8 @@ interface UserExternalServiceInterface
     public function createHouse(array $data = []): object;
 
     public function createPersonHouseRelation(int $personId, array $houses): void;
+
+    public function updateHouse(int $id, array $data = []): void;
+
+    public function updatePersonHouseRelation(int $id, array $houses): void;
 }

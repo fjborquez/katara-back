@@ -12,4 +12,5 @@ return [
     App\Providers\UserGetServiceProvider::class,
     App\Providers\UserHousesGetServiceProvider::class,
     App\Providers\UserHouseCreateServiceProvider::class,
+    App\Providers\UserHouseUpdateServiceProvider::class,
 ];

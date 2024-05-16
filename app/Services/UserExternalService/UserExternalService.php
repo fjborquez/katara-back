@@ -125,4 +125,14 @@ class UserExternalService implements UserExternalServiceInterface
     {
         Http::accept('application/json')->retry(3, 100)->post(Config::get('aang.url') . '/person/' . $personId . '/house', $houses);
     }
+
+    public function updateHouse(int $houseId, array $data = []): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/house/' . $houseId, $data);
+    }
+
+    public function updatePersonHouseRelation(int $personId, array $houses): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/person/' . $personId . '/house', $houses);
+    }
 }
