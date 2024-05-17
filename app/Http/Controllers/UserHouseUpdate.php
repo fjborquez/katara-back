@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Services\UserHouseUpdateService\UserHouseUpdateServiceInterface;
+use App\Http\Requests\UserHouseRequest;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class UserHouseUpdate extends Controller
         private readonly UserHouseUpdateServiceInterface $userHouseUpdateService
     ) {}
 
-    public function update(int $userId, Request $request)
+    public function update(int $userId, UserHouseRequest $request)
     {
         try {
             $this->userHouseUpdateService->update($userId, $request->all());
