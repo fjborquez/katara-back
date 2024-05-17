@@ -51,7 +51,7 @@ steps:
         "--verbosity",
         "debug",
         "--memory",
-        "256Mi",
+        "512Mi",
         "--cpu",
         "2000m",
         "--port",
