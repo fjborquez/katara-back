@@ -1,8 +1,8 @@
 FROM laratips/laravel10:latest
 
 ENV APP_ENV=local
-ENV APP_DEBUG=false
-ENV PHP_MEMORY_LIMIT=128M
+ENV APP_DEBUG=true
+ENV PHP_MEMORY_LIMIT=512M
 
 COPY . /var/www/html
 
