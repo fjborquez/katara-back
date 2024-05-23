@@ -29,6 +29,7 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
         $oldCityId = 0;
 
         foreach ($houses as $house) {
+            // TODO: Revisar si está quitando la casa por defecto
             $housesId[$house->id] = [
                 "is_default" => 0,
             ];

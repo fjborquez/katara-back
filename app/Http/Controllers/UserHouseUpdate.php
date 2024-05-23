@@ -19,7 +19,14 @@ class UserHouseUpdate extends Controller
             $this->userHouseUpdateService->update($userId, $request->all());
         } catch (Exception $exception) {
             $response = $exception->getMessage();
-            $message = trim(explode(',', $response)[0], "\"");
+
+            if (str_contains($response, ','))
+            {
+                $message = trim(explode(',', $response)[0], "\"");
+            } else {
+                $message = $response;
+            }
+
             throw new Exception($message);
         }
 
