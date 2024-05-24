@@ -29,10 +29,16 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
         $oldCityId = 0;
 
         foreach ($houses as $house) {
-            // TODO: Revisar si está quitando la casa por defecto
-            $housesId[$house->id] = [
-                "is_default" => 0,
-            ];
+            if ($data['is_default'])
+            {
+                $housesId[$house->id] = [
+                    "is_default" => 0,
+                ];
+            } else {
+                $housesId[$house->id] = [
+                    "is_default" => $house->pivot->is_default,
+                ];
+            }
 
             if ($house->id == $data['house_id']) {
                 try {
