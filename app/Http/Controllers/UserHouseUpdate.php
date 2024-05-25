@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Contracts\Services\UserHouseUpdateService\UserHouseUpdateServiceInterface;
 use App\Http\Requests\UserHouseRequest;
 use Exception;
-use Illuminate\Http\Request;
 
 class UserHouseUpdate extends Controller
 {
