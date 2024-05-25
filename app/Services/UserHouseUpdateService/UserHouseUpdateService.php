@@ -27,6 +27,7 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
         $housesId = [];
         $oldDescription = '';
         $oldCityId = 0;
+        $oldHouseId = 0;
 
         foreach ($houses as $house) {
             if ($data['is_default'])
@@ -44,6 +45,7 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
                 try {
                     $oldDescription = $house->description;
                     $oldCityId = $house->city_id;
+                    $oldHouseId = $house->id;
                     $this->userExternalService->updateHouse($house->id, $data);
                     $housesId[$house->id] = [
                         "is_default" => $data['is_default'],
@@ -63,7 +65,7 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
             $response = $e->getMessage();
             $message = explode("\n", $response)[1];
             $message = trim(explode(',', $message)[0], "\"");
-            $this->userExternalService->updateHouse($house->id, [
+            $this->userExternalService->updateHouse($oldHouseId, [
                 'description' => $oldDescription,
                 'city_id' => $oldCityId,
             ]);
