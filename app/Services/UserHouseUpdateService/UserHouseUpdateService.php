@@ -98,7 +98,7 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
         }
 
         $errorMessage = explode($separators[0], $message)[$positions[0]];
-        $errorMessage = trim(explode($separators[1], $message)[0], "\"");
+        $errorMessage = trim(explode($separators[1], $errorMessage)[0], "\"");
 
         return $errorMessage;
     }
