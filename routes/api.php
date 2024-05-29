@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HouseActivation;
 use App\Http\Controllers\NutritionalProfile;
 use App\Http\Controllers\NutritionalRestriction;
 use App\Http\Controllers\UserActivation;
@@ -22,5 +23,7 @@ Route::get('/user/{id}/nutritional-profile', [NutritionalProfile::class, 'get'])
 Route::get('/user/{id}/houses', [UserHousesGet::class, 'getAll']);
 Route::post('/user/{id}/houses', [UserHousesCreate::class, 'create']);
 Route::put('/user/{id}/houses', [UserHouseUpdate::class, 'update']);
+Route::put('/user/{id}/houses/{houseId}/enable', [HouseActivation::class, 'enable']);
+Route::put('/user/{id}/houses/{houseId}/disable', [HouseActivation::class, 'disable']);
 
 Route::get('/nutritional-restriction', [NutritionalRestriction::class, 'getList']);

@@ -41,4 +41,8 @@ interface UserExternalServiceInterface
     public function updatePersonHouseRelation(int $id, array $houses): void;
 
     public function getHouse(int $houseId): array;
+
+    public function enableHouse(int $houseId): void;
+
+    public function disableHouse(int $houseId): void;
 }

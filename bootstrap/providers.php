@@ -13,4 +13,5 @@ return [
     App\Providers\UserHousesGetServiceProvider::class,
     App\Providers\UserHouseCreateServiceProvider::class,
     App\Providers\UserHouseUpdateServiceProvider::class,
+    App\Providers\HouseActivationServiceProvider::class,
 ];
