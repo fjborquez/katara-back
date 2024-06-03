@@ -4,6 +4,7 @@ namespace App\Services\UserHouseCreateService;
 
 use App\Contracts\Services\UserExternalService\UserExternalServiceInterface;
 use App\Contracts\Services\UserHouseCreateService\UserHouseCreateServiceInterface;
+use App\HouseRole;
 use Exception;
 use stdClass;
 
@@ -38,11 +39,13 @@ class UserHouseCreateService implements UserHouseCreateServiceInterface
         foreach ($houses as $house) {
             $housesId[$house->id] = [
                 "is_default" => $data['is_default'] ? 0 : $house->pivot->is_default,
+                "house_role_id" =>  $house->pivot->house_role_id,
             ];
         }
 
         $housesId[$createdHouse->id] = [
             "is_default" => $data['is_default'],
+            "house_role_id" => HouseRole::HOST,
         ];
 
         try {

@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Providers;
+
+use App\Contracts\Services\PersonHouseCreateService\PersonHouseCreateServiceInterface;
+use App\Services\PersonHouseCreateService\PersonHouseCreateService;
+use Illuminate\Support\ServiceProvider;
+
+class PersonHouseCreateServiceProvider extends ServiceProvider
+{
+    /**
+     * Register services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        $this->app->bind(
+            PersonHouseCreateServiceInterface::class,
+            PersonHouseCreateService::class
+        );
+    }
+}

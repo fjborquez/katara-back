@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Exceptions\AangResponseException;
+use App\HouseRole;
 use App\Services\UserExternalService\UserExternalService;
 use App\Services\UserHouseUpdateService\UserHouseUpdateService;
 use Exception;
@@ -29,6 +30,7 @@ class UserHouseUpdateServiceTest extends TestCase
                 'city_id' => 1,
                 'pivot' => [
                     'is_default' => true,
+                    'house_role_id' => HouseRole::HOST
                 ]
             ],
             1 => [
@@ -37,6 +39,7 @@ class UserHouseUpdateServiceTest extends TestCase
                 'city_id' => 2,
                 'pivot' => [
                     'is_default' => false,
+                    'house_role_id' => HouseRole::HOST
                 ]
             ],
             2 => [
@@ -45,6 +48,7 @@ class UserHouseUpdateServiceTest extends TestCase
                 'city_id' => 3,
                 'pivot' => [
                     'is_default' => false,
+                    'house_role_id' => HouseRole::HOST
                 ]
             ],
             3 => [
@@ -53,6 +57,7 @@ class UserHouseUpdateServiceTest extends TestCase
                 'city_id' => 3,
                 'pivot' => [
                     'is_default' => false,
+                    'house_role_id' => HouseRole::HOST
                 ]
             ]
         ];

@@ -24,12 +24,14 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
         foreach ($houses as $house) {
             $housesId[$house->id] = [
                 "is_default" => $this->isDefaultHouse($house, $data),
+                "house_role_id" => $house->pivot->house_role_id
             ];
 
             if ($house->id == $data['house_id']) {
                 $oldHouse = $house;
                 $housesId[$house->id] = [
                     "is_default" => $data['is_default'],
+                    "house_role_id" => $house->pivot->house_role_id
                 ];
             }
         }
