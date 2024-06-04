@@ -52,7 +52,14 @@ class UserHouseCreateService implements UserHouseCreateServiceInterface
             $this->userExternalService->createPersonHouseRelation($user->person->id, ['houses' => $housesId]);
         } catch (Exception $e) {
             $response = $e->getMessage();
-            $message = explode(':', $response)[2];
+            $message = explode(':', $response);
+
+            if (count($message) > 2) {
+                $message = explode(':', $response)[2];
+            } else {
+                $message = explode(':', $response)[1];
+            }
+
             $message = trim(explode(', ', $message)[0], "\"");
             throw new Exception($message);
         }
