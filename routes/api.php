@@ -4,6 +4,8 @@ use App\Http\Controllers\HouseActivation;
 use App\Http\Controllers\NutritionalProfile;
 use App\Http\Controllers\NutritionalRestriction;
 use App\Http\Controllers\PersonHouseCreate;
+use App\Http\Controllers\ResidentList;
+use App\Http\Controllers\ResidentListController;
 use App\Http\Controllers\UserActivation;
 use App\Http\Controllers\UserGet;
 use App\Http\Controllers\UserHousesCreate;
@@ -27,5 +29,6 @@ Route::put('/user/{id}/houses', [UserHouseUpdate::class, 'update']);
 Route::put('/user/{id}/houses/{houseId}/enable', [HouseActivation::class, 'enable']);
 Route::put('/user/{id}/houses/{houseId}/disable', [HouseActivation::class, 'disable']);
 Route::post('/user/{id}/houses/{houseId}/residents', [PersonHouseCreate::class, 'create']);
+Route::get('/user/{id}/houses/{houseId}/residents', [ResidentList::class, 'getList']);
 
 Route::get('/nutritional-restriction', [NutritionalRestriction::class, 'getList']);

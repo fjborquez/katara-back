@@ -45,4 +45,6 @@ interface UserExternalServiceInterface
     public function enableHouse(int $houseId): void;
 
     public function disableHouse(int $houseId): void;
+
+    public function getResidents(int $houseId): array;
 }

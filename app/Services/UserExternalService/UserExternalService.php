@@ -151,4 +151,11 @@ class UserExternalService implements UserExternalServiceInterface
     {
         Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/house/' . $houseId . '/disable');
     }
+
+    public function getResidents(int $houseId): array
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/house/' . $houseId . '/person');
+        return $response->json();
+    }
+
 }
