@@ -17,8 +17,6 @@ class PersonHouseCreateService implements PersonHouseCreateServiceInterface
 
     public function create(int $addingUserId, int $houseId, array $residentData): void
     {
-        // TODO: Revisar criterios de aceptación
-        // TODO: Revisar mensajes de error
         $person = $this->createPerson($residentData);
         $this->createNutritionalProfile($person->id, ['nutritionalProfile' => $residentData['nutritional_profile']]);
         $this->createPersonHouseRelationship($person->id, ['houses' => [

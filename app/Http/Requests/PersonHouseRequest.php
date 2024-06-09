@@ -25,7 +25,7 @@ class PersonHouseRequest extends FormRequest
             'name' => ['required', 'max:30', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚüÜ]+)*$/'],
             'lastname' => ['required', 'max:30', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚüÜ]+)*$/'],
             'date_of_birth' => ['required', 'date_format:d/m/Y', 'before:tomorrow'],
-            'nutritional_profile' => ['required', 'array'],
+            'nutritional_profile' => ['present'],
         ];
     }
 }
