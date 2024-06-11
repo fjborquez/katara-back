@@ -17,4 +17,5 @@ return [
     App\Providers\PersonHouseCreateServiceProvider::class,
     App\Providers\ResidentListServiceProvider::class,
     App\Providers\PersonHouseUpdateServiceProvider::class,
+    App\Providers\ResidentGetServiceProvider::class,
 ];
