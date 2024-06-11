@@ -17,7 +17,8 @@ class PersonHouseUpdate extends Controller
     {
         try {
             $this->personHouseUpdateService->update($personId, $request->all());
-        } catch (AangResponseException $e) {
+            return response()->json(['message' => "Resident updated"], 200);
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
