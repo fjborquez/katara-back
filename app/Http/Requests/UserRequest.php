@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
         $rules = [
             'name' => ['required', 'max:30', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚüÜ]+)*$/'],
             'lastname' => ['required', 'max:30', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚüÜ]+)*$/'],
-            'date_of_birth' => ['required', 'date_format:Y-m-d', 'before:tomorrow'],
+            'date_of_birth' => ['required', 'date_format:d/m/Y', 'before:tomorrow'],
             'email' => ['required', 'email:rfc,dns'],
             'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()],
         ];
