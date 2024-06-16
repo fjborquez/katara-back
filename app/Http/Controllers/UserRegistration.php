@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Services\UserRegistrationService\UserRegistrationServiceInterface;
-use App\Http\Requests\UserRegistrationRequest;
+use App\Http\Requests\UserRequest;
 use Exception;
 
 class UserRegistration extends Controller
@@ -12,7 +12,7 @@ class UserRegistration extends Controller
         private readonly UserRegistrationServiceInterface $userRegistrationService
     ) {}
 
-    public function register(UserRegistrationRequest $request) {
+    public function register(UserRequest $request) {
         try {
             $userRegistered = $this->userRegistrationService->register($request->all());
 

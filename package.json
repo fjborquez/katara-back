@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "enc-env": "gcloud kms encrypt --plaintext-file=./envs/.env.dev --ciphertext-file=./envs/.env.dev.enc --location=global --keyring=aang-envs --key=key-envs",
+        "enc-env-prod": "gcloud kms encrypt --plaintext-file=./envs/.env.prod --ciphertext-file=./envs/.env.prod.enc --location=global --keyring=aang-envs --key=key-envs",
+        "enc-all-envs": "npm run enc-env && npm run enc-env-prod"
     },
     "devDependencies": {
         "axios": "^1.6.4",

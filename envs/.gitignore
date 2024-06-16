@@ -1,0 +1,6 @@
+*
+/*
+!.gitignore
+!.env.dev.enc
+!.env.prod.enc
+!.env.stage.enc

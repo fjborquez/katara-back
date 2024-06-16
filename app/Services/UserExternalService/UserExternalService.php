@@ -37,7 +37,7 @@ class UserExternalService implements UserExternalServiceInterface
             $user->id = $body['user']['id'];
             $user->email = $body['user']['email'];
         }
-        dd($user);
+
         return $user;
     }
 
@@ -46,4 +46,116 @@ class UserExternalService implements UserExternalServiceInterface
         $response = Http::accept('application/json')->retry(3, 100)->delete(Config::get('aang.url') . '/person/' . $id);
         return $response->body();
     }
+
+    public function userList(): array
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/user');
+        return $response->json();
+    }
+
+    public function personUpdate(int $id, array $data = []): bool
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/person/' . $id, $data);
+        return $response->body();
+    }
+
+    public function userUpdate(int $id, array $data = []): bool
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/user/' . $id, $data);
+        return $response->body();
+    }
+
+    public function getPerson(int $id): array
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/person/' . $id);
+        return $response->json();
+    }
+
+    public function enable(int $id): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/user/' . $id . '/enable');
+    }
+
+    public function disable(int $id): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/user/' . $id . '/disable');
+    }
+
+    public function nutritionalRestrictionList(): array
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/nutritional-restriction');
+        return $response->json();
+    }
+
+    public function nutritionalProfileCreate(int $id, array $data = []): void
+    {
+        Http::accept('application/json')->retry(3, 100)->post(Config::get('aang.url') . '/person/' . $id . '/nutritional-profile', $data);
+    }
+
+    public function getNutritionalProfile(int $id): array
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/person/' . $id . '/nutritional-profile');
+        return $response->json();
+    }
+
+    public function getUser(int $id): object
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/user/' . $id);
+        return json_decode($response);
+    }
+
+    public function updateNutritionalProfile(int $id, array $data = []): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/person/'. $id . '/nutritional-profile', $data);
+    }
+
+    public function createHouse(array $data = []): object
+    {
+
+        $response = Http::accept('application/json')->retry(3, 100)->post(Config::get('aang.url') . '/house', $data);
+        $body = $response->json();
+        $house = new stdClass();
+        $house->id = $body['house']['id'];
+        $house->description = $body['house']['description'];
+        $house->city_id = $body['house']['city_id'];
+        return $house;
+    }
+
+    public function createPersonHouseRelation(int $personId, array $houses): void
+    {
+        Http::accept('application/json')->retry(3, 100)->post(Config::get('aang.url') . '/person/' . $personId . '/house', $houses);
+    }
+
+    public function updateHouse(int $houseId, array $data = []): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/house/' . $houseId, $data);
+    }
+
+    public function updatePersonHouseRelation(int $personId, array $houses): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/person/' . $personId . '/house', $houses);
+    }
+
+    public function getHouse(int $houseId): array
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/house/' . $houseId);
+        return $response->json();
+    }
+
+    public function enableHouse(int $houseId): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/house/' . $houseId . '/enable');
+    }
+
+    public function disableHouse(int $houseId): void
+    {
+        Http::accept('application/json')->retry(3, 100)->put(Config::get('aang.url') . '/house/' . $houseId . '/disable');
+    }
+
+    public function getResidents(int $houseId): array
+    {
+        $response = Http::accept('application/json')->retry(3, 100)->get(Config::get('aang.url') . '/house/' . $houseId . '/person');
+        return $response->json();
+    }
+
 }

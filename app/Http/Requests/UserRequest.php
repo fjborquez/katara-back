@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class UserRegistrationRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,14 @@ class UserRegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => ['required', 'max:30', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚüÜ]+)*$/'],
             'lastname' => ['required', 'max:30', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚüÜ]+)*$/'],
-            'date_of_birth' => ['required', 'date_format:Y-m-d', 'before:tomorrow'],
-            'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()],
+            'date_of_birth' => ['required', 'date_format:d/m/Y', 'before:tomorrow'],
             'email' => ['required', 'email:rfc,dns'],
+            'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()],
         ];
+
+        return $rules;
     }
 }
