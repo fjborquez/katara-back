@@ -14,11 +14,17 @@ use stdClass;
 class UserHouseUpdateServiceTest extends TestCase
 {
     private $fakeHouses;
+
     private $mockedUserExternalService;
+
     private $userHouseUpdateService;
+
     private $fakeUserIdPayload;
+
     private $fakeHouseDataPayload;
+
     private $fakeUser;
+
     private $fakeHouseDataResponse;
 
     protected function setUp(): void
@@ -30,8 +36,8 @@ class UserHouseUpdateServiceTest extends TestCase
                 'city_id' => 1,
                 'pivot' => [
                     'is_default' => true,
-                    'house_role_id' => HouseRole::HOST
-                ]
+                    'house_role_id' => HouseRole::HOST,
+                ],
             ],
             1 => [
                 'id' => 57,
@@ -39,8 +45,8 @@ class UserHouseUpdateServiceTest extends TestCase
                 'city_id' => 2,
                 'pivot' => [
                     'is_default' => false,
-                    'house_role_id' => HouseRole::HOST
-                ]
+                    'house_role_id' => HouseRole::HOST,
+                ],
             ],
             2 => [
                 'id' => 58,
@@ -48,8 +54,8 @@ class UserHouseUpdateServiceTest extends TestCase
                 'city_id' => 3,
                 'pivot' => [
                     'is_default' => false,
-                    'house_role_id' => HouseRole::HOST
-                ]
+                    'house_role_id' => HouseRole::HOST,
+                ],
             ],
             3 => [
                 'id' => 59,
@@ -57,9 +63,9 @@ class UserHouseUpdateServiceTest extends TestCase
                 'city_id' => 3,
                 'pivot' => [
                     'is_default' => false,
-                    'house_role_id' => HouseRole::HOST
-                ]
-            ]
+                    'house_role_id' => HouseRole::HOST,
+                ],
+            ],
         ];
 
         $this->mockedUserExternalService = Mockery::mock(UserExternalService::class);

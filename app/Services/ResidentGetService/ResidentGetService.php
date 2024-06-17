@@ -10,21 +10,20 @@ class ResidentGetService implements ResidentGetServiceInterface
 {
     public function __construct(
         private readonly UserExternalServiceInterface $userExternalService
-    ){}
+    ) {
+    }
 
     public function get(int $userId, int $houseId, int $residentId): array
     {
         $user = $this->userExternalService->getUser($userId);
 
-        if (!$user)
-        {
+        if (! $user) {
             throw new Exception('User not found');
         }
 
         $house = $this->userExternalService->getHouse($houseId);
 
-        if (!$house)
-        {
+        if (! $house) {
             throw new Exception('House not found');
         }
 

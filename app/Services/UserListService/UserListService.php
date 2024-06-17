@@ -7,7 +7,9 @@ use App\Contracts\Services\UserListService\UserListServiceInterface;
 
 class UserListService implements UserListServiceInterface
 {
-    public function __construct(private readonly UserExternalServiceInterface $userExternalService){}
+    public function __construct(private readonly UserExternalServiceInterface $userExternalService)
+    {
+    }
 
     public function get(): array
     {

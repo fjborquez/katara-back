@@ -22,12 +22,13 @@ class PersonHouseCreateService implements PersonHouseCreateServiceInterface
         $this->createPersonHouseRelationship($person->id, ['houses' => [
             $houseId => [
                 'is_default' => false,
-                'house_role_id' => HouseRole::RESIDENT
-            ]
+                'house_role_id' => HouseRole::RESIDENT,
+            ],
         ]]);
     }
 
-    public function createPerson(array $residentData) {
+    public function createPerson(array $residentData)
+    {
         try {
             return $this->userExternalService->createPerson($residentData);
         } catch (Exception $e) {
@@ -35,7 +36,8 @@ class PersonHouseCreateService implements PersonHouseCreateServiceInterface
         }
     }
 
-    public function createNutritionalProfile(int $personId, array $residentData) {
+    public function createNutritionalProfile(int $personId, array $residentData)
+    {
         try {
             $this->userExternalService->nutritionalProfileCreate($personId, $residentData);
         } catch (Exception $e) {
@@ -44,7 +46,8 @@ class PersonHouseCreateService implements PersonHouseCreateServiceInterface
         }
     }
 
-    public function createPersonHouseRelationship(int $personId, array $housesId) {
+    public function createPersonHouseRelationship(int $personId, array $housesId)
+    {
         try {
             $this->userExternalService->createPersonHouseRelation($personId, $housesId);
         } catch (Exception $e) {
@@ -52,12 +55,13 @@ class PersonHouseCreateService implements PersonHouseCreateServiceInterface
             $this->deletePerson($personId);
             $response = $e->getMessage();
             $message = explode(':', $response)[2];
-            $message = trim(explode(', ', $message)[0], "\"");
+            $message = trim(explode(', ', $message)[0], '"');
             throw new AangResponseException($message);
         }
     }
 
-    public function deletePerson(int $personId) {
+    public function deletePerson(int $personId)
+    {
         try {
             $this->userExternalService->deletePerson($personId);
         } catch (Exception $e) {
@@ -65,7 +69,8 @@ class PersonHouseCreateService implements PersonHouseCreateServiceInterface
         }
     }
 
-    public function deleteNutritionalProfile(int $personId) {
+    public function deleteNutritionalProfile(int $personId)
+    {
         try {
             $this->userExternalService->nutritionalProfileCreate($personId, []);
         } catch (Exception $e) {

@@ -9,7 +9,8 @@ class NutritionalProfile extends Controller
 {
     public function __construct(
         private readonly NutritionalProfileServiceInterface $nutritionalProfileService,
-    ) {}
+    ) {
+    }
 
     public function get(int $userId)
     {

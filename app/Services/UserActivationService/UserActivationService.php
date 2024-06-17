@@ -8,7 +8,9 @@ use Exception;
 
 class UserActivationService implements UserActivationServiceInterface
 {
-    public function __construct(private readonly UserExternalServiceInterface $userExternalService) {}
+    public function __construct(private readonly UserExternalServiceInterface $userExternalService)
+    {
+    }
 
     public function enable(int $id): void
     {
@@ -27,5 +29,4 @@ class UserActivationService implements UserActivationServiceInterface
             throw new Exception($e->getMessage());
         }
     }
-
 }

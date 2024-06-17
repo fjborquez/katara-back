@@ -16,6 +16,7 @@ class UserHousesGetService implements UserHousesGetServiceInterface
     {
         try {
             $user = $this->userExternalService->getUser($userId);
+
             return $user->person->houses;
         } catch (Exception $e) {
             throw new Exception($e);

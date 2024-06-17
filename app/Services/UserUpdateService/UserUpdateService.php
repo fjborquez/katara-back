@@ -8,7 +8,9 @@ use Exception;
 
 class UserUpdateService implements UserUpdateServiceInterface
 {
-    public function __construct(private readonly UserExternalService $userExternalService) {}
+    public function __construct(private readonly UserExternalService $userExternalService)
+    {
+    }
 
     public function update(int $id, array $data): void
     {
@@ -21,7 +23,7 @@ class UserUpdateService implements UserUpdateServiceInterface
         } catch (Exception $e) {
             $response = $e->getMessage();
             $message = explode(':', $response)[2];
-            $message = trim(explode(',', $message)[0], "\"");
+            $message = trim(explode(',', $message)[0], '"');
             throw new Exception($message);
         }
     }

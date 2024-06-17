@@ -12,7 +12,8 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
 {
     public function __construct(
         private readonly UserExternalServiceInterface $userExternalService
-    ) {}
+    ) {
+    }
 
     public function update(int $userId, array $data): array
     {
@@ -23,15 +24,15 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
 
         foreach ($houses as $house) {
             $housesId[$house->id] = [
-                "is_default" => $this->isDefaultHouse($house, $data),
-                "house_role_id" => $house->pivot->house_role_id
+                'is_default' => $this->isDefaultHouse($house, $data),
+                'house_role_id' => $house->pivot->house_role_id,
             ];
 
             if ($house->id == $data['house_id']) {
                 $oldHouse = $house;
                 $housesId[$house->id] = [
-                    "is_default" => $data['is_default'],
-                    "house_role_id" => $house->pivot->house_role_id
+                    'is_default' => $data['is_default'],
+                    'house_role_id' => $house->pivot->house_role_id,
                 ];
             }
         }
@@ -47,7 +48,7 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
         try {
             return $this->userExternalService->getUser($userId);
         } catch (Exception $e) {
-            $message = $this->extractErrorMessage($e->getMessage(), [":", ','], [2, 0]);
+            $message = $this->extractErrorMessage($e->getMessage(), [':', ','], [2, 0]);
             throw new AangResponseException($message);
         }
     }
@@ -57,7 +58,7 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
         try {
             return $this->userExternalService->getHouse($houseId);
         } catch (Exception $e) {
-            $message = $this->extractErrorMessage($e->getMessage(), [":", ','], [2, 0]);
+            $message = $this->extractErrorMessage($e->getMessage(), [':', ','], [2, 0]);
             throw new AangResponseException($message);
         }
     }
@@ -94,13 +95,12 @@ class UserHouseUpdateService implements UserHouseUpdateServiceInterface
 
     public function extractErrorMessage(string $message, array $separators, array $positions)
     {
-        if ($message == null)
-        {
-            return "";
+        if ($message == null) {
+            return '';
         }
 
         $errorMessage = explode($separators[0], $message)[$positions[0]];
-        $errorMessage = trim(explode($separators[1], $errorMessage)[0], "\"");
+        $errorMessage = trim(explode($separators[1], $errorMessage)[0], '"');
 
         return $errorMessage;
     }

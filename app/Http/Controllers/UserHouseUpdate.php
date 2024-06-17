@@ -10,7 +10,8 @@ class UserHouseUpdate extends Controller
 {
     public function __construct(
         private readonly UserHouseUpdateServiceInterface $userHouseUpdateService
-    ) {}
+    ) {
+    }
 
     public function update(int $userId, UserHouseRequest $request)
     {
@@ -19,9 +20,8 @@ class UserHouseUpdate extends Controller
         } catch (Exception $exception) {
             $response = $exception->getMessage();
 
-            if (str_contains($response, ','))
-            {
-                $message = trim(explode(',', $response)[0], "\"");
+            if (str_contains($response, ',')) {
+                $message = trim(explode(',', $response)[0], '"');
             } else {
                 $message = $response;
             }

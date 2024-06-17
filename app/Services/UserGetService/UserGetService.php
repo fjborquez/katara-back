@@ -9,7 +9,8 @@ class UserGetService implements UserGetServiceInterface
 {
     public function __construct(
         private readonly UserExternalServiceInterface $userExternalService
-    ) {}
+    ) {
+    }
 
     public function get(int $userId): object
     {

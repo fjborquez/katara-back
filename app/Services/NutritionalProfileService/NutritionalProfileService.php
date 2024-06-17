@@ -15,6 +15,7 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
     public function getProfile(int $userId): array
     {
         $user = $this->userExternalService->getUser($userId);
+
         return $this->userExternalService->getNutritionalProfile($user->person->id);
     }
 }

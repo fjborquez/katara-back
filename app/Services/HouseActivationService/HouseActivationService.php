@@ -8,7 +8,9 @@ use Exception;
 
 class HouseActivationService implements HouseActivationServiceInterface
 {
-    public function __construct(private readonly UserExternalServiceInterface $userExternalService) {}
+    public function __construct(private readonly UserExternalServiceInterface $userExternalService)
+    {
+    }
 
     public function enable(int $houseId): void
     {

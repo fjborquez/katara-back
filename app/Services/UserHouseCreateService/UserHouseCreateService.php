@@ -11,7 +11,8 @@ use stdClass;
 class UserHouseCreateService implements UserHouseCreateServiceInterface
 {
     public function __construct(private readonly UserExternalServiceInterface $userExternalService)
-    {}
+    {
+    }
 
     public function create(int $userId, array $data): object
     {
@@ -20,7 +21,7 @@ class UserHouseCreateService implements UserHouseCreateServiceInterface
         } catch (Exception $e) {
             $response = $e->getMessage();
             $message = explode(':', $response)[2];
-            $message = trim(explode(',', $message)[0], "\"");
+            $message = trim(explode(',', $message)[0], '"');
             throw new Exception($message);
         }
 
@@ -29,7 +30,7 @@ class UserHouseCreateService implements UserHouseCreateServiceInterface
         } catch (Exception $e) {
             $response = $e->getMessage();
             $message = explode(':', $response)[2];
-            $message = trim(explode(',', $message)[0], "\"");
+            $message = trim(explode(',', $message)[0], '"');
             throw new Exception($message);
         }
 
@@ -38,14 +39,14 @@ class UserHouseCreateService implements UserHouseCreateServiceInterface
 
         foreach ($houses as $house) {
             $housesId[$house->id] = [
-                "is_default" => $data['is_default'] ? 0 : $house->pivot->is_default,
-                "house_role_id" =>  $house->pivot->house_role_id,
+                'is_default' => $data['is_default'] ? 0 : $house->pivot->is_default,
+                'house_role_id' => $house->pivot->house_role_id,
             ];
         }
 
         $housesId[$createdHouse->id] = [
-            "is_default" => $data['is_default'],
-            "house_role_id" => HouseRole::HOST,
+            'is_default' => $data['is_default'],
+            'house_role_id' => HouseRole::HOST,
         ];
 
         try {
@@ -60,7 +61,7 @@ class UserHouseCreateService implements UserHouseCreateServiceInterface
                 $message = explode(':', $response)[1];
             }
 
-            $message = trim(explode(', ', $message)[0], "\"");
+            $message = trim(explode(', ', $message)[0], '"');
             throw new Exception($message);
         }
 

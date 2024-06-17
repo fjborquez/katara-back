@@ -7,7 +7,8 @@ use App\Contracts\Services\UserRegistrationService\UserRegistrationServiceInterf
 use Exception;
 use stdClass;
 
-class UserRegistrationService implements UserRegistrationServiceInterface {
+class UserRegistrationService implements UserRegistrationServiceInterface
+{
     public function __construct(
         private readonly UserExternalServiceInterface $userExternalService
     ) {
@@ -18,7 +19,7 @@ class UserRegistrationService implements UserRegistrationServiceInterface {
         $userRegistered = new stdClass();
         $personCreated = $this->userExternalService->createPerson($data);
 
-        if (!$personCreated) {
+        if (! $personCreated) {
             throw new Exception('Error creating person');
         }
 
@@ -26,7 +27,6 @@ class UserRegistrationService implements UserRegistrationServiceInterface {
         $userRegistered->name = $personCreated->name;
         $userRegistered->lastname = $personCreated->lastname;
         $userRegistered->date_of_birth = $personCreated->date_of_birth;
-
 
         $data['person_id'] = $personCreated->id;
 
@@ -36,11 +36,11 @@ class UserRegistrationService implements UserRegistrationServiceInterface {
             $this->userExternalService->deletePerson($personCreated->id);
             $response = $e->getMessage();
             $message = explode(':', $response)[2];
-            $message = trim(explode(',', $message)[0], "\"");
+            $message = trim(explode(',', $message)[0], '"');
             throw new Exception($message);
         }
 
-        if (!$userCreated) {
+        if (! $userCreated) {
             $this->userExternalService->deletePerson($personCreated->id);
             throw new Exception('Error creating user');
         }
