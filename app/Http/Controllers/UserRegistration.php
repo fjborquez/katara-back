@@ -10,9 +10,11 @@ class UserRegistration extends Controller
 {
     public function __construct(
         private readonly UserRegistrationServiceInterface $userRegistrationService
-    ) {}
+    ) {
+    }
 
-    public function register(UserRequest $request) {
+    public function register(UserRequest $request)
+    {
         try {
             $userRegistered = $this->userRegistrationService->register($request->all());
 

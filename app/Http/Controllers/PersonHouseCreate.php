@@ -10,7 +10,8 @@ class PersonHouseCreate extends Controller
 {
     public function __construct(
         private readonly PersonHouseCreateServiceInterface $personHouseCreateService,
-    ) {}
+    ) {
+    }
 
     public function create(int $userId, int $houseId, PersonHouseRequest $request)
     {

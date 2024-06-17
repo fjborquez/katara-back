@@ -7,7 +7,8 @@ use App\Contracts\Services\NutritionalRestrictionService\NutritionalRestrictionS
 class NutritionalRestriction extends Controller
 {
     public function __construct(private readonly NutritionalRestrictionServiceInterface $nutritionalRestrictionService)
-    {}
+    {
+    }
 
     public function getList()
     {

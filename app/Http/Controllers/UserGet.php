@@ -8,7 +8,8 @@ class UserGet extends Controller
 {
     public function __construct(
         private readonly UserGetServiceInterface $userGetService
-    ) { }
+    ) {
+    }
 
     public function getUser(int $id)
     {

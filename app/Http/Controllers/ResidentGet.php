@@ -9,9 +9,11 @@ class ResidentGet extends Controller
 {
     public function __construct(
         private readonly ResidentGetServiceInterface $residentGetService
-    ) {}
+    ) {
+    }
 
-    public function get(int $userId, int $houseId, int $residentId) {
+    public function get(int $userId, int $houseId, int $residentId)
+    {
         try {
             return $this->residentGetService->get($userId, $houseId, $residentId);
         } catch (Exception $e) {

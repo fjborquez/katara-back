@@ -4,14 +4,13 @@ namespace App\Services\PersonHouseUpdateService;
 
 use App\Contracts\Services\PersonHouseUpdateService\PersonHouseUpdateServiceInterface;
 use App\Contracts\Services\UserExternalService\UserExternalServiceInterface;
-use App\Exceptions\AangResponseException;
-use Exception;
 
 class PersonHouseUpdateService implements PersonHouseUpdateServiceInterface
 {
     public function __construct(
         private readonly UserExternalServiceInterface $userExternalService
-    ) {}
+    ) {
+    }
 
     public function update(int $personId, array $data)
     {
@@ -43,6 +42,6 @@ class PersonHouseUpdateService implements PersonHouseUpdateServiceInterface
 
     public function updateNutritionalProfile(int $personId, array $nutritionalProfile, array $oldPersonData)
     {
-        $this->userExternalService->updateNutritionalProfile($personId, ["nutritionalProfile" => $nutritionalProfile]);
+        $this->userExternalService->updateNutritionalProfile($personId, ['nutritionalProfile' => $nutritionalProfile]);
     }
 }

@@ -9,15 +9,16 @@ use Exception;
 class UserHousesCreate extends Controller
 {
     public function __construct(private readonly UserHouseCreateServiceInterface $userHouseCreateService)
-    {}
+    {
+    }
 
     public function create(int $userId, UserHouseRequest $request)
     {
         try {
             $this->userHouseCreateService->create($userId, $request->all());
-        }catch (Exception $exception) {
+        } catch (Exception $exception) {
             $response = $exception->getMessage();
-            $message = trim(explode(',', $response)[0], "\"");
+            $message = trim(explode(',', $response)[0], '"');
             throw new Exception($message);
         }
 

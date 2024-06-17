@@ -7,7 +7,9 @@ use App\Contracts\Services\UserExternalService\UserExternalServiceInterface;
 
 class NutritionalRestrictionService implements NutritionalRestrictionServiceInterface
 {
-    public function __construct(private readonly UserExternalServiceInterface $userExternalService) {}
+    public function __construct(private readonly UserExternalServiceInterface $userExternalService)
+    {
+    }
 
     public function getAll(): array
     {

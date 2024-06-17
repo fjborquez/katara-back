@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Services\UserRegistrationService;
 
-interface UserRegistrationServiceInterface {
+interface UserRegistrationServiceInterface
+{
     public function register(array $data = []): object;
 }
