@@ -2,20 +2,19 @@
 
 return [
     App\Providers\AppServiceProvider::class,
-    App\Providers\UserActivationServiceProvider::class,
-    App\Providers\UserExternalServiceProvider::class,
-    App\Providers\UserListServiceProvider::class,
-    App\Providers\UserRegistrationServiceProvider::class,
-    App\Providers\UserUpdateServiceProvider::class,
-    App\Providers\NutritionalRestrictionServiceProvider::class,
-    App\Providers\NutritionalProfileServiceProvider::class,
-    App\Providers\UserGetServiceProvider::class,
-    App\Providers\UserHousesGetServiceProvider::class,
-    App\Providers\UserHouseCreateServiceProvider::class,
-    App\Providers\UserHouseUpdateServiceProvider::class,
-    App\Providers\HouseActivationServiceProvider::class,
-    App\Providers\PersonHouseCreateServiceProvider::class,
-    App\Providers\ResidentListServiceProvider::class,
-    App\Providers\PersonHouseUpdateServiceProvider::class,
-    App\Providers\ResidentGetServiceProvider::class,
+
+    App\Providers\AangServices\HouseServiceProvider::class,
+    App\Providers\AangServices\UserServiceProvider::class,
+    App\Providers\AangServices\PersonHouseServiceProvider::class,
+    App\Providers\AangServices\NutritionalRestrictionServiceProvider::class,
+    App\Providers\AangServices\PersonServiceProvider::class,
+    App\Providers\AangServices\ResidentServiceProvider::class,
+    App\Providers\AangServices\NutritionalProfileServiceProvider::class,
+
+    App\Providers\KataraServices\UserHouseServiceProvider::class,
+    App\Providers\KataraServices\NutritionalProfileServiceProvider::class,
+    App\Providers\KataraServices\NutritionalRestrictionServiceProvider::class,
+    App\Providers\KataraServices\UserServiceProvider::class,
+    App\Providers\KataraServices\ResidentServiceProvider::class,
+
 ];
