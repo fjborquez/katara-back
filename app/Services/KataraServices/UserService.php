@@ -35,7 +35,7 @@ class UserService implements UserServiceInterface
 
         return [
             'message' => $response->json(),
-            'code' => $response->status()
+            'code' => Response::HTTP_OK
         ];
     }
 
@@ -226,7 +226,7 @@ class UserService implements UserServiceInterface
         $nutritionalProfileUpdateResponse = $this->aangNutritionalProfileService->update($user['person']['id'], $data);
 
         if($nutritionalProfileUpdateResponse->notFound()) {
-            $message = 'Person not found';
+            $message = 'Person for nutritional profile not found';
             $code = Response::HTTP_NOT_FOUND;
 
             return [
@@ -239,7 +239,7 @@ class UserService implements UserServiceInterface
 
         return [
             'message' => 'User updated successfully',
-            'code' => Response::HTTP_NO_CONTENT
+            'code' => Response::HTTP_OK
         ];
     }
 
@@ -249,7 +249,7 @@ class UserService implements UserServiceInterface
 
         if ($response->notFound()) {
             $message = 'User not found';
-            $code =Response::HTTP_NOT_FOUND;
+            $code = Response::HTTP_NOT_FOUND;
 
             return [
                 'message' => $message,
@@ -269,7 +269,7 @@ class UserService implements UserServiceInterface
 
         return [
             'message' => 'User enabled successfully',
-            'code' => RESPONSE::HTTP_NO_CONTENT
+            'code' => RESPONSE::HTTP_OK
         ];
     }
 
@@ -299,7 +299,7 @@ class UserService implements UserServiceInterface
 
         return [
             'message' => 'User disabled successfully',
-            'code' => RESPONSE::HTTP_NO_CONTENT
+            'code' => RESPONSE::HTTP_OK
         ];
     }
 
