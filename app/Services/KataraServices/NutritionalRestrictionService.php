@@ -5,6 +5,7 @@ namespace App\Services\KataraServices;
 use App\Contracts\Services\AangServices\NutritionalRestrictionServiceInterface as AangServicesNutritionalRestrictionServiceInterface;
 use App\Contracts\Services\KataraServices\NutritionalRestrictionServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
+use Symfony\Component\HttpFoundation\Response;
 
 class NutritionalRestrictionService implements NutritionalRestrictionServiceInterface
 {
@@ -21,7 +22,7 @@ class NutritionalRestrictionService implements NutritionalRestrictionServiceInte
 
         return [
             'message' => $response->json(),
-            'code' => $response->status()
+            'code' => Response::HTTP_OK
         ];
     }
 }
