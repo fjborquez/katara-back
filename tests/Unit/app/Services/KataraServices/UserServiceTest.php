@@ -294,7 +294,7 @@ class UserServiceTest extends TestCase
     public function test_update_should_update_a_user()
     {
         $userGetResponse = new ClientResponse(new Psr7Response(Response::HTTP_OK, [], json_encode(['id' => 1, 'person' => ['id' => 1]])));
-        $userUpdateResponse = new ClientResponse(new Psr7Response(Response::HTTP_OK));
+        $userUpdateResponse = new ClientResponse(new Psr7Response(Response::HTTP_NO_CONTENT));
         $personUpdateResponse = new ClientResponse(new Psr7Response(Response::HTTP_OK));
         $nutritionalProfileUpdateResponse = new ClientResponse(new Psr7Response(Response::HTTP_OK));
 
@@ -304,7 +304,7 @@ class UserServiceTest extends TestCase
         $this->aangNutritionalProfileService->shouldReceive('update')->once()->andReturn($nutritionalProfileUpdateResponse);
 
         $response = $this->kataraUserService->update(1, []);
-        $this->assertEquals(Response::HTTP_NO_CONTENT, $response['code']);
+        $this->assertEquals(Response::HTTP_OK, $response['code']);
         $this->assertEquals('User updated successfully', $response['message']);
     }
 
