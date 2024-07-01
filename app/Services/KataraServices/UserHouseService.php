@@ -212,13 +212,18 @@ class UserHouseService implements UserHouseServiceInterface
             // TODO: COrregir mensaje
             $message = "The person already has a house with description in city";
             $code = Response::HTTP_BAD_REQUEST;
+
+            return [
+                'message' => $message,
+                'code' => $code
+            ];
         } else if ($personHouseUpdateResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
         return [
             'message' => "House updated successfully",
-            'code' => Response::HTTP_NO_CONTENT
+            'code' => Response::HTTP_OK
         ];
     }
 
@@ -235,7 +240,7 @@ class UserHouseService implements UserHouseServiceInterface
             $message = "House not found";
             $code = Response::HTTP_NOT_FOUND;
         } else if ($response->badRequest()) {
-            $message = "House already enabled";
+            $message = "House is already enabled";
             $code = Response::HTTP_BAD_REQUEST;
         } else {
             throw new UnexpectedErrorException();
@@ -260,7 +265,7 @@ class UserHouseService implements UserHouseServiceInterface
             $message = "House not found";
             $code = Response::HTTP_NOT_FOUND;
         } else if ($response->badRequest()) {
-            $message = "House already disabled";
+            $message = "House is already disabled";
             $code = Response::HTTP_BAD_REQUEST;
         } else {
             throw new UnexpectedErrorException();
