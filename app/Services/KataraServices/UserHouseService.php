@@ -36,8 +36,8 @@ class UserHouseService implements UserHouseServiceInterface
 
     public function create(int $userId, array $data): array
     {
-        $message = "";
-        $code = 0;
+        $message = "Person added to house";
+        $code = Response::HTTP_CREATED;
         $getUserResponse = $this->aangUserService->get($userId);
 
         if ($getUserResponse->notFound()) {
@@ -63,7 +63,7 @@ class UserHouseService implements UserHouseServiceInterface
                 'message' => $message,
                 'code' => $code
             ];
-        } else if ($getUserResponse->failed()) {
+        } else if ($createHouseResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -81,7 +81,7 @@ class UserHouseService implements UserHouseServiceInterface
                 'message' => $message,
                 'code' => $code
             ];
-        } else if ($getUserResponse->failed()) {
+        } else if ($getHouseResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -89,7 +89,7 @@ class UserHouseService implements UserHouseServiceInterface
         $housesId = [];
 
         foreach ($houses as $house) {
-            $housesId[$house->id] = [
+            $housesId[$house['id']] = [
                 'is_default' => $data['is_default'] ? 0 : $house['pivot']['is_default'],
                 'house_role_id' => $house['pivot']['house_role_id'],
             ];
