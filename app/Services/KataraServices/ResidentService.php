@@ -24,7 +24,8 @@ class ResidentService implements ResidentServiceInterface
         private readonly AangPersonHouseServiceInterface $aangPersonHouseService
     ) {}
 
-    public function get(int $userId, int $houseId, int $residentId): array {
+    public function get(int $userId, int $houseId, int $residentId): array
+    {
         $getUserResponse = $this->aangUserService->get($userId);
 
         if ($getUserResponse->notFound()) {
@@ -33,9 +34,9 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getUserResponse->failed()) {
+        } elseif ($getUserResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -48,9 +49,9 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getHouseResponse->failed()) {
+        } elseif ($getHouseResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -63,15 +64,15 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getPersonResponse->failed()) {
+        } elseif ($getPersonResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
         return [
             'message' => $getPersonResponse->json(),
-            'code' => Response::HTTP_OK
+            'code' => Response::HTTP_OK,
         ];
     }
 
@@ -85,7 +86,7 @@ class ResidentService implements ResidentServiceInterface
 
         return [
             'message' => $residentListResponse->json(),
-            'code' => Response::HTTP_OK
+            'code' => Response::HTTP_OK,
         ];
     }
 
@@ -99,9 +100,9 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($createPersonResponse->failed()) {
+        } elseif ($createPersonResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -117,9 +118,9 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($createNutritionalProfileResponse->failed()) {
+        } elseif ($createNutritionalProfileResponse->failed()) {
             $this->aangPersonService->delete($personId);
             throw new UnexpectedErrorException();
         }
@@ -139,9 +140,9 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($createPersonHouseResponse->failed()) {
+        } elseif ($createPersonHouseResponse->failed()) {
             $this->aangNutritionalProfileService->create($personId, []);
             $this->aangPersonService->delete($personId);
             throw new UnexpectedErrorException();
@@ -149,7 +150,7 @@ class ResidentService implements ResidentServiceInterface
 
         return [
             'message' => 'Resident created successfully',
-            'code' => Response::HTTP_CREATED
+            'code' => Response::HTTP_CREATED,
         ];
     }
 
@@ -162,9 +163,9 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getPersonResponse->failed()) {
+        } elseif ($getPersonResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -184,9 +185,9 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($updatePersonResponse->failed()) {
+        } elseif ($updatePersonResponse->failed()) {
             $this->aangPersonService->update($personId, $personBackup);
             throw new UnexpectedErrorException();
         }
@@ -200,24 +201,24 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($updateNutritionalProfileResponse->notFound()) {
+        } elseif ($updateNutritionalProfileResponse->notFound()) {
             $message = 'Nutritional profile not found';
             $code = Response::HTTP_NOT_FOUND;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($updateNutritionalProfileResponse->failed()) {
+        } elseif ($updateNutritionalProfileResponse->failed()) {
             $this->aangPersonService->update($personId, $personBackup);
             throw new UnexpectedErrorException();
         }
 
         return [
             'message' => 'Resident updated successfully',
-            'code' => Response::HTTP_OK
+            'code' => Response::HTTP_OK,
         ];
     }
 }

@@ -15,7 +15,8 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
         private readonly AangUserServiceInterface $aangUserService
     ) {}
 
-    public function get(int $userId): array {
+    public function get(int $userId): array
+    {
         $getUserResponse = $this->aangUserService->get($userId);
 
         if ($getUserResponse->notFound()) {
@@ -24,9 +25,9 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getUserResponse->failed()) {
+        } elseif ($getUserResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -39,15 +40,15 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getNutritionalProfileResponse->failed()) {
+        } elseif ($getNutritionalProfileResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
         return [
             'message' => $getNutritionalProfileResponse->json(),
-            'code' => Response::HTTP_OK
+            'code' => Response::HTTP_OK,
         ];
     }
 }

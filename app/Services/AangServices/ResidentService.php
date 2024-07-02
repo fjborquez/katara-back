@@ -11,6 +11,6 @@ class ResidentService implements ResidentServiceInterface
 {
     public function list(int $houseId): Response
     {
-        return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('aang.url') . '/house/' . $houseId . '/person');
+        return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('aang.url').'/house/'.$houseId.'/person');
     }
 }

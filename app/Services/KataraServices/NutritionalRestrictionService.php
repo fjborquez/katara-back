@@ -13,7 +13,8 @@ class NutritionalRestrictionService implements NutritionalRestrictionServiceInte
         private readonly AangServicesNutritionalRestrictionServiceInterface $aangNutritionalRestrictionService
     ) {}
 
-    public function list(): array {
+    public function list(): array
+    {
         $response = $this->aangNutritionalRestrictionService->list();
 
         if ($response->failed()) {
@@ -22,7 +23,7 @@ class NutritionalRestrictionService implements NutritionalRestrictionServiceInte
 
         return [
             'message' => $response->json(),
-            'code' => Response::HTTP_OK
+            'code' => Response::HTTP_OK,
         ];
     }
 }

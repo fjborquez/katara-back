@@ -12,7 +12,9 @@ use Tests\TestCase;
 class NutritionalProfileServiceTest extends TestCase
 {
     private $aangNutritionalProfileService;
+
     private $aangUserService;
+
     private $kataraNutritionalProfileService;
 
     public function setUp(): void
@@ -42,7 +44,7 @@ class NutritionalProfileServiceTest extends TestCase
     public function test_get_should_throw_an_exception_when_get_user_response_is_server_error()
     {
         $this->aangUserService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraNutritionalProfileService->get(1);
         }, UnexpectedErrorException::class);
     }
@@ -60,7 +62,7 @@ class NutritionalProfileServiceTest extends TestCase
     {
         $this->aangUserService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode(['id' => 1, 'person' => ['id' => 1]]))));
         $this->aangNutritionalProfileService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraNutritionalProfileService->get(1);
         }, UnexpectedErrorException::class);
     }

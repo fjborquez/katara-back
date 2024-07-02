@@ -16,6 +16,7 @@ class NutritionalRestrictionController extends Controller
     {
         try {
             $response = $this->nutritionalRestrictionService->list();
+
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);

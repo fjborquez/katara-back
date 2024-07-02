@@ -15,22 +15,26 @@ class UserController extends Controller
         private readonly UserServiceInterface $userService
     ) {}
 
-    public function create(UserRequest $request) {
+    public function create(UserRequest $request)
+    {
         $validated = $request->safe()->only($this->fields);
 
         try {
             $response = $this->userService->create($validated);
+
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function update(int $userId, UserRequest $request) {
+    public function update(int $userId, UserRequest $request)
+    {
         $validated = $request->safe()->only($this->fields);
 
         try {
             $response = $this->userService->update($userId, $validated);
+
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -41,6 +45,7 @@ class UserController extends Controller
     {
         try {
             $response = $this->userService->get($userId);
+
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -51,6 +56,7 @@ class UserController extends Controller
     {
         try {
             $response = $this->userService->list();
+
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -61,6 +67,7 @@ class UserController extends Controller
     {
         try {
             $response = $this->userService->enable($userId);
+
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -71,6 +78,7 @@ class UserController extends Controller
     {
         try {
             $response = $this->userService->disable($userId);
+
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

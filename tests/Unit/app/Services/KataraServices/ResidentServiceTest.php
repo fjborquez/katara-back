@@ -16,11 +16,17 @@ use Tests\TestCase;
 class ResidentServiceTest extends TestCase
 {
     private $aangUserService;
+
     private $aangHouseService;
+
     private $aangPersonService;
+
     private $aangResidentService;
+
     private $aangNutritionalProfileService;
+
     private $aangPersonHouseService;
+
     private $kataraResidentService;
 
     public function setUp(): void
@@ -56,7 +62,7 @@ class ResidentServiceTest extends TestCase
     public function test_create_should_throw_an_exception_when_there_is_a_server_error()
     {
         $this->aangPersonService->shouldReceive('create')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->create(1, 1, []);
         }, UnexpectedErrorException::class);
     }
@@ -76,7 +82,7 @@ class ResidentServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('create')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_CREATED, ['Location' => '/api/person/1'])));
         $this->aangNutritionalProfileService->shouldReceive('create')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
         $this->aangPersonService->shouldReceive('delete')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->create(1, 1, []);
         }, UnexpectedErrorException::class);
     }
@@ -98,7 +104,7 @@ class ResidentServiceTest extends TestCase
         $this->aangNutritionalProfileService->shouldReceive('create')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_CREATED)));
         $this->aangPersonHouseService->shouldReceive('create')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
         $this->aangPersonService->shouldReceive('delete')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->create(1, 1, []);
         }, UnexpectedErrorException::class);
     }
@@ -124,7 +130,7 @@ class ResidentServiceTest extends TestCase
     public function test_get_should_throw_an_exception_when_there_is_a_user_server_error()
     {
         $this->aangUserService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->get(1, 1, 1);
         }, UnexpectedErrorException::class);
     }
@@ -142,7 +148,7 @@ class ResidentServiceTest extends TestCase
     {
         $this->aangUserService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode(['id' => 1]))));
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->get(1, 1, 1);
         }, UnexpectedErrorException::class);
     }
@@ -162,7 +168,7 @@ class ResidentServiceTest extends TestCase
         $this->aangUserService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode(['id' => 1]))));
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode(['id' => 1]))));
         $this->aangPersonService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->get(1, 1, 1);
         }, UnexpectedErrorException::class);
     }
@@ -178,7 +184,7 @@ class ResidentServiceTest extends TestCase
     public function test_list_should_throw_an_exception_when_there_is_a_list_server_error()
     {
         $this->aangResidentService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->list(1, []);
         }, UnexpectedErrorException::class);
     }
@@ -205,7 +211,7 @@ class ResidentServiceTest extends TestCase
     public function test_update_should_throw_an_exception_when_there_is_a_get_person_server_error()
     {
         $this->aangPersonService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->update(1, []);
         }, UnexpectedErrorException::class);
     }
@@ -223,7 +229,7 @@ class ResidentServiceTest extends TestCase
     {
         $this->aangPersonService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode(['id' => 1]))));
         $this->aangPersonService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->update(1, []);
         }, UnexpectedErrorException::class);
     }
@@ -253,7 +259,7 @@ class ResidentServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode(['id' => 1]))));
         $this->aangPersonService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
         $this->aangNutritionalProfileService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->update(1, []);
         }, UnexpectedErrorException::class);
 

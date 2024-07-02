@@ -28,7 +28,7 @@ class UserRequest extends FormRequest
             'date_of_birth' => ['required', 'date_format:d/m/Y', 'before:tomorrow'],
             'email' => ['required', 'email:rfc,dns'],
             'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()],
-            'nutritionalProfile' => ['present', 'array']
+            'nutritionalProfile' => ['present', 'array'],
         ];
 
         return $rules;

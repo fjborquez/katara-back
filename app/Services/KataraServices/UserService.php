@@ -27,15 +27,15 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($response->failed()) {
+        } elseif ($response->failed()) {
             throw new UnexpectedErrorException();
         }
 
         return [
             'message' => $response->json(),
-            'code' => Response::HTTP_OK
+            'code' => Response::HTTP_OK,
         ];
     }
 
@@ -49,7 +49,7 @@ class UserService implements UserServiceInterface
 
         return [
             'message' => $response->json(),
-            'code' => $response->status()
+            'code' => $response->status(),
         ];
     }
 
@@ -63,9 +63,9 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($personCreateResponse->failed()) {
+        } elseif ($personCreateResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -80,9 +80,9 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($personGetResponse->failed()) {
+        } elseif ($personGetResponse->failed()) {
             $this->aangPersonService->delete($personId);
             throw new UnexpectedErrorException();
         }
@@ -99,9 +99,9 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($userCreateResponse->failed()) {
+        } elseif ($userCreateResponse->failed()) {
             $this->aangPersonService->delete($personId);
             throw new UnexpectedErrorException();
         }
@@ -118,9 +118,9 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($userGetResponse->failed()) {
+        } elseif ($userGetResponse->failed()) {
             $this->aangPersonService->delete($personId);
             $this->aangUserService->disable($userId);
             throw new UnexpectedErrorException();
@@ -137,9 +137,9 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($nutritionalProfileCreateResponse->notFound()) {
+        } elseif ($nutritionalProfileCreateResponse->notFound()) {
             $message = 'Person for nutritional profile not found';
             $code = Response::HTTP_NOT_FOUND;
             $this->aangPersonService->delete($personId);
@@ -147,9 +147,9 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($nutritionalProfileCreateResponse->failed()) {
+        } elseif ($nutritionalProfileCreateResponse->failed()) {
             $this->aangPersonService->delete($personId);
             $this->aangUserService->disable($userId);
             throw new UnexpectedErrorException();
@@ -157,7 +157,7 @@ class UserService implements UserServiceInterface
 
         return [
             'message' => 'User created successfully',
-            'code' => Response::HTTP_CREATED
+            'code' => Response::HTTP_CREATED,
         ];
     }
 
@@ -172,9 +172,9 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getUserResponse->failed()) {
+        } elseif ($getUserResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -187,17 +187,17 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($userUpdateResponse->notFound()) {
+        } elseif ($userUpdateResponse->notFound()) {
             $message = 'User not found';
             $code = Response::HTTP_NOT_FOUND;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($userUpdateResponse->failed()) {
+        } elseif ($userUpdateResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -209,37 +209,37 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($personUpdateResponse->notFound()) {
+        } elseif ($personUpdateResponse->notFound()) {
             $message = 'Person not found';
             $code = Response::HTTP_NOT_FOUND;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($personUpdateResponse->failed()) {
+        } elseif ($personUpdateResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
         $nutritionalProfileUpdateResponse = $this->aangNutritionalProfileService->update($user['person']['id'], $data);
 
-        if($nutritionalProfileUpdateResponse->notFound()) {
+        if ($nutritionalProfileUpdateResponse->notFound()) {
             $message = 'Person for nutritional profile not found';
             $code = Response::HTTP_NOT_FOUND;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($nutritionalProfileUpdateResponse->failed()) {
+        } elseif ($nutritionalProfileUpdateResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
         return [
             'message' => 'User updated successfully',
-            'code' => Response::HTTP_OK
+            'code' => Response::HTTP_OK,
         ];
     }
 
@@ -253,23 +253,23 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => Response::HTTP_NOT_FOUND
+                'code' => Response::HTTP_NOT_FOUND,
             ];
-        } else if ($response->badRequest()) {
+        } elseif ($response->badRequest()) {
             $message = 'User already enabled';
             $code = Response::HTTP_BAD_REQUEST;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($response->failed()) {
+        } elseif ($response->failed()) {
             throw new UnexpectedErrorException();
         }
 
         return [
             'message' => 'User enabled successfully',
-            'code' => RESPONSE::HTTP_OK
+            'code' => RESPONSE::HTTP_OK,
         ];
     }
 
@@ -283,24 +283,23 @@ class UserService implements UserServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($response->badRequest()) {
+        } elseif ($response->badRequest()) {
             $message = 'User already disabled';
             $code = Response::HTTP_BAD_REQUEST;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($response->failed()) {
+        } elseif ($response->failed()) {
             throw new UnexpectedErrorException();
         }
 
         return [
             'message' => 'User disabled successfully',
-            'code' => RESPONSE::HTTP_OK
+            'code' => RESPONSE::HTTP_OK,
         ];
     }
-
 }

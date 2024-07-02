@@ -30,25 +30,25 @@ class UserHouseService implements UserHouseServiceInterface
 
         return [
             'message' => $user['person']['houses'],
-            'code' => $response->status()
+            'code' => $response->status(),
         ];
     }
 
     public function create(int $userId, array $data): array
     {
-        $message = "Person added to house";
+        $message = 'Person added to house';
         $code = Response::HTTP_CREATED;
         $getUserResponse = $this->aangUserService->get($userId);
 
         if ($getUserResponse->notFound()) {
-            $message = "User not found";
+            $message = 'User not found';
             $code = Response::HTTP_NOT_FOUND;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getUserResponse->failed()) {
+        } elseif ($getUserResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -61,27 +61,27 @@ class UserHouseService implements UserHouseServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($createHouseResponse->failed()) {
+        } elseif ($createHouseResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
         $houseUrl = $createHouseResponse->header('Location');
         $houseUrl = explode('/', $houseUrl);
-        $houseId = (int)end($houseUrl);
+        $houseId = (int) end($houseUrl);
 
         $getHouseResponse = $this->aangHouseService->get($houseId);
 
         if ($getHouseResponse->notFound()) {
-            $message = "House not found";
+            $message = 'House not found';
             $code = Response::HTTP_NOT_FOUND;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getHouseResponse->failed()) {
+        } elseif ($getHouseResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -108,23 +108,23 @@ class UserHouseService implements UserHouseServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($userHouseRelationshipResponse->badRequest()) {
+        } elseif ($userHouseRelationshipResponse->badRequest()) {
             // TODO: Corregir mensaje
             // TODO: Borrar casa
-            $message = "The person already has a house with description in city";
+            $message = 'The person already has a house with description in city';
             $code = Response::HTTP_BAD_REQUEST;
-        } else if ($userHouseRelationshipResponse->notFound()) {
-            $message = "Person not found";
+        } elseif ($userHouseRelationshipResponse->notFound()) {
+            $message = 'Person not found';
             $code = Response::HTTP_NOT_FOUND;
-        } else if ($userHouseRelationshipResponse->failed()) {
+        } elseif ($userHouseRelationshipResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
         return [
             'message' => $message,
-            'code' => $code
+            'code' => $code,
         ];
     }
 
@@ -134,14 +134,14 @@ class UserHouseService implements UserHouseServiceInterface
         $getUserResponse = $this->aangUserService->get($userId);
 
         if ($getUserResponse->notFound()) {
-            $message = "User not found";
+            $message = 'User not found';
             $code = Response::HTTP_NOT_FOUND;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($getUserResponse->failed()) {
+        } elseif ($getUserResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
@@ -174,18 +174,18 @@ class UserHouseService implements UserHouseServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($updateHouseResponse->notFound()) {
-            $message = "House not found";
+        } elseif ($updateHouseResponse->notFound()) {
+            $message = 'House not found';
             $code = Response::HTTP_NOT_FOUND;
             $this->aangHouseService->update($data['house_id'], $oldHouse);
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($updateHouseResponse->failed()) {
+        } elseif ($updateHouseResponse->failed()) {
             $this->aangHouseService->update($data['house_id'], $oldHouse);
             throw new UnexpectedErrorException();
         }
@@ -198,49 +198,49 @@ class UserHouseService implements UserHouseServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($personHouseUpdateResponse->notFound()) {
-            $message = "Person not found";
+        } elseif ($personHouseUpdateResponse->notFound()) {
+            $message = 'Person not found';
             $code = Response::HTTP_NOT_FOUND;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($personHouseUpdateResponse->badRequest()) {
+        } elseif ($personHouseUpdateResponse->badRequest()) {
             // TODO: COrregir mensaje
-            $message = "The person already has a house with description in city";
+            $message = 'The person already has a house with description in city';
             $code = Response::HTTP_BAD_REQUEST;
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
-        } else if ($personHouseUpdateResponse->failed()) {
+        } elseif ($personHouseUpdateResponse->failed()) {
             throw new UnexpectedErrorException();
         }
 
         return [
-            'message' => "House updated successfully",
-            'code' => Response::HTTP_OK
+            'message' => 'House updated successfully',
+            'code' => Response::HTTP_OK,
         ];
     }
 
     public function enable(int $houseId): array
     {
         $response = $this->aangHouseService->enable($houseId);
-        $message = "";
+        $message = '';
         $code = 0;
 
         if ($response->noContent()) {
-            $message = "House enabled successfully";
+            $message = 'House enabled successfully';
             $code = Response::HTTP_OK;
-        } else if($response->notFound()) {
-            $message = "House not found";
+        } elseif ($response->notFound()) {
+            $message = 'House not found';
             $code = Response::HTTP_NOT_FOUND;
-        } else if ($response->badRequest()) {
-            $message = "House is already enabled";
+        } elseif ($response->badRequest()) {
+            $message = 'House is already enabled';
             $code = Response::HTTP_BAD_REQUEST;
         } else {
             throw new UnexpectedErrorException();
@@ -248,24 +248,24 @@ class UserHouseService implements UserHouseServiceInterface
 
         return [
             'message' => $message,
-            'code' => $code
+            'code' => $code,
         ];
     }
 
     public function disable(int $houseId): array
     {
         $response = $this->aangHouseService->disable($houseId);
-        $message = "";
+        $message = '';
         $code = 0;
 
         if ($response->noContent()) {
-            $message = "House disabled successfully";
+            $message = 'House disabled successfully';
             $code = Response::HTTP_OK;
-        } else if($response->notFound()) {
-            $message = "House not found";
+        } elseif ($response->notFound()) {
+            $message = 'House not found';
             $code = Response::HTTP_NOT_FOUND;
-        } else if ($response->badRequest()) {
-            $message = "House is already disabled";
+        } elseif ($response->badRequest()) {
+            $message = 'House is already disabled';
             $code = Response::HTTP_BAD_REQUEST;
         } else {
             throw new UnexpectedErrorException();
@@ -273,7 +273,7 @@ class UserHouseService implements UserHouseServiceInterface
 
         return [
             'message' => $message,
-            'code' => $code
+            'code' => $code,
         ];
     }
 }

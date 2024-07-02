@@ -11,6 +11,7 @@ use Tests\TestCase;
 class NutritionalRestrictionServiceTest extends TestCase
 {
     private $aangNutritionalRestrictionService;
+
     private $kataraNutritionalRestrictionService;
 
     public function setUp(): void

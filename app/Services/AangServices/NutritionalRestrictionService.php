@@ -11,6 +11,6 @@ class NutritionalRestrictionService implements NutritionalRestrictionServiceInte
 {
     public function list(): Response
     {
-        return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('aang.url') . '/nutritional-restriction');
+        return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('aang.url').'/nutritional-restriction');
     }
 }

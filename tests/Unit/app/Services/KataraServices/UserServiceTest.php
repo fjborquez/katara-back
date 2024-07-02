@@ -13,8 +13,11 @@ use Tests\TestCase;
 class UserServiceTest extends TestCase
 {
     private $aangUserService;
+
     private $aangPersonService;
+
     private $aangNutritionalProfileService;
+
     private $kataraUserService;
 
     public function setUp(): void
@@ -62,7 +65,7 @@ class UserServiceTest extends TestCase
         $personCreateResponse = new ClientResponse(new Psr7Response(Response::HTTP_INTERNAL_SERVER_ERROR));
         $this->aangPersonService->shouldReceive('create')->once()->andReturn($personCreateResponse);
 
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->create([]);
         }, UnexpectedErrorException::class);
     }
@@ -92,7 +95,7 @@ class UserServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('get')->once()->andReturn($personGetResponse);
         $this->aangPersonService->shouldReceive('delete')->once()->andReturn($personDeleteResponse);
 
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->create([]);
         }, UnexpectedErrorException::class);
     }
@@ -127,7 +130,7 @@ class UserServiceTest extends TestCase
         $this->aangUserService->shouldReceive('create')->once()->andReturn($userCreateResponse);
         $this->aangPersonService->shouldReceive('delete')->once()->andReturn($personDeleteResponse);
 
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->create([]);
         }, UnexpectedErrorException::class);
     }
@@ -170,7 +173,7 @@ class UserServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('delete')->once()->andReturn($personDeleteResponse);
         $this->aangUserService->shouldReceive('disable')->once()->andReturn($personDisabledResponse);
 
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->create([]);
         }, UnexpectedErrorException::class);
     }
@@ -241,7 +244,7 @@ class UserServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('delete')->once()->andReturn($personDeleteResponse);
         $this->aangUserService->shouldReceive('disable')->once()->andReturn($userDisabledResponse);
 
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->create([]);
         }, UnexpectedErrorException::class);
     }
@@ -268,7 +271,7 @@ class UserServiceTest extends TestCase
     {
         $userGetResponse = new ClientResponse(new Psr7Response(Response::HTTP_INTERNAL_SERVER_ERROR));
         $this->aangUserService->shouldReceive('get')->once()->andReturn($userGetResponse);
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->get(1);
         }, UnexpectedErrorException::class);
     }
@@ -286,7 +289,7 @@ class UserServiceTest extends TestCase
     {
         $listResponse = new ClientResponse(new Psr7Response(Response::HTTP_INTERNAL_SERVER_ERROR));
         $this->aangUserService->shouldReceive('list')->once()->andReturn($listResponse);
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->list();
         }, UnexpectedErrorException::class);
     }
@@ -321,7 +324,7 @@ class UserServiceTest extends TestCase
     {
         $getUserResponse = new ClientResponse(new Psr7Response(Response::HTTP_INTERNAL_SERVER_ERROR));
         $this->aangUserService->shouldReceive('get')->once()->andReturn($getUserResponse);
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->update(1, []);
         }, UnexpectedErrorException::class);
     }
@@ -354,7 +357,7 @@ class UserServiceTest extends TestCase
         $getUpdateUserResponse = new ClientResponse(new Psr7Response(Response::HTTP_INTERNAL_SERVER_ERROR));
         $this->aangUserService->shouldReceive('get')->once()->andReturn($getUserResponse);
         $this->aangUserService->shouldReceive('update')->once()->andReturn($getUpdateUserResponse);
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->update(1, []);
         }, UnexpectedErrorException::class);
 
@@ -394,7 +397,7 @@ class UserServiceTest extends TestCase
         $this->aangUserService->shouldReceive('get')->once()->andReturn($getUserResponse);
         $this->aangUserService->shouldReceive('update')->once()->andReturn($getUpdateUserResponse);
         $this->aangPersonService->shouldReceive('update')->once()->andReturn($getPersonUpdateResponse);
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->update(1, []);
         }, UnexpectedErrorException::class);
     }
@@ -424,7 +427,7 @@ class UserServiceTest extends TestCase
         $this->aangUserService->shouldReceive('update')->once()->andReturn($getUpdateUserResponse);
         $this->aangPersonService->shouldReceive('update')->once()->andReturn($getPersonUpdateResponse);
         $this->aangNutritionalProfileService->shouldReceive('update')->once()->andReturn($getUpdateNutritionalProfileResponse);
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->update(1, []);
         }, UnexpectedErrorException::class);
     }
@@ -461,7 +464,7 @@ class UserServiceTest extends TestCase
     {
         $getEnableResponse = new ClientResponse(new Psr7Response(Response::HTTP_INTERNAL_SERVER_ERROR));
         $this->aangUserService->shouldReceive('enable')->once()->andReturn($getEnableResponse);
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->enable(1);
         }, UnexpectedErrorException::class);
     }
@@ -498,7 +501,7 @@ class UserServiceTest extends TestCase
     {
         $getEnableResponse = new ClientResponse(new Psr7Response(Response::HTTP_INTERNAL_SERVER_ERROR));
         $this->aangUserService->shouldReceive('disable')->once()->andReturn($getEnableResponse);
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraUserService->disable(1);
         }, UnexpectedErrorException::class);
     }
