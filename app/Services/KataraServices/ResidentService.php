@@ -108,7 +108,7 @@ class ResidentService implements ResidentServiceInterface
         $person = $createPersonResponse->json();
         $personUrlParts = explode('/', $createPersonResponse->header('Location'));
         $personId = (int) end($personUrlParts);
-        $createNutritionalProfileResponse = $this->aangNutritionalProfileService->create($personId, $data['nutritional_profile']);
+        $createNutritionalProfileResponse = $this->aangNutritionalProfileService->create($personId, $data);
 
         if ($createNutritionalProfileResponse->unprocessableEntity()) {
             $message = $createNutritionalProfileResponse->json('message');
@@ -191,7 +191,7 @@ class ResidentService implements ResidentServiceInterface
             throw new UnexpectedErrorException();
         }
 
-        $updateNutritionalProfileResponse = $this->aangNutritionalProfileService->update($personId, $data['nutritionalProfile']);
+        $updateNutritionalProfileResponse = $this->aangNutritionalProfileService->update($personId, $data);
 
         if ($updateNutritionalProfileResponse->badRequest()) {
             // TODO: Corregir mensaje.
@@ -217,7 +217,7 @@ class ResidentService implements ResidentServiceInterface
 
         return [
             'message' => 'Resident updated successfully',
-            'code' => Response::HTTP_NO_CONTENT
+            'code' => Response::HTTP_OK
         ];
     }
 }
