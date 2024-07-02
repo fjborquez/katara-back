@@ -24,6 +24,7 @@ class UserHouseRequest extends FormRequest
         return [
             'description' => ['required', 'max:30'],
             'city_id' => ['required'],
+            'is_default' => [],
         ];
     }
 
