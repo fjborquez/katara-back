@@ -221,4 +221,25 @@ class ResidentService implements ResidentServiceInterface
             'code' => Response::HTTP_OK,
         ];
     }
+
+    public function delete(int $houseId, int $residentId): array
+    {
+        $deleteResidentResponse = $this->aangResidentService->delete($houseId, $residentId);
+        if ($deleteResidentResponse->notFound()) {
+            $message = 'The house or the resident does not exists or resident does not belong to house';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code
+            ];
+        } elseif ($deleteResidentResponse->failed()) {
+            throw new UnexpectedErrorException();
+        }
+
+        return [
+            'message' => 'Resident deleted successfully',
+            'code' => Response::HTTP_OK
+        ];
+    }
 }
