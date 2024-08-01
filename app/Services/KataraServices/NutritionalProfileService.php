@@ -28,7 +28,7 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
                 'code' => $code,
             ];
         } elseif ($getUserResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $user = $getUserResponse->json();
@@ -43,7 +43,7 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
                 'code' => $code,
             ];
         } elseif ($getNutritionalProfileResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [

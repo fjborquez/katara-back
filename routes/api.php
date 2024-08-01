@@ -23,5 +23,6 @@ Route::post('/user/{id}/houses/{houseId}/residents', [ResidentController::class,
 Route::put('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentController::class, 'update']);
 Route::get('/user/{id}/houses/{houseId}/residents', [ResidentController::class, 'list']);
 Route::get('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentController::class, 'get']);
+Route::delete('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentController::class, 'delete']);
 
 Route::get('/nutritional-restriction', [NutritionalRestrictionController::class, 'list']);

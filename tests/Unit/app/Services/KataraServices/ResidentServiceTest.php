@@ -234,7 +234,7 @@ class ResidentServiceTest extends TestCase
         }, UnexpectedErrorException::class);
     }
 
-    public function test_update_should_return_bad_request_when_there_is_an_nutritional_profile_service_error()
+    public function test_update_should_return_bad_request_when_there_is_a_nutritional_profile_service_error()
     {
         $this->aangPersonService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode(['id' => 1]))));
         $this->aangPersonService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
@@ -262,6 +262,29 @@ class ResidentServiceTest extends TestCase
         $this->assertThrows(function () {
             $this->kataraResidentService->update(1, []);
         }, UnexpectedErrorException::class);
+    }
 
+    public function test_delete_should_delete_a_resident()
+    {
+        $this->aangResidentService->shouldReceive('delete')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK)));
+        $response = $this->kataraResidentService->delete(1, 1, 1);
+        $this->assertEquals(HttpFoundationResponse::HTTP_OK, $response['code']);
+        $this->assertEquals('Resident deleted successfully', $response['message']);
+    }
+
+    public function test_delete_should_return_not_found_when_resident_is_not_found()
+    {
+        $this->aangResidentService->shouldReceive('delete')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NOT_FOUND)));
+        $response = $this->kataraResidentService->delete(1, 1, 1);
+        $this->assertEquals(HttpFoundationResponse::HTTP_NOT_FOUND, $response['code']);
+        $this->assertEquals('The house or the resident does not exists or resident does not belong to house', $response['message']);
+    }
+
+    public function test_delete_should_throw_an_exception_when_there_is_a_resident_server_error()
+    {
+        $this->aangResidentService->shouldReceive('delete')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
+        $this->assertThrows(function () {
+            $this->kataraResidentService->delete(1, 1, 1);
+        }, UnexpectedErrorException::class);
     }
 }

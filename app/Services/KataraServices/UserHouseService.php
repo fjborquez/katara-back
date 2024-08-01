@@ -23,7 +23,7 @@ class UserHouseService implements UserHouseServiceInterface
         $response = $this->aangUserService->get($userId);
 
         if ($response->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $user = $response->json();
@@ -49,7 +49,7 @@ class UserHouseService implements UserHouseServiceInterface
                 'code' => $code,
             ];
         } elseif ($getUserResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $user = $getUserResponse->json();
@@ -64,7 +64,7 @@ class UserHouseService implements UserHouseServiceInterface
                 'code' => $code,
             ];
         } elseif ($createHouseResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $houseUrl = $createHouseResponse->header('Location');
@@ -82,7 +82,7 @@ class UserHouseService implements UserHouseServiceInterface
                 'code' => $code,
             ];
         } elseif ($getHouseResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $houses = $user['person']['houses'];
@@ -119,7 +119,7 @@ class UserHouseService implements UserHouseServiceInterface
             $message = 'Person not found';
             $code = Response::HTTP_NOT_FOUND;
         } elseif ($userHouseRelationshipResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -142,7 +142,7 @@ class UserHouseService implements UserHouseServiceInterface
                 'code' => $code,
             ];
         } elseif ($getUserResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $user = $getUserResponse->json();
@@ -187,7 +187,7 @@ class UserHouseService implements UserHouseServiceInterface
             ];
         } elseif ($updateHouseResponse->failed()) {
             $this->aangHouseService->update($data['house_id'], $oldHouse);
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $personHouseUpdateResponse = $this->aangPersonHouseService->update($user['person']['id'], ['houses' => $housesId]);
@@ -218,7 +218,7 @@ class UserHouseService implements UserHouseServiceInterface
                 'code' => $code,
             ];
         } elseif ($personHouseUpdateResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -243,7 +243,7 @@ class UserHouseService implements UserHouseServiceInterface
             $message = 'House is already enabled';
             $code = Response::HTTP_BAD_REQUEST;
         } else {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -268,7 +268,7 @@ class UserHouseService implements UserHouseServiceInterface
             $message = 'House is already disabled';
             $code = Response::HTTP_BAD_REQUEST;
         } else {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [

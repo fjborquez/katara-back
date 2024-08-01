@@ -11,4 +11,6 @@ interface ResidentServiceInterface
     public function create(int $addingUserId, int $houseId, array $residentData): array;
 
     public function update(int $personId, array $data): array;
+
+    public function delete(int $houseId, int $residentId): array;
 }

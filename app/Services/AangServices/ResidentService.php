@@ -13,4 +13,9 @@ class ResidentService implements ResidentServiceInterface
     {
         return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('aang.url').'/house/'.$houseId.'/person');
     }
+
+    public function delete(int $houseId, int $residentId): Response
+    {
+        return Http::accept('application/json')->retry(3, 100, null, false)->delete(Config::get('aang.url').'/house/'.$houseId.'/person/'.$residentId);
+    }
 }
