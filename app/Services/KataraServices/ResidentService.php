@@ -37,7 +37,7 @@ class ResidentService implements ResidentServiceInterface
                 'code' => $code,
             ];
         } elseif ($getUserResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $user = $getUserResponse->json();
@@ -52,7 +52,7 @@ class ResidentService implements ResidentServiceInterface
                 'code' => $code,
             ];
         } elseif ($getHouseResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $house = $getHouseResponse->json();
@@ -67,7 +67,7 @@ class ResidentService implements ResidentServiceInterface
                 'code' => $code,
             ];
         } elseif ($getPersonResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -81,7 +81,7 @@ class ResidentService implements ResidentServiceInterface
         $residentListResponse = $this->aangResidentService->list($houseId);
 
         if ($residentListResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -103,7 +103,7 @@ class ResidentService implements ResidentServiceInterface
                 'code' => $code,
             ];
         } elseif ($createPersonResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $person = $createPersonResponse->json();
@@ -122,7 +122,7 @@ class ResidentService implements ResidentServiceInterface
             ];
         } elseif ($createNutritionalProfileResponse->failed()) {
             $this->aangPersonService->delete($personId);
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $createPersonHouseResponse = $this->aangPersonHouseService->create($personId, ['houses' => [
@@ -145,7 +145,7 @@ class ResidentService implements ResidentServiceInterface
         } elseif ($createPersonHouseResponse->failed()) {
             $this->aangNutritionalProfileService->create($personId, []);
             $this->aangPersonService->delete($personId);
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -166,7 +166,7 @@ class ResidentService implements ResidentServiceInterface
                 'code' => $code,
             ];
         } elseif ($getPersonResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $person = $getPersonResponse->json();
@@ -189,7 +189,7 @@ class ResidentService implements ResidentServiceInterface
             ];
         } elseif ($updatePersonResponse->failed()) {
             $this->aangPersonService->update($personId, $personBackup);
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $updateNutritionalProfileResponse = $this->aangNutritionalProfileService->update($personId, $data);
@@ -213,7 +213,7 @@ class ResidentService implements ResidentServiceInterface
             ];
         } elseif ($updateNutritionalProfileResponse->failed()) {
             $this->aangPersonService->update($personId, $personBackup);
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -231,15 +231,15 @@ class ResidentService implements ResidentServiceInterface
 
             return [
                 'message' => $message,
-                'code' => $code
+                'code' => $code,
             ];
         } elseif ($deleteResidentResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
             'message' => 'Resident deleted successfully',
-            'code' => Response::HTTP_OK
+            'code' => Response::HTTP_OK,
         ];
     }
 }

@@ -18,7 +18,7 @@ class NutritionalRestrictionService implements NutritionalRestrictionServiceInte
         $response = $this->aangNutritionalRestrictionService->list();
 
         if ($response->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [

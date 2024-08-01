@@ -283,7 +283,7 @@ class ResidentServiceTest extends TestCase
     public function test_delete_should_throw_an_exception_when_there_is_a_resident_server_error()
     {
         $this->aangResidentService->shouldReceive('delete')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->kataraResidentService->delete(1, 1, 1);
         }, UnexpectedErrorException::class);
     }

@@ -30,7 +30,7 @@ class UserService implements UserServiceInterface
                 'code' => $code,
             ];
         } elseif ($response->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -44,7 +44,7 @@ class UserService implements UserServiceInterface
         $response = $this->aangUserService->list();
 
         if ($response->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -66,7 +66,7 @@ class UserService implements UserServiceInterface
                 'code' => $code,
             ];
         } elseif ($personCreateResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $personUrlParts = explode('/', $personCreateResponse->header('Location'));
@@ -84,7 +84,7 @@ class UserService implements UserServiceInterface
             ];
         } elseif ($personGetResponse->failed()) {
             $this->aangPersonService->delete($personId);
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $person = $personGetResponse->json();
@@ -103,7 +103,7 @@ class UserService implements UserServiceInterface
             ];
         } elseif ($userCreateResponse->failed()) {
             $this->aangPersonService->delete($personId);
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $userUrlParts = explode('/', $userCreateResponse->header('Location'));
@@ -123,7 +123,7 @@ class UserService implements UserServiceInterface
         } elseif ($userGetResponse->failed()) {
             $this->aangPersonService->delete($personId);
             $this->aangUserService->disable($userId);
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $user = $userGetResponse->json();
@@ -152,7 +152,7 @@ class UserService implements UserServiceInterface
         } elseif ($nutritionalProfileCreateResponse->failed()) {
             $this->aangPersonService->delete($personId);
             $this->aangUserService->disable($userId);
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -175,7 +175,7 @@ class UserService implements UserServiceInterface
                 'code' => $code,
             ];
         } elseif ($getUserResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $user = $getUserResponse->json();
@@ -198,7 +198,7 @@ class UserService implements UserServiceInterface
                 'code' => $code,
             ];
         } elseif ($userUpdateResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $personUpdateResponse = $this->aangPersonService->update($id, $data);
@@ -220,7 +220,7 @@ class UserService implements UserServiceInterface
                 'code' => $code,
             ];
         } elseif ($personUpdateResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $nutritionalProfileUpdateResponse = $this->aangNutritionalProfileService->update($user['person']['id'], $data);
@@ -234,7 +234,7 @@ class UserService implements UserServiceInterface
                 'code' => $code,
             ];
         } elseif ($nutritionalProfileUpdateResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -264,7 +264,7 @@ class UserService implements UserServiceInterface
                 'code' => $code,
             ];
         } elseif ($response->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
@@ -294,7 +294,7 @@ class UserService implements UserServiceInterface
                 'code' => $code,
             ];
         } elseif ($response->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
