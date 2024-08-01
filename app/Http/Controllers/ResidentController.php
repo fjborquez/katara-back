@@ -23,7 +23,7 @@ class ResidentController extends Controller
         }
     }
 
-    public function list(int $houseId)
+    public function list(int $userId, int $houseId)
     {
         try {
             $response = $this->residentService->list($houseId);
