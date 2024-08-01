@@ -62,7 +62,7 @@ class ResidentController extends Controller
         try {
             $response = $this->residentService->delete($houseId, $residentId);
 
-            return response()->json(['message' => $response['message'], $response['code']]);
+            return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
