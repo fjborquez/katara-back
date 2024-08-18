@@ -3,7 +3,7 @@
 namespace App\Providers\KataraServices;
 
 use App\Contracts\Services\KataraServices\ConsumptionLevelServiceInterface;
-use App\Services\KataraServices\ConsumptionlevelService;
+use App\Services\KataraServices\ConsumptionLevelService;
 use Illuminate\Support\ServiceProvider;
 
 class ConsumptionLevelServiceProvider extends ServiceProvider

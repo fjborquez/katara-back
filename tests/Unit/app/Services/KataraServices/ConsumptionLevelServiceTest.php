@@ -18,7 +18,7 @@ class ConsumptionLevelServiceTest extends TestCase
     {
         parent::setUp();
         $this->aangConsumptionLevelService = Mockery::mock(AangConsumptionLevelService::class);
-        $this->kataraConsumptionLevelService = new ConsumptionlevelService($this->aangConsumptionLevelService);
+        $this->kataraConsumptionLevelService = new ConsumptionLevelService($this->aangConsumptionLevelService);
     }
 
     public function test_get_consumption_level_list()
