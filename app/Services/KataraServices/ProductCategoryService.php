@@ -13,11 +13,12 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         private readonly ZukoProductCategoryServiceInterface $zukoProductCategoryService
     ) {}
 
-    public function list(): array {
+    public function list(): array
+    {
         $productCategoryListResponse = $this->zukoProductCategoryService->list();
 
         if ($productCategoryListResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [

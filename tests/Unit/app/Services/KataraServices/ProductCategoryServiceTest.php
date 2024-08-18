@@ -25,16 +25,16 @@ class ProductCategoryServiceTest extends TestCase
     {
         $data = [
             [
-                "id" => 1,
-                "name" => "Bakery",
-                "created_at" => null,
-                "updated_at" => null
+                'id' => 1,
+                'name' => 'Bakery',
+                'created_at' => null,
+                'updated_at' => null,
             ],
             [
-                "id" => 2,
-                "name" => "Butchery",
-                "created_at" => null,
-                "updated_at" => null
+                'id' => 2,
+                'name' => 'Butchery',
+                'created_at' => null,
+                'updated_at' => null,
             ],
         ];
         $this->zukoProductCategoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_CREATED, $data)));
