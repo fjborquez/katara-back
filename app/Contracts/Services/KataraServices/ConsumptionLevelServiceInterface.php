@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Services\KataraServices;
 
-interface ConsumptionLevelServiceInterface {
+interface ConsumptionLevelServiceInterface
+{
     public function list(): array;
 }
