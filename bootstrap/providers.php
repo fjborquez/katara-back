@@ -18,5 +18,8 @@ return [
     App\Providers\KataraServices\UserServiceProvider::class,
     App\Providers\KataraServices\ResidentServiceProvider::class,
     App\Providers\KataraServices\ConsumptionLevelServiceProvider::class,
+    App\Providers\KataraServices\ProductCategoryServiceProvider::class,
+
+    App\Providers\ZukoServices\ProductCategoryServiceProvider::class,
 
 ];
