@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConsumptionLevelController;
 use App\Http\Controllers\NutritionalProfileController;
 use App\Http\Controllers\NutritionalRestrictionController;
 use App\Http\Controllers\ResidentController;
@@ -26,3 +27,5 @@ Route::get('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentControll
 Route::delete('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentController::class, 'delete']);
 
 Route::get('/nutritional-restriction', [NutritionalRestrictionController::class, 'list']);
+
+Route::get('/consumption-level', [ConsumptionLevelController::class, 'list']);
