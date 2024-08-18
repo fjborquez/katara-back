@@ -10,11 +10,13 @@ return [
     App\Providers\AangServices\PersonServiceProvider::class,
     App\Providers\AangServices\ResidentServiceProvider::class,
     App\Providers\AangServices\NutritionalProfileServiceProvider::class,
+    App\Providers\AangServices\ConsumptionLevelServiceProvider::class,
 
     App\Providers\KataraServices\UserHouseServiceProvider::class,
     App\Providers\KataraServices\NutritionalProfileServiceProvider::class,
     App\Providers\KataraServices\NutritionalRestrictionServiceProvider::class,
     App\Providers\KataraServices\UserServiceProvider::class,
     App\Providers\KataraServices\ResidentServiceProvider::class,
+    App\Providers\KataraServices\ConsumptionLevelServiceProvider::class,
 
 ];
