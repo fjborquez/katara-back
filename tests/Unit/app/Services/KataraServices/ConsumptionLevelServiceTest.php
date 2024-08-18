@@ -2,7 +2,7 @@
 
 use App\Exceptions\UnexpectedErrorException;
 use App\Services\AangServices\ConsumptionLevelService as AangConsumptionLevelService;
-use App\Services\KataraServices\ConsumptionlevelService;
+use App\Services\KataraServices\ConsumptionLevelService;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Http\Client\Response;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
@@ -21,7 +21,6 @@ class ConsumptionLevelServiceTest extends TestCase
         $this->kataraConsumptionLevelService = new ConsumptionlevelService($this->aangConsumptionLevelService);
     }
 
-    // TODO: Test ConsumptionLevel ok
     public function test_get_consumption_level_list()
     {
         $data = [
