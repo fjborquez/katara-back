@@ -3,6 +3,7 @@
 use App\Http\Controllers\ConsumptionLevelController;
 use App\Http\Controllers\NutritionalProfileController;
 use App\Http\Controllers\NutritionalRestrictionController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserHouseController;
@@ -29,3 +30,5 @@ Route::delete('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentContr
 Route::get('/nutritional-restriction', [NutritionalRestrictionController::class, 'list']);
 
 Route::get('/consumption-level', [ConsumptionLevelController::class, 'list']);
+
+Route::get('/product-category', [ProductCategoryController::class, 'list']);
