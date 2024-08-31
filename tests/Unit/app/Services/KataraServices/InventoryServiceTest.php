@@ -12,8 +12,11 @@ use Tests\TestCase;
 class InventoryServiceTest extends TestCase
 {
     private $aangHouseService;
+
     private $azulaInventoryService;
+
     private $inventoryService;
+
     private $data;
 
     public function setUp(): void
@@ -33,7 +36,7 @@ class InventoryServiceTest extends TestCase
             'purchase_date' => '2024-08-31',
             'expiration_date' => '2024-09-30',
             'brand_id' => 1,
-            'brand_name' => 'Ideal'
+            'brand_name' => 'Ideal',
         ];
     }
 
@@ -41,7 +44,7 @@ class InventoryServiceTest extends TestCase
     {
         $house = [
             'is_active' => true,
-            'description' => 'A HOUSE'
+            'description' => 'A HOUSE',
         ];
 
         $inventory = [];
@@ -62,7 +65,7 @@ class InventoryServiceTest extends TestCase
     public function test_create_inventory_should_throw_an_unexpected_error_exception_when_get_house_failed()
     {
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->inventoryService->create($this->data);
         }, UnexpectedErrorException::class);
     }
@@ -71,7 +74,7 @@ class InventoryServiceTest extends TestCase
     {
         $house = [
             'is_active' => false,
-            'description' => 'A HOUSE'
+            'description' => 'A HOUSE',
         ];
 
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
@@ -83,12 +86,12 @@ class InventoryServiceTest extends TestCase
     {
         $house = [
             'is_active' => true,
-            'description' => 'A HOUSE'
+            'description' => 'A HOUSE',
         ];
 
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
         $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->inventoryService->create($this->data);
         }, UnexpectedErrorException::class);
     }
@@ -97,7 +100,7 @@ class InventoryServiceTest extends TestCase
     {
         $house = [
             'is_active' => true,
-            'description' => 'A HOUSE'
+            'description' => 'A HOUSE',
         ];
 
         $inventory = [];
@@ -112,14 +115,14 @@ class InventoryServiceTest extends TestCase
     {
         $house = [
             'is_active' => true,
-            'description' => 'A HOUSE'
+            'description' => 'A HOUSE',
         ];
 
         $inventory = [];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
         $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($inventory))));
         $this->azulaInventoryService->shouldReceive('create')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(function() {
+        $this->assertThrows(function () {
             $this->inventoryService->create($this->data);
         }, UnexpectedErrorException::class);
     }

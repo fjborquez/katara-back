@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Services\KataraServices\InventoryServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\InventoryRequest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,6 +22,7 @@ class InventoryController extends Controller
 
         try {
             $response = $this->inventoryService->create($validated);
+
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

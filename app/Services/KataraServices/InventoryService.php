@@ -28,12 +28,12 @@ class InventoryService implements InventoryServiceInterface
                 'code' => $code,
             ];
         } elseif ($houseGetResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $house = $houseGetResponse->json();
 
-        if (!$house['is_active']) {
+        if (! $house['is_active']) {
             $message = 'House is not active';
             $code = Response::HTTP_CONFLICT;
 
@@ -45,13 +45,13 @@ class InventoryService implements InventoryServiceInterface
 
         // TODO: filtrar inventarios expirados y descartados
         $inventoryParams = [
-            'filter[house_id]' => $data['house_id']
+            'filter[house_id]' => $data['house_id'],
         ];
 
         $inventoryGetResponse = $this->azulaInventoryService->list($inventoryParams);
 
         if ($inventoryGetResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         $inventory = $inventoryGetResponse->json();
