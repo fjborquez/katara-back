@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConsumptionLevelController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\NutritionalProfileController;
 use App\Http\Controllers\NutritionalRestrictionController;
 use App\Http\Controllers\ProductCategoryController;
@@ -32,3 +33,5 @@ Route::get('/nutritional-restriction', [NutritionalRestrictionController::class,
 Route::get('/consumption-level', [ConsumptionLevelController::class, 'list']);
 
 Route::get('/product-category', [ProductCategoryController::class, 'list']);
+
+Route::post('/inventory', [InventoryController::class, 'store']);
