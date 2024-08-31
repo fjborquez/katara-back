@@ -19,7 +19,10 @@ return [
     App\Providers\KataraServices\ResidentServiceProvider::class,
     App\Providers\KataraServices\ConsumptionLevelServiceProvider::class,
     App\Providers\KataraServices\ProductCategoryServiceProvider::class,
+    App\Providers\KataraServices\InventoryServiceProvider::class,
 
     App\Providers\ZukoServices\ProductCategoryServiceProvider::class,
+
+    App\Providers\AzulaServices\InventoryServiceProvider::class,
 
 ];
