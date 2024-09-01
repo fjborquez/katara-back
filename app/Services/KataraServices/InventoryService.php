@@ -198,11 +198,14 @@ class InventoryService implements InventoryServiceInterface
 
                         if ($newFromConversion['factor'] >= $oldFromConversion['factor']) {
                             $quantity = ($existingDetailByExpirationDate['quantity'] * $oldFromConversion['factor']) + $newDetailData['quantity'];
+                            $uomAbbreviation = $newDetailData['uom_abbreviation'];
                         } else {
                             $quantity = ($newDetailData['quantity'] * $newFromConversion['factor']) + $existingDetailByExpirationDate['quantity'];
+                            $uomAbbreviation = $existingDetailByExpirationDate['uom_abbreviation'];
                         }
 
                         $newDetailData['quantity'] = $quantity;
+                        $newDetailData['uom_abbreviation'] = $uomAbbreviation;
                         $inventoryCreateResponse = $this->azulaInventoryService->update($existingDetailByExpirationDate['id'], $newDetailData);
 
                         if ($inventoryCreateResponse->unprocessableEntity()) {
