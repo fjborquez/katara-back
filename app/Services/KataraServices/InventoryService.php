@@ -6,6 +6,9 @@ use App\Contracts\Services\AangServices\HouseServiceInterface as AangHouseServic
 use App\Contracts\Services\AzulaServices\InventoryServiceInterface as AzulaInventoryServiceInterface;
 use App\Contracts\Services\KataraServices\InventoryServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
+use GuzzleHttp\Psr7\Response as Psr7Response;
+use Illuminate\Http\Client\Response as ClientResponse;
+use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
 
 class InventoryService implements InventoryServiceInterface
@@ -55,11 +58,11 @@ class InventoryService implements InventoryServiceInterface
         }
 
         $inventory = $inventoryGetResponse->json();
-        $newInventoryData = $data;
-        $newInventoryData['house_description'] = $house['description'];
+        $newDetailData = $data;
+        $newDetailData['house_description'] = $house['description'];
 
         if (empty($inventory)) {
-            $inventoryCreateResponse = $this->azulaInventoryService->create($newInventoryData);
+            $inventoryCreateResponse = $this->azulaInventoryService->create($newDetailData);
 
             if ($inventoryCreateResponse->unprocessableEntity()) {
                 $message = $inventoryCreateResponse->json('message');
@@ -73,7 +76,93 @@ class InventoryService implements InventoryServiceInterface
                 throw new UnexpectedErrorException;
             }
         } else {
-            // TODO: actualizar inventario existente
+            // actualizar inventario existente
+            $existingDetailsByCatalog = array_filter($inventory, function ($inventoryDetail) use ($newDetailData) {
+                return $inventoryDetail['catalog_id'] === (int) $newDetailData['catalog_id'];
+            });
+
+            if (empty($existingDetailsByCatalog)) {
+                // Si el detalle de inventario no estaba de antes
+                $inventoryCreateResponse = $this->azulaInventoryService->create($newDetailData);
+
+                if ($inventoryCreateResponse->unprocessableEntity()) {
+                    $message = $inventoryCreateResponse->json('message');
+                    $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+
+                    return [
+                        'message' => $message,
+                        'code' => $code,
+                    ];
+                } elseif ($inventoryCreateResponse->failed()) {
+                    throw new UnexpectedErrorException;
+                }
+            } else {
+                // El detalle de inventario ya estaba de antes
+                $existingDetailByUomAndExpirationDate = Arr::first($existingDetailsByCatalog, function ($inventoryDetail) use ($newDetailData) {
+                    return $inventoryDetail['uom_id'] === (int) $newDetailData['uom_id']
+                        && $inventoryDetail['expiration_date'] === $newDetailData['expiration_date'];
+                });
+
+                if ($existingDetailByUomAndExpirationDate) {
+                    // Si tienen la misma UOM y la misma fecha de expiración: sumar y actualizar
+                    $existingDetailByUomAndExpirationDate['quantity'] += $newDetailData['quantity'];
+                    $inventoryUpdateResponse = $this->azulaInventoryService->update($existingDetailByUomAndExpirationDate['id'], $existingDetailByUomAndExpirationDate);
+
+                    if ($inventoryUpdateResponse->unprocessableEntity()) {
+                        $message = $inventoryUpdateResponse->json('message');
+                        $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+
+                        return [
+                            'message' => $message,
+                            'code' => $code,
+                        ];
+                    } elseif ($inventoryUpdateResponse->failed()) {
+                        throw new UnexpectedErrorException;
+                    }
+                } else {
+                    $existingDetailByUom = Arr::first($existingDetailsByCatalog, function ($inventoryDetail) use ($newDetailData) {
+                        return $inventoryDetail['uom_id'] === (int) $newDetailData['uom_id'];
+                    });
+
+                    $existingDetailByExpirationDate = Arr::first($existingDetailsByCatalog, function ($inventoryDetail) use ($newDetailData) {
+                        return $inventoryDetail['expiration_date'] === $newDetailData['expiration_date'];
+                    });
+
+                    if ($existingDetailByUom) {
+                        // Si tienen misma UOM pero distinta fecha de expiración: crear nuevo detalle
+                        $inventoryCreateResponse = $this->azulaInventoryService->create($newDetailData);
+
+                        if ($inventoryCreateResponse->unprocessableEntity()) {
+                            $message = $inventoryCreateResponse->json('message');
+                            $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+
+                            return [
+                                'message' => $message,
+                                'code' => $code,
+                            ];
+                        } elseif ($inventoryCreateResponse->failed()) {
+                            throw new UnexpectedErrorException;
+                        }
+                    } else if ($existingDetailByExpirationDate) {
+                        // Si tienen distinta UOM pero misma fecha de expiración: convertir UOM y sumar
+                    } else {
+                        // Si tienen distinta UOM y distinta fecha de expiración: crear nuevo detalle
+                        $inventoryCreateResponse = $this->azulaInventoryService->create($newDetailData);
+
+                        if ($inventoryCreateResponse->unprocessableEntity()) {
+                            $message = $inventoryCreateResponse->json('message');
+                            $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+
+                            return [
+                                'message' => $message,
+                                'code' => $code,
+                            ];
+                        } elseif ($inventoryCreateResponse->failed()) {
+                            throw new UnexpectedErrorException;
+                        }
+                    }
+                }
+            }
         }
 
         return [
