@@ -295,24 +295,24 @@ class InventoryServiceTest extends TestCase
                 'uom_abbreviation' => 'g',
                 'purchase_date' => '2024-08-31',
                 'expiration_date' => '2024-09-30',
-                'quantity' => 100
-            ]
+                'quantity' => 100,
+            ],
         ];
         $newUom = [
             'from_conversions' => [
                 [
                     'to_unit_id' => 2,
-                    'factor' => 10.00
-                ]
-            ]
+                    'factor' => 10.00,
+                ],
+            ],
         ];
         $oldUom = [
             'from_conversions' => [
                 [
                     'to_unit_id' => 1,
-                    'factor' => 0.10
-                ]
-            ]
+                    'factor' => 0.10,
+                ],
+            ],
         ];
 
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
@@ -322,7 +322,7 @@ class InventoryServiceTest extends TestCase
         $this->tophUnitOfMeasurementService->shouldReceive('get')
             ->twice()
             ->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($newUom))),
-                        new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($oldUom))));
+                new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($oldUom))));
         $response = $this->inventoryService->create($this->data);
         $this->assertEquals(HttpFoundationResponse::HTTP_CREATED, $response['code']);
     }
@@ -342,8 +342,8 @@ class InventoryServiceTest extends TestCase
                 'uom_abbreviation' => 'g',
                 'purchase_date' => '2024-08-31',
                 'expiration_date' => '2024-09-30',
-                'quantity' => 100
-            ]
+                'quantity' => 100,
+            ],
         ];
 
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
@@ -353,7 +353,7 @@ class InventoryServiceTest extends TestCase
         $this->tophUnitOfMeasurementService->shouldReceive('get')
             ->twice()
             ->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NOT_FOUND)),
-                        new Response(new Psr7Response(HttpFoundationResponse::HTTP_NOT_FOUND)));
+                new Response(new Psr7Response(HttpFoundationResponse::HTTP_NOT_FOUND)));
         $response = $this->inventoryService->create($this->data);
         $this->assertEquals(HttpFoundationResponse::HTTP_NOT_FOUND, $response['code']);
     }
@@ -373,19 +373,19 @@ class InventoryServiceTest extends TestCase
                 'uom_abbreviation' => 'g',
                 'purchase_date' => '2024-08-31',
                 'expiration_date' => '2024-09-30',
-                'quantity' => 100
-            ]
+                'quantity' => 100,
+            ],
         ];
         $newUom = [
             'from_conversions' => [
                 [
                     'to_unit_id' => 2,
-                    'factor' => 10.00
-                ]
-            ]
+                    'factor' => 10.00,
+                ],
+            ],
         ];
         $oldUom = [
-            'from_conversions' => []
+            'from_conversions' => [],
         ];
 
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
@@ -395,7 +395,7 @@ class InventoryServiceTest extends TestCase
         $this->tophUnitOfMeasurementService->shouldReceive('get')
             ->twice()
             ->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($newUom))),
-                        new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($oldUom))));
+                new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($oldUom))));
         $response = $this->inventoryService->create($this->data);
         $this->assertEquals(HttpFoundationResponse::HTTP_CREATED, $response['code']);
     }
@@ -415,19 +415,19 @@ class InventoryServiceTest extends TestCase
                 'uom_abbreviation' => 'g',
                 'purchase_date' => '2024-08-31',
                 'expiration_date' => '2024-09-30',
-                'quantity' => 100
-            ]
+                'quantity' => 100,
+            ],
         ];
         $newUom = [
             'from_conversions' => [
                 [
                     'to_unit_id' => 2,
-                    'factor' => 10.00
-                ]
-            ]
+                    'factor' => 10.00,
+                ],
+            ],
         ];
         $oldUom = [
-            'from_conversions' => []
+            'from_conversions' => [],
         ];
 
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
@@ -436,7 +436,7 @@ class InventoryServiceTest extends TestCase
         $this->tophUnitOfMeasurementService->shouldReceive('get')
             ->twice()
             ->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($newUom))),
-                        new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($oldUom))));
+                new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($oldUom))));
         $response = $this->inventoryService->create($this->data);
         $this->assertEquals(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY, $response['code']);
     }
