@@ -143,7 +143,7 @@ class InventoryService implements InventoryServiceInterface
                         } elseif ($inventoryCreateResponse->failed()) {
                             throw new UnexpectedErrorException;
                         }
-                    } else if ($existingDetailByExpirationDate) {
+                    } elseif ($existingDetailByExpirationDate) {
                         // Si tienen distinta UOM pero misma fecha de expiración: convertir UOM y sumar
                         $newUomGetResponse = $this->tophUnitOfMeasurementService->get($newDetailData['uom_id']);
                         $oldUomGetResponse = $this->tophUnitOfMeasurementService->get($existingDetailByExpirationDate['uom_id']);
