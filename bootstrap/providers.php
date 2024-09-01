@@ -25,4 +25,6 @@ return [
 
     App\Providers\AzulaServices\InventoryServiceProvider::class,
 
+    App\Providers\TophServices\UnitOfMeasurementServiceProvider::class,
+
 ];

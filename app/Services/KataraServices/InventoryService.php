@@ -5,6 +5,7 @@ namespace App\Services\KataraServices;
 use App\Contracts\Services\AangServices\HouseServiceInterface as AangHouseServiceInterface;
 use App\Contracts\Services\AzulaServices\InventoryServiceInterface as AzulaInventoryServiceInterface;
 use App\Contracts\Services\KataraServices\InventoryServiceInterface;
+use App\Contracts\Services\TophServices\UnitOfMeasurementServiceInterface as TophUnitOfMeasurementServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ class InventoryService implements InventoryServiceInterface
     public function __construct(
         private readonly AangHouseServiceInterface $aangHouseService,
         private readonly AzulaInventoryServiceInterface $azulaInventoryService,
+        private readonly TophUnitOfMeasurementServiceInterface $tophUnitOfMeasurementService,
     ) {}
 
     public function create(array $data = []): array
@@ -143,6 +145,82 @@ class InventoryService implements InventoryServiceInterface
                         }
                     } elseif ($existingDetailByExpirationDate) {
                         // Si tienen distinta UOM pero misma fecha de expiración: convertir UOM y sumar
+                        $newUomGetResponse = $this->tophUnitOfMeasurementService->get($newDetailData['uom_id']);
+                        $oldUomGetResponse = $this->tophUnitOfMeasurementService->get($existingDetailByExpirationDate['uom_id']);
+
+                        if ($newUomGetResponse->notFound() || $oldUomGetResponse->notFound()) {
+                            $message = 'Unit of measurement not found';
+                            $code = Response::HTTP_NOT_FOUND;
+
+                            return [
+                                'message' => $message,
+                                'code' => $code,
+                            ];
+                        } elseif ($newUomGetResponse->failed() || $oldUomGetResponse->failed()) {
+                            throw new UnexpectedErrorException;
+                        }
+
+                        $newUom = $newUomGetResponse->json();
+                        $oldUom = $oldUomGetResponse->json();
+
+                        $newFromConversion = Arr::first($newUom['from_conversions'], function ($fromConversion) use ($existingDetailByExpirationDate) {
+                            return $fromConversion['to_unit_id'] === (int) $existingDetailByExpirationDate['uom_id'];
+                        });
+
+                        $oldFromConversion = Arr::first($oldUom['from_conversions'], function ($fromConversion) use ($newDetailData) {
+                            return $fromConversion['to_unit_id'] === (int) $newDetailData['uom_id'];
+                        });
+
+                        if ($newFromConversion == null && $oldFromConversion == null) {
+                            throw new UnexpectedErrorException;
+                        }
+
+                        if ($newFromConversion == null || $oldFromConversion == null) {
+                            $inventoryCreateResponse = $this->azulaInventoryService->create($newDetailData);
+
+                            if ($inventoryCreateResponse->unprocessableEntity()) {
+                                $message = $inventoryCreateResponse->json('message');
+                                $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+
+                                return [
+                                    'message' => $message,
+                                    'code' => $code,
+                                ];
+                            } elseif ($inventoryCreateResponse->failed()) {
+                                throw new UnexpectedErrorException;
+                            } else {
+                                return [
+                                    'message' => 'Inventory created successfully',
+                                    'code' => Response::HTTP_CREATED,
+                                ];
+                            }
+                        }
+
+                        if ($newFromConversion['factor'] >= $oldFromConversion['factor']) {
+                            $quantity = ($existingDetailByExpirationDate['quantity'] * $oldFromConversion['factor']) + $newDetailData['quantity'];
+                        } else {
+                            $quantity = ($newDetailData['quantity'] * $newFromConversion['factor']) + $existingDetailByExpirationDate['quantity'];
+                        }
+
+                        $newDetailData['quantity'] = $quantity;
+                        $inventoryCreateResponse = $this->azulaInventoryService->update($existingDetailByExpirationDate['id'], $newDetailData);
+
+                        if ($inventoryCreateResponse->unprocessableEntity()) {
+                            $message = $inventoryCreateResponse->json('message');
+                            $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+
+                            return [
+                                'message' => $message,
+                                'code' => $code,
+                            ];
+                        } elseif ($inventoryCreateResponse->failed()) {
+                            throw new UnexpectedErrorException;
+                        } else {
+                            return [
+                                'message' => 'Inventory created successfully',
+                                'code' => Response::HTTP_CREATED,
+                            ];
+                        }
                     } else {
                         // Si tienen distinta UOM y distinta fecha de expiración: crear nuevo detalle
                         $inventoryCreateResponse = $this->azulaInventoryService->create($newDetailData);
