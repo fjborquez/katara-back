@@ -6,8 +6,6 @@ use App\Contracts\Services\AangServices\HouseServiceInterface as AangHouseServic
 use App\Contracts\Services\AzulaServices\InventoryServiceInterface as AzulaInventoryServiceInterface;
 use App\Contracts\Services\KataraServices\InventoryServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
-use GuzzleHttp\Psr7\Response as Psr7Response;
-use Illuminate\Http\Client\Response as ClientResponse;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -143,7 +141,7 @@ class InventoryService implements InventoryServiceInterface
                         } elseif ($inventoryCreateResponse->failed()) {
                             throw new UnexpectedErrorException;
                         }
-                    } else if ($existingDetailByExpirationDate) {
+                    } elseif ($existingDetailByExpirationDate) {
                         // Si tienen distinta UOM pero misma fecha de expiración: convertir UOM y sumar
                     } else {
                         // Si tienen distinta UOM y distinta fecha de expiración: crear nuevo detalle

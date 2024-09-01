@@ -147,7 +147,7 @@ class InventoryServiceTest extends TestCase
                 'expiration_date' => '2024-09-30',
                 'brand_id' => 1,
                 'brand_name' => 'Ideal',
-            ]
+            ],
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
         $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($inventory))));
@@ -177,7 +177,7 @@ class InventoryServiceTest extends TestCase
                 'expiration_date' => '2024-09-30',
                 'brand_id' => 1,
                 'brand_name' => 'Ideal',
-            ]
+            ],
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
         $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($inventory))));
@@ -207,7 +207,7 @@ class InventoryServiceTest extends TestCase
                 'expiration_date' => '2024-09-30',
                 'brand_id' => 1,
                 'brand_name' => 'Ideal',
-            ]
+            ],
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
         $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($inventory))));
@@ -237,7 +237,7 @@ class InventoryServiceTest extends TestCase
                 'expiration_date' => '2024-10-30',
                 'brand_id' => 1,
                 'brand_name' => 'Ideal',
-            ]
+            ],
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
         $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($inventory))));
@@ -267,7 +267,7 @@ class InventoryServiceTest extends TestCase
                 'expiration_date' => '2024-10-30',
                 'brand_id' => 1,
                 'brand_name' => 'Ideal',
-            ]
+            ],
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
         $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($inventory))));
