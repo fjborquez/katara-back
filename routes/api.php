@@ -35,3 +35,4 @@ Route::get('/consumption-level', [ConsumptionLevelController::class, 'list']);
 Route::get('/product-category', [ProductCategoryController::class, 'list']);
 
 Route::post('/inventory', [InventoryController::class, 'store']);
+Route::get('/inventory', [InventoryController::class, 'list']);

@@ -252,4 +252,18 @@ class InventoryService implements InventoryServiceInterface
             'code' => Response::HTTP_CREATED,
         ];
     }
+
+    public function list(): array
+    {
+        $inventoryListResponse = $this->azulaInventoryService->list();
+
+        if ($inventoryListResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => $inventoryListResponse->json(),
+            'code' => Response::HTTP_OK,
+        ];
+    }
 }
