@@ -17,7 +17,7 @@ class InventoryHouseController extends Controller
                 'house_id' => $houseId
             ]);
 
-            return response()->json(['message' => $response['message']], Response::HTTP_OK);
+            return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
