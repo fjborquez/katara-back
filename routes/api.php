@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConsumptionLevelController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InventoryHouseController;
 use App\Http\Controllers\NutritionalProfileController;
 use App\Http\Controllers\NutritionalRestrictionController;
 use App\Http\Controllers\ProductCategoryController;
@@ -26,6 +27,7 @@ Route::post('/user/{id}/houses/{houseId}/residents', [ResidentController::class,
 Route::put('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentController::class, 'update']);
 Route::get('/user/{id}/houses/{houseId}/residents', [ResidentController::class, 'list']);
 Route::get('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentController::class, 'get']);
+Route::get('/user/{id}/houses/{houseId}/inventory', [InventoryHouseController::class, 'list']);
 Route::delete('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentController::class, 'delete']);
 
 Route::get('/nutritional-restriction', [NutritionalRestrictionController::class, 'list']);

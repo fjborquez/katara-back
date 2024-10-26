@@ -253,9 +253,41 @@ class InventoryService implements InventoryServiceInterface
         ];
     }
 
-    public function list(): array
+    public function list(array $data = []): array
     {
-        $inventoryListResponse = $this->azulaInventoryService->list();
+        $params = [];
+
+        if (array_key_exists('house_id', $data)) {
+            $houseGetResponse = $this->aangHouseService->get($data['house_id']);
+
+            if ($houseGetResponse->notFound()) {
+                $message = 'House not found';
+                $code = Response::HTTP_NOT_FOUND;
+
+                return [
+                    'message' => $message,
+                    'code' => $code,
+                ];
+            } elseif ($houseGetResponse->failed()) {
+                throw new UnexpectedErrorException;
+            }
+
+            $house = $houseGetResponse->json();
+
+            if (! $house['is_active']) {
+                $message = 'House is not active';
+                $code = Response::HTTP_CONFLICT;
+
+                return [
+                    'message' => $message,
+                    'code' => $code,
+                ];
+            }
+
+            $params['filter[house_id]'] = $data['house_id'];
+        }
+
+        $inventoryListResponse = $this->azulaInventoryService->list($params);
 
         if ($inventoryListResponse->failed()) {
             throw new UnexpectedErrorException;
