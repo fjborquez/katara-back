@@ -14,7 +14,7 @@ class InventoryHouseController extends Controller
     {
         try {
             $response = $this->inventoryService->list([
-                'house_id' => $houseId
+                'house_id' => $houseId,
             ]);
 
             return response()->json(['message' => $response['message']], $response['code']);

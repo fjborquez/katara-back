@@ -441,11 +441,12 @@ class InventoryServiceTest extends TestCase
         $this->assertEquals(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY, $response['code']);
     }
 
-    public function test_list_should_return_all_inventories() {
+    public function test_list_should_return_all_inventories()
+    {
         $inventories = [];
         $house = [
             'is_active' => true,
-            'description' => 'A HOUSE',];
+            'description' => 'A HOUSE', ];
         $data = [];
 
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
@@ -455,7 +456,8 @@ class InventoryServiceTest extends TestCase
         $this->assertEquals(HttpFoundationResponse::HTTP_OK, $response['code']);
     }
 
-    public function test_list_should_return_inventories_filtered_by_house_id() {
+    public function test_list_should_return_inventories_filtered_by_house_id()
+    {
         $inventories = [];
         $house = [
             'is_active' => true,
@@ -470,7 +472,8 @@ class InventoryServiceTest extends TestCase
         $this->assertEquals(HttpFoundationResponse::HTTP_OK, $response['code']);
     }
 
-    public function test_list_should_return_not_found_when_house_is_not_found() {
+    public function test_list_should_return_not_found_when_house_is_not_found()
+    {
         $house = [
             'is_active' => true,
             'description' => 'A HOUSE',
@@ -485,7 +488,8 @@ class InventoryServiceTest extends TestCase
         $this->assertEquals(HttpFoundationResponse::HTTP_NOT_FOUND, $response['code']);
     }
 
-    public function test_list_should_return_conflict_when_house_is_not_active() {
+    public function test_list_should_return_conflict_when_house_is_not_active()
+    {
         $house = [
             'is_active' => false,
             'description' => 'A HOUSE',
@@ -500,7 +504,8 @@ class InventoryServiceTest extends TestCase
         $this->assertEquals(HttpFoundationResponse::HTTP_CONFLICT, $response['code']);
     }
 
-    public function test_list_should_throws_unexpected_exception_when_inventory_error() {
+    public function test_list_should_throws_unexpected_exception_when_inventory_error()
+    {
         $house = [
             'is_active' => true,
             'description' => 'A HOUSE',
@@ -513,7 +518,7 @@ class InventoryServiceTest extends TestCase
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($house))));
         $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
 
-        $this->assertThrows(function() use ($data) {
+        $this->assertThrows(function () use ($data) {
             $this->inventoryService->list($data);
         }, UnexpectedErrorException::class);
     }
