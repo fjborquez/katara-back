@@ -286,6 +286,7 @@ class InventoryService implements InventoryServiceInterface
 
             $params['filter[house_id]'] = $data['house_id'];
             $params['filter[has_active_product_status]'] = true;
+            $params['include'] = 'productStatus';
         }
 
         $inventoryListResponse = $this->azulaInventoryService->list($params);
@@ -294,8 +295,37 @@ class InventoryService implements InventoryServiceInterface
             throw new UnexpectedErrorException;
         }
 
+        $inventoryListCollection = $inventoryListResponse->collect();
+        $sortedInventoryListCollection = $inventoryListCollection->sortBy([
+            ['purchase_date'],
+            [function ($inventory, $key) {
+                $status = Arr::first($inventory['product_status'], function ($productStatus) {
+                    return $productStatus['pivot']['is_active'];
+                });
+
+                if ($status['id'] == 2) {
+                    return 1;
+                }
+
+                if ($status['id'] == 1) {
+                    return 2;
+                }
+
+                if ($status['id'] == 6) {
+                    return 3;
+                }
+
+                if ($status['id'] == 3) {
+                    return 4;
+                }
+
+                return false;
+            }],
+            ['expiration_date']
+        ]);
+
         return [
-            'message' => $inventoryListResponse->json(),
+            'message' => $sortedInventoryListCollection,
             'code' => Response::HTTP_OK,
         ];
     }
