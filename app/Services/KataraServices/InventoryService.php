@@ -321,11 +321,11 @@ class InventoryService implements InventoryServiceInterface
 
                 return false;
             }],
-            ['expiration_date'],
+            ['expiration_date']
         ]);
 
         return [
-            'message' => $sortedInventoryListCollection,
+            'message' =>  array_values($sortedInventoryListCollection->toArray()),
             'code' => Response::HTTP_OK,
         ];
     }
