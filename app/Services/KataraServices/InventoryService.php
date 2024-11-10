@@ -325,7 +325,7 @@ class InventoryService implements InventoryServiceInterface
         ]);
 
         return [
-            'message' => $sortedInventoryListCollection,
+            'message' => array_values($sortedInventoryListCollection->toArray()),
             'code' => Response::HTTP_OK,
         ];
     }
