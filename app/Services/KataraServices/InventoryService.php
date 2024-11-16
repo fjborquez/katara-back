@@ -297,7 +297,6 @@ class InventoryService implements InventoryServiceInterface
 
         $inventoryListCollection = $inventoryListResponse->collect();
         $sortedInventoryListCollection = $inventoryListCollection->sortBy([
-            ['purchase_date'],
             ['expiration_date', 'ASC'],
         ]);
 
