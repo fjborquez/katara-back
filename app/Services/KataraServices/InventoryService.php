@@ -7,6 +7,7 @@ use App\Contracts\Services\AzulaServices\InventoryServiceInterface as AzulaInven
 use App\Contracts\Services\KataraServices\InventoryServiceInterface;
 use App\Contracts\Services\TophServices\UnitOfMeasurementServiceInterface as TophUnitOfMeasurementServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -296,8 +297,14 @@ class InventoryService implements InventoryServiceInterface
         }
 
         $inventoryListCollection = $inventoryListResponse->collect();
-        $sortedInventoryListCollection = $inventoryListCollection->sortBy([
-            ['expiration_date', 'DESC'],
+        $sortedInventoryListCollection = $inventoryListCollection->map(function ($item, int $key) {
+            $item['expiration_date'] = new Carbon($item['expiration_date']);
+            $item['purchase_date'] = new Carbon($item['purchase_date']);
+
+            return $item;
+        })->sortBy([
+            ['purchase_date'],
+            ['expiration_date'],
         ]);
 
         return [
