@@ -11,6 +11,7 @@ return [
     App\Providers\AangServices\ResidentServiceProvider::class,
     App\Providers\AangServices\NutritionalProfileServiceProvider::class,
     App\Providers\AangServices\ConsumptionLevelServiceProvider::class,
+    App\Providers\AangServices\CityServiceProvider::class,
 
     App\Providers\KataraServices\UserHouseServiceProvider::class,
     App\Providers\KataraServices\NutritionalProfileServiceProvider::class,
@@ -20,6 +21,7 @@ return [
     App\Providers\KataraServices\ConsumptionLevelServiceProvider::class,
     App\Providers\KataraServices\ProductCategoryServiceProvider::class,
     App\Providers\KataraServices\InventoryServiceProvider::class,
+    App\Providers\KataraServices\CityServiceProvider::class,
 
     App\Providers\ZukoServices\ProductCategoryServiceProvider::class,
 

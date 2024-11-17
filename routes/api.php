@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\ConsumptionLevelController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryHouseController;
@@ -38,3 +39,5 @@ Route::get('/product-category', [ProductCategoryController::class, 'list']);
 
 Route::post('/inventory', [InventoryController::class, 'store']);
 Route::get('/inventory', [InventoryController::class, 'list']);
+
+Route::get('/city', [CityController::class, 'list']);
