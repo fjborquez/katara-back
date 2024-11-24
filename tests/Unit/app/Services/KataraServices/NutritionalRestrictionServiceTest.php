@@ -14,7 +14,7 @@ class NutritionalRestrictionServiceTest extends TestCase
 
     private $kataraNutritionalRestrictionService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->aangNutritionalRestrictionService = Mockery::mock(AangNutritionalRestrictionService::class);

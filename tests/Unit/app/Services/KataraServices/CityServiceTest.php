@@ -14,7 +14,7 @@ class CityServiceTest extends TestCase
 
     private $kataraCityService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->aangCityService = Mockery::mock(AangCityService::class);
