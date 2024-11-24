@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Http;
 
 class ProductCategoryService implements ProductCategoryServiceInterface
 {
-    public function list(): Response
+    public function list(array $params = []): Response
     {
-        return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('zuko.url').'/product-category');
+        return Http::accept('application/json')->retry(3, 100, null, false)
+            ->get(Config::get('zuko.url').'/product-category', $params);
     }
 }

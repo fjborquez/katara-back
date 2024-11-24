@@ -15,7 +15,10 @@ class ProductCategoryService implements ProductCategoryServiceInterface
 
     public function list(): array
     {
-        $productCategoryListResponse = $this->zukoProductCategoryService->list();
+        $params = [
+            'sort' => 'name'
+        ];
+        $productCategoryListResponse = $this->zukoProductCategoryService->list($params);
 
         if ($productCategoryListResponse->failed()) {
             throw new UnexpectedErrorException;
