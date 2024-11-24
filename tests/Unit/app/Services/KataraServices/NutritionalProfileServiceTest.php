@@ -17,7 +17,7 @@ class NutritionalProfileServiceTest extends TestCase
 
     private $kataraNutritionalProfileService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->aangUserService = Mockery::mock(AangUserService::class);
         $this->aangNutritionalProfileService = Mockery::mock(AangNutritionalProfileService::class);
