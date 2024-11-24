@@ -127,32 +127,35 @@ class UserService implements UserServiceInterface
         }
 
         $user = $userGetResponse->json();
-        $nutritionalProfileCreateResponse = $this->aangNutritionalProfileService->create($person['id'], $data);
 
-        if ($nutritionalProfileCreateResponse->unprocessableEntity()) {
-            $message = $nutritionalProfileCreateResponse->json('message');
-            $code = Response::HTTP_UNPROCESSABLE_ENTITY;
-            $this->aangPersonService->delete($personId);
-            $this->aangUserService->disable($userId);
+        if (array_key_exists('nutritionalProfile', $data) && !empty($data['nutritionalProfile'])) {
+            $nutritionalProfileCreateResponse = $this->aangNutritionalProfileService->create($person['id'], $data);
 
-            return [
-                'message' => $message,
-                'code' => $code,
-            ];
-        } elseif ($nutritionalProfileCreateResponse->notFound()) {
-            $message = 'Person for nutritional profile not found';
-            $code = Response::HTTP_NOT_FOUND;
-            $this->aangPersonService->delete($personId);
-            $this->aangUserService->disable($userId);
+            if ($nutritionalProfileCreateResponse->unprocessableEntity()) {
+                $message = $nutritionalProfileCreateResponse->json('message');
+                $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+                $this->aangPersonService->delete($personId);
+                $this->aangUserService->disable($userId);
 
-            return [
-                'message' => $message,
-                'code' => $code,
-            ];
-        } elseif ($nutritionalProfileCreateResponse->failed()) {
-            $this->aangPersonService->delete($personId);
-            $this->aangUserService->disable($userId);
-            throw new UnexpectedErrorException;
+                return [
+                    'message' => $message,
+                    'code' => $code,
+                ];
+            } elseif ($nutritionalProfileCreateResponse->notFound()) {
+                $message = 'Person for nutritional profile not found';
+                $code = Response::HTTP_NOT_FOUND;
+                $this->aangPersonService->delete($personId);
+                $this->aangUserService->disable($userId);
+
+                return [
+                    'message' => $message,
+                    'code' => $code,
+                ];
+            } elseif ($nutritionalProfileCreateResponse->failed()) {
+                $this->aangPersonService->delete($personId);
+                $this->aangUserService->disable($userId);
+                throw new UnexpectedErrorException;
+            }
         }
 
         return [
