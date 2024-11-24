@@ -20,7 +20,7 @@ class UserServiceTest extends TestCase
 
     private $kataraUserService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->aangUserService = Mockery::mock(UserService::class);
@@ -201,9 +201,9 @@ class UserServiceTest extends TestCase
                 [
                     'consumption_level_id' => 4,
                     'product_category_id' => 5,
-                    'product_category_description' => 'Fruits and Vegetables'
-                ]
-            ]
+                    'product_category_description' => 'Fruits and Vegetables',
+                ],
+            ],
         ];
 
         $response = $this->kataraUserService->create($user);
@@ -235,9 +235,9 @@ class UserServiceTest extends TestCase
                 [
                     'consumption_level_id' => 4,
                     'product_category_id' => 5,
-                    'product_category_description' => 'Fruits and Vegetables'
-                ]
-            ]
+                    'product_category_description' => 'Fruits and Vegetables',
+                ],
+            ],
         ];
         $response = $this->kataraUserService->create($user);
 
@@ -268,9 +268,9 @@ class UserServiceTest extends TestCase
                 [
                     'consumption_level_id' => 4,
                     'product_category_id' => 5,
-                    'product_category_description' => 'Fruits and Vegetables'
-                ]
-            ]
+                    'product_category_description' => 'Fruits and Vegetables',
+                ],
+            ],
         ];
         $this->assertThrows(function () use ($user) {
             $this->kataraUserService->create($user);

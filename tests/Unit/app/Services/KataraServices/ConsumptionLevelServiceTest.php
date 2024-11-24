@@ -14,7 +14,7 @@ class ConsumptionLevelServiceTest extends TestCase
 
     private $kataraConsumptionLevelService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->aangConsumptionLevelService = Mockery::mock(AangConsumptionLevelService::class);

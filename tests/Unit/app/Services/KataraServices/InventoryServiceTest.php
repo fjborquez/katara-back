@@ -22,7 +22,7 @@ class InventoryServiceTest extends TestCase
 
     private $data;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->aangHouseService = Mockery::mock(AangHouseService::class);

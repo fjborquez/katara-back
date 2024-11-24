@@ -29,7 +29,7 @@ class ResidentServiceTest extends TestCase
 
     private $kataraResidentService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->aangUserService = Mockery::mock(AangUserService::class);
         $this->aangHouseService = Mockery::mock(AangHouseService::class);

@@ -128,7 +128,7 @@ class UserService implements UserServiceInterface
 
         $user = $userGetResponse->json();
 
-        if (array_key_exists('nutritionalProfile', $data) && !empty($data['nutritionalProfile'])) {
+        if (array_key_exists('nutritionalProfile', $data) && ! empty($data['nutritionalProfile'])) {
             $nutritionalProfileCreateResponse = $this->aangNutritionalProfileService->create($person['id'], $data);
 
             if ($nutritionalProfileCreateResponse->unprocessableEntity()) {

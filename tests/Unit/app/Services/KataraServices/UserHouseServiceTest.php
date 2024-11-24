@@ -21,7 +21,7 @@ class UserHouseServiceTest extends TestCase
 
     private $kataraUserHouseService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

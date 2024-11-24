@@ -14,7 +14,7 @@ class ProductCategoryServiceTest extends TestCase
 
     private $kataraProductCategoryService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->zukoProductCategoryService = Mockery::mock(ZukoProductCategoryService::class);
