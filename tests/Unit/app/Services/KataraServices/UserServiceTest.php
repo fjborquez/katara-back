@@ -41,7 +41,7 @@ class UserServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('get')->once()->andReturn($personGetResponse);
         $this->aangUserService->shouldReceive('create')->once()->andReturn($userCreateResponse);
         $this->aangUserService->shouldReceive('get')->once()->andReturn($userGetResponse);
-        $this->aangNutritionalProfileService->shouldReceive('create')->once()->andReturn($nutritionalProfileCreateResponse);
+        $this->aangNutritionalProfileService->shouldReceive('create')->andReturn($nutritionalProfileCreateResponse);
 
         $response = $this->kataraUserService->create([]);
 
@@ -196,7 +196,17 @@ class UserServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('delete')->once()->andReturn($personDeleteResponse);
         $this->aangUserService->shouldReceive('disable')->once()->andReturn($userDisabledResponse);
 
-        $response = $this->kataraUserService->create([]);
+        $user = [
+            'nutritionalProfile' => [
+                [
+                    'consumption_level_id' => 4,
+                    'product_category_id' => 5,
+                    'product_category_description' => 'Fruits and Vegetables'
+                ]
+            ]
+        ];
+
+        $response = $this->kataraUserService->create($user);
 
         $this->assertEquals('Error', $response['message']);
         $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response['code']);
@@ -220,7 +230,16 @@ class UserServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('delete')->once()->andReturn($personDeleteResponse);
         $this->aangUserService->shouldReceive('disable')->once()->andReturn($userDisabledResponse);
 
-        $response = $this->kataraUserService->create([]);
+        $user = [
+            'nutritionalProfile' => [
+                [
+                    'consumption_level_id' => 4,
+                    'product_category_id' => 5,
+                    'product_category_description' => 'Fruits and Vegetables'
+                ]
+            ]
+        ];
+        $response = $this->kataraUserService->create($user);
 
         $this->assertEquals('Person for nutritional profile not found', $response['message']);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response['code']);
@@ -244,8 +263,17 @@ class UserServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('delete')->once()->andReturn($personDeleteResponse);
         $this->aangUserService->shouldReceive('disable')->once()->andReturn($userDisabledResponse);
 
-        $this->assertThrows(function () {
-            $this->kataraUserService->create([]);
+        $user = [
+            'nutritionalProfile' => [
+                [
+                    'consumption_level_id' => 4,
+                    'product_category_id' => 5,
+                    'product_category_description' => 'Fruits and Vegetables'
+                ]
+            ]
+        ];
+        $this->assertThrows(function () use ($user) {
+            $this->kataraUserService->create($user);
         }, UnexpectedErrorException::class);
     }
 
