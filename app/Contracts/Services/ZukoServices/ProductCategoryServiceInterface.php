@@ -6,5 +6,5 @@ use Illuminate\Http\Client\Response;
 
 interface ProductCategoryServiceInterface
 {
-    public function list(): Response;
+    public function list(array $params = []): Response;
 }
