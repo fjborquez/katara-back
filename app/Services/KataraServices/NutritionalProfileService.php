@@ -51,4 +51,26 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
             'code' => Response::HTTP_OK,
         ];
     }
+
+    public function delete(int $userId, int $productCategoryId): array
+    {
+        $deleteNutritionalProfileResponse = $this->aangNutritionalProfileService->delete($userId, $productCategoryId);
+
+        if ($deleteNutritionalProfileResponse->notFound()) {
+            $message = 'Nutritional profile not found.';
+            $code = $deleteNutritionalProfileResponse->status();
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($deleteNutritionalProfileResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'The nutritional profile was deleted.',
+            'code' => Response::HTTP_OK,
+        ];
+    }
 }

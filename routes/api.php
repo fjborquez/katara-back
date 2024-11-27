@@ -19,6 +19,7 @@ Route::get('/user/{id}', [UserController::class, 'get']);
 Route::put('/user/{id}/enable', [UserController::class, 'enable']);
 Route::put('/user/{id}/disable', [UserController::class, 'disable']);
 Route::get('/user/{id}/nutritional-profile', [NutritionalProfileController::class, 'get']);
+Route::delete('/user/{id}/nutritional-profile/{productCategoryId}', [NutritionalProfileController::class, 'delete']);
 Route::get('/user/{id}/houses', [UserHouseController::class, 'list']);
 Route::post('/user/{id}/houses', [UserHouseController::class, 'create']);
 Route::put('/user/{id}/houses', [UserHouseController::class, 'update']);

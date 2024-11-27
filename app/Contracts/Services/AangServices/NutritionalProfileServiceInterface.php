@@ -11,4 +11,6 @@ interface NutritionalProfileServiceInterface
     public function get(int $id): Response;
 
     public function update(int $id, array $data = []): Response;
+
+    public function delete(int $id, int $productCategoryId): Response;
 }
