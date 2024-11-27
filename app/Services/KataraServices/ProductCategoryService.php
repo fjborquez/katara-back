@@ -16,7 +16,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
     public function list(): array
     {
         $params = [
-            'sort' => 'name'
+            'sort' => 'name',
         ];
         $productCategoryListResponse = $this->zukoProductCategoryService->list($params);
 
