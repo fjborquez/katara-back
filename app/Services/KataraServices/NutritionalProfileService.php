@@ -52,7 +52,8 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
         ];
     }
 
-    public function delete(int $userId, int $productCategoryId): array {
+    public function delete(int $userId, int $productCategoryId): array
+    {
         $deleteNutritionalProfileResponse = $this->aangNutritionalProfileService->delete($userId, $productCategoryId);
 
         if ($deleteNutritionalProfileResponse->notFound()) {
