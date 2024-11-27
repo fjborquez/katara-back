@@ -23,4 +23,9 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
     {
         return Http::accept('application/json')->retry(3, 100, null, false)->put(Config::get('aang.url').'/person/'.$id.'/nutritional-profile', $data);
     }
+
+    public function delete(int $id, int $productCategoryId): Response
+    {
+        return Http::accept('application/json')->retry(3, 100, null, false)->delete(Config::get('aang.url').'/person/'.$id.'/nutritional-profile/'.$productCategoryId);
+    }
 }
