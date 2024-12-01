@@ -298,8 +298,8 @@ class InventoryService implements InventoryServiceInterface
 
         $inventoryListCollection = $inventoryListResponse->collect();
         $sortedInventoryListCollection = $inventoryListCollection->map(function ($item, int $key) {
-            $item['expiration_date'] = new Carbon($item['expiration_date']);
-            $item['purchase_date'] = new Carbon($item['purchase_date']);
+            $item['expiration_date'] = $item['expiration_date'] != null ? new Carbon($item['expiration_date']) : null;
+            $item['purchase_date'] = $item['purchase_date'] != null ? new Carbon($item['purchase_date']) : null;
 
             return $item;
         })->sortBy([
