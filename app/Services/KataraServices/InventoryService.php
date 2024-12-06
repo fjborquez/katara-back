@@ -304,6 +304,25 @@ class InventoryService implements InventoryServiceInterface
             return $item;
         })->sortBy([
             ['purchase_date'],
+            [function ($inventory, $key) {
+                $status = Arr::first($inventory['product_status'], function ($productStatus) {
+                    return $productStatus['pivot']['is_active'];
+                });
+                if ($status['id'] == 2) {
+                    return 1;
+                }
+                if ($status['id'] == 1) {
+                    return 2;
+                }
+                if ($status['id'] == 6) {
+                    return 3;
+                }
+                if ($status['id'] == 3) {
+                    return 4;
+                }
+
+                return false;
+            }],
             ['expiration_date'],
             ['catalog_description'],
         ]);
