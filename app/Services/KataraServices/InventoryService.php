@@ -320,6 +320,7 @@ class InventoryService implements InventoryServiceInterface
                 if ($status['id'] == 3) {
                     return 4;
                 }
+
                 return false;
             }],
             ['expiration_date'],
