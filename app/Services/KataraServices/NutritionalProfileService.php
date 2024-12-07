@@ -54,7 +54,22 @@ class NutritionalProfileService implements NutritionalProfileServiceInterface
 
     public function delete(int $userId, int $productCategoryId): array
     {
-        $deleteNutritionalProfileResponse = $this->aangNutritionalProfileService->delete($userId, $productCategoryId);
+        $getUserResponse = $this->aangUserService->get($userId);
+
+        if ($getUserResponse->notFound()) {
+            $message = 'User not found.';
+            $code = $getUserResponse->status();
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($getUserResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $user = $getUserResponse->json();
+        $deleteNutritionalProfileResponse = $this->aangNutritionalProfileService->delete($user['person']['id'], $productCategoryId);
 
         if ($deleteNutritionalProfileResponse->notFound()) {
             $message = 'Nutritional profile not found.';

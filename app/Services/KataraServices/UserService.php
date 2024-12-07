@@ -204,7 +204,7 @@ class UserService implements UserServiceInterface
             throw new UnexpectedErrorException;
         }
 
-        $personUpdateResponse = $this->aangPersonService->update($id, $data);
+        $personUpdateResponse = $this->aangPersonService->update($user['person']['id'], $data);
 
         if ($personUpdateResponse->unprocessableEntity()) {
             $message = $personUpdateResponse->json('message');
@@ -226,18 +226,21 @@ class UserService implements UserServiceInterface
             throw new UnexpectedErrorException;
         }
 
-        $nutritionalProfileUpdateResponse = $this->aangNutritionalProfileService->update($user['person']['id'], $data);
+        if (array_key_exists('nutritionalProfile', $data) && ! empty($data['nutritionalProfile'])) {
 
-        if ($nutritionalProfileUpdateResponse->notFound()) {
-            $message = 'Person for nutritional profile not found';
-            $code = Response::HTTP_NOT_FOUND;
+            $nutritionalProfileUpdateResponse = $this->aangNutritionalProfileService->update($user['person']['id'], $data);
 
-            return [
-                'message' => $message,
-                'code' => $code,
-            ];
-        } elseif ($nutritionalProfileUpdateResponse->failed()) {
-            throw new UnexpectedErrorException;
+            if ($nutritionalProfileUpdateResponse->notFound()) {
+                $message = 'Person for nutritional profile not found';
+                $code = Response::HTTP_NOT_FOUND;
+
+                return [
+                    'message' => $message,
+                    'code' => $code,
+                ];
+            } elseif ($nutritionalProfileUpdateResponse->failed()) {
+                throw new UnexpectedErrorException;
+            }
         }
 
         return [
