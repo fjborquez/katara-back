@@ -317,7 +317,6 @@ class InventoryService implements InventoryServiceInterface
             }],
             ['expiration_date'],
             ['catalog_description']
-
         ]);
 
         return [
