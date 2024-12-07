@@ -338,8 +338,8 @@ class UserServiceTest extends TestCase
             'nutritionalProfile' => [
                 'product_category_id' => 1,
                 'product_category_name' => 'Lacteos',
-                'consumption_level_id' => 3
-            ]
+                'consumption_level_id' => 3,
+            ],
         ]);
         $this->assertEquals(Response::HTTP_OK, $response['code']);
         $this->assertEquals('User updated successfully', $response['message']);
@@ -440,17 +440,16 @@ class UserServiceTest extends TestCase
     {
         $userResponseBody = [
             'id' => 1,
-            'person' =>
-                [
-                    'id' => 1,
-                    'nutritionalProfile' => [
-                        [
-                            'person_id' => 1,
-                            'product_category_id' => 3,
-                            'product_category_name' => 'Cheeses and Cold Cuts',
-                        ]
-                    ]
-                ]
+            'person' => [
+                'id' => 1,
+                'nutritionalProfile' => [
+                    [
+                        'person_id' => 1,
+                        'product_category_id' => 3,
+                        'product_category_name' => 'Cheeses and Cold Cuts',
+                    ],
+                ],
+            ],
         ];
         $getUserResponse = new ClientResponse(new Psr7Response(Response::HTTP_OK, [], json_encode($userResponseBody)));
         $getUpdateUserResponse = new ClientResponse(new Psr7Response(Response::HTTP_NO_CONTENT));
@@ -464,8 +463,8 @@ class UserServiceTest extends TestCase
             'nutritionalProfile' => [
                 'product_category_id' => 1,
                 'product_category_name' => 'Lacteos',
-                'consumption_level_id' => 3
-            ]
+                'consumption_level_id' => 3,
+            ],
         ]);
         $this->assertEquals('Person for nutritional profile not found', $response['message']);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response['code']);
@@ -486,8 +485,8 @@ class UserServiceTest extends TestCase
                 'nutritionalProfile' => [
                     'product_category_id' => 1,
                     'product_category_name' => 'Lacteos',
-                    'consumption_level_id' => 3
-                ]
+                    'consumption_level_id' => 3,
+                ],
             ]);
         }, UnexpectedErrorException::class);
     }
