@@ -316,7 +316,7 @@ class InventoryService implements InventoryServiceInterface
                 return sortWeight($status) > sortWeight($statusToCompare);
             }],
             ['expiration_date'],
-            ['catalog_description']
+            ['catalog_description'],
         ]);
 
         return [
@@ -326,7 +326,8 @@ class InventoryService implements InventoryServiceInterface
     }
 }
 
-function sortWeight($status) {
+function sortWeight($status)
+{
     if ($status['id'] == 2) {
         return 1;
     }
