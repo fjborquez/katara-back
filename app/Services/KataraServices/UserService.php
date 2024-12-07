@@ -166,7 +166,6 @@ class UserService implements UserServiceInterface
 
     public function update(int $id, array $data): array
     {
-        $data['person_id'] = $id;
         $getUserResponse = $this->aangUserService->get($id);
 
         if ($getUserResponse->notFound()) {
@@ -182,6 +181,7 @@ class UserService implements UserServiceInterface
         }
 
         $user = $getUserResponse->json();
+        $data['person_id'] = $user['person']['id'];
         $userUpdateResponse = $this->aangUserService->update($id, $data);
 
         if ($userUpdateResponse->unprocessableEntity()) {
