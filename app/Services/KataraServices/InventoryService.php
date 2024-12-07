@@ -303,8 +303,12 @@ class InventoryService implements InventoryServiceInterface
 
             return $item;
         })->sort(function ($a, $b) {
-            if ($a['purchase_date'] < $b['purchase_date']) return -1;
-            if ($a['purchase_date'] > $b['purchase_date']) return 1;
+            if ($a['purchase_date'] < $b['purchase_date']) {
+                return -1;
+            }
+            if ($a['purchase_date'] > $b['purchase_date']) {
+                return 1;
+            }
 
             $aStatus = Arr::first($a['product_status'], function ($productStatus) {
                 return $productStatus['pivot']['is_active'];
@@ -316,14 +320,26 @@ class InventoryService implements InventoryServiceInterface
             $aWeight = sortWeight($aStatus);
             $bWeight = sortWeight($bStatus);
 
-            if ($aWeight < $bWeight) return -1;
-            if ($aWeight > $bWeight) return 1;
+            if ($aWeight < $bWeight) {
+                return -1;
+            }
+            if ($aWeight > $bWeight) {
+                return 1;
+            }
 
-            if ($a['expiration_date'] < $b['expiration_date']) return -1;
-            if ($a['expiration_date'] > $b['expiration_date']) return 1;
+            if ($a['expiration_date'] < $b['expiration_date']) {
+                return -1;
+            }
+            if ($a['expiration_date'] > $b['expiration_date']) {
+                return 1;
+            }
 
-            if ($a['catalog_description'] < $b['catalog_description']) return -1;
-            if ($a['catalog_description'] > $b['catalog_description']) return 1;
+            if ($a['catalog_description'] < $b['catalog_description']) {
+                return -1;
+            }
+            if ($a['catalog_description'] > $b['catalog_description']) {
+                return 1;
+            }
 
             return 0;
         });
