@@ -334,7 +334,13 @@ class UserServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('update')->once()->andReturn($personUpdateResponse);
         $this->aangNutritionalProfileService->shouldReceive('update')->once()->andReturn($nutritionalProfileUpdateResponse);
 
-        $response = $this->kataraUserService->update(1, []);
+        $response = $this->kataraUserService->update(1, [
+            'nutritionalProfile' => [
+                'product_category_id' => 1,
+                'product_category_name' => 'Lacteos',
+                'consumption_level_id' => 3
+            ]
+        ]);
         $this->assertEquals(Response::HTTP_OK, $response['code']);
         $this->assertEquals('User updated successfully', $response['message']);
     }
@@ -432,7 +438,21 @@ class UserServiceTest extends TestCase
 
     public function test_update_should_return_not_found_when_nutritional_profile_person_is_not_found()
     {
-        $getUserResponse = new ClientResponse(new Psr7Response(Response::HTTP_OK, [], json_encode(['id' => 1, 'person' => ['id' => 1]])));
+        $userResponseBody = [
+            'id' => 1,
+            'person' =>
+                [
+                    'id' => 1,
+                    'nutritionalProfile' => [
+                        [
+                            'person_id' => 1,
+                            'product_category_id' => 3,
+                            'product_category_name' => 'Cheeses and Cold Cuts',
+                        ]
+                    ]
+                ]
+        ];
+        $getUserResponse = new ClientResponse(new Psr7Response(Response::HTTP_OK, [], json_encode($userResponseBody)));
         $getUpdateUserResponse = new ClientResponse(new Psr7Response(Response::HTTP_NO_CONTENT));
         $getPersonUpdateResponse = new ClientResponse(new Psr7Response(Response::HTTP_NO_CONTENT));
         $getUpdateNutritionalProfileResponse = new ClientResponse(new Psr7Response(Response::HTTP_NOT_FOUND));
@@ -440,7 +460,13 @@ class UserServiceTest extends TestCase
         $this->aangUserService->shouldReceive('update')->once()->andReturn($getUpdateUserResponse);
         $this->aangPersonService->shouldReceive('update')->once()->andReturn($getPersonUpdateResponse);
         $this->aangNutritionalProfileService->shouldReceive('update')->once()->andReturn($getUpdateNutritionalProfileResponse);
-        $response = $this->kataraUserService->update(1, []);
+        $response = $this->kataraUserService->update(1, [
+            'nutritionalProfile' => [
+                'product_category_id' => 1,
+                'product_category_name' => 'Lacteos',
+                'consumption_level_id' => 3
+            ]
+        ]);
         $this->assertEquals('Person for nutritional profile not found', $response['message']);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response['code']);
     }
@@ -456,7 +482,13 @@ class UserServiceTest extends TestCase
         $this->aangPersonService->shouldReceive('update')->once()->andReturn($getPersonUpdateResponse);
         $this->aangNutritionalProfileService->shouldReceive('update')->once()->andReturn($getUpdateNutritionalProfileResponse);
         $this->assertThrows(function () {
-            $this->kataraUserService->update(1, []);
+            $this->kataraUserService->update(1, [
+                'nutritionalProfile' => [
+                    'product_category_id' => 1,
+                    'product_category_name' => 'Lacteos',
+                    'consumption_level_id' => 3
+                ]
+            ]);
         }, UnexpectedErrorException::class);
     }
 
