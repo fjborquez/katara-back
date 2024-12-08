@@ -310,15 +310,24 @@ class InventoryService implements InventoryServiceInterface
                 return 1;
             }
 
-            $aStatus = Arr::first($a['product_status'], function ($productStatus) {
-                return $productStatus['pivot']['is_active'];
-            });
-            $bStatus = Arr::first($b['product_status'], function ($productStatus) {
-                return $productStatus['pivot']['is_active'];
-            });
+            $aWeight = 0;
+            $bWeight = 0;
 
-            $aWeight = sortWeight($aStatus);
-            $bWeight = sortWeight($bStatus);
+            if (array_key_exists('product_status', $a)) {
+                $aStatus = Arr::first($a['product_status'], function ($productStatus) {
+                    return $productStatus['pivot']['is_active'];
+                });
+
+                $aWeight = sortWeight($aStatus);
+            }
+
+            if (array_key_exists('product_status', $b)) {
+                $bStatus = Arr::first($b['product_status'], function ($productStatus) {
+                    return $productStatus['pivot']['is_active'];
+                });
+
+                $bWeight = sortWeight($bStatus);
+            }
 
             if ($aWeight < $bWeight) {
                 return -1;
