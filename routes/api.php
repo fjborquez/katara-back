@@ -6,6 +6,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryHouseController;
 use App\Http\Controllers\NutritionalProfileController;
 use App\Http\Controllers\NutritionalRestrictionController;
+use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\UserController;
@@ -36,6 +37,7 @@ Route::get('/nutritional-restriction', [NutritionalRestrictionController::class,
 
 Route::get('/consumption-level', [ConsumptionLevelController::class, 'list']);
 
+Route::get('/product-catalog', [ProductCatalogController::class, 'list']);
 Route::get('/product-category', [ProductCategoryController::class, 'list']);
 
 Route::post('/inventory', [InventoryController::class, 'store']);
