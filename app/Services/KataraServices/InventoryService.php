@@ -62,6 +62,10 @@ class InventoryService implements InventoryServiceInterface
         $newDetailData = $data;
         $newDetailData['house_description'] = $house['description'];
 
+        if (! array_key_exists('expiration_date', $newDetailData)) {
+            $newDetailData['expiration_date'] = null;
+        }
+
         if (empty($inventory)) {
             $inventoryCreateResponse = $this->azulaInventoryService->create($newDetailData);
 
