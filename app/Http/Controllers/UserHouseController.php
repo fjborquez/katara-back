@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserHouseController extends Controller
 {
-    private $fields = ['description', 'city_id', 'is_default'];
+    private $fields = ['description', 'city_id', 'is_default', 'house_id'];
 
     public function __construct(private readonly UserHouseServiceInterface $houseServiceInterface) {}
 
