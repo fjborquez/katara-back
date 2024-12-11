@@ -23,6 +23,7 @@ return [
     App\Providers\KataraServices\InventoryServiceProvider::class,
     App\Providers\KataraServices\CityServiceProvider::class,
     App\Providers\KataraServices\ProductCatalogServiceProvider::class,
+    App\Providers\KataraServices\UnitOfMeasurementServiceProvider::class,
 
     App\Providers\ZukoServices\ProductCategoryServiceProvider::class,
     App\Providers\ZukoServices\ProductCatalogServiceProvider::class,

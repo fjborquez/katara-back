@@ -9,6 +9,7 @@ use App\Http\Controllers\NutritionalRestrictionController;
 use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ResidentController;
+use App\Http\Controllers\UnitOfMeasurementController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserHouseController;
 use Illuminate\Support\Facades\Route;
@@ -44,3 +45,5 @@ Route::post('/inventory', [InventoryController::class, 'store']);
 Route::get('/inventory', [InventoryController::class, 'list']);
 
 Route::get('/city', [CityController::class, 'list']);
+
+Route::get('/unit-of-measurement', [UnitOfMeasurementController::class, 'list']);
