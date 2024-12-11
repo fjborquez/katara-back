@@ -7,4 +7,6 @@ use Illuminate\Http\Client\Response;
 interface UnitOfMeasurementServiceInterface
 {
     public function get(int $id): Response;
+
+    public function list(): Response;
 }
