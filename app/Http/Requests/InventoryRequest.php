@@ -29,7 +29,7 @@ class InventoryRequest extends FormRequest
             'category_id' => ['required'],
             'category_name' => ['required'],
             'purchase_date' => [],
-            'brand_id' => ['gte:0'],
+            'brand_id' => [],
             'brand_name' => [],
             'uom_id' => ['gte:0'],
             'uom_abbreviation' => [],
