@@ -12,8 +12,6 @@ class CityService implements CityServiceInterface
 {
     public function list(): Response
     {
-        Log::alert('PROBANDO LOGS');
-
         return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('aang.url').'/city');
     }
 }
