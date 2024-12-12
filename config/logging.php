@@ -98,7 +98,7 @@ return [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
             'handler' => StreamHandler::class,
-            'formatter' => env('LOG_STDERR_FORMATTER', Monolog\Formatter\GoogleCloudLoggingFormatter::class),
+            'formatter' => \Monolog\Formatter\GoogleCloudLoggingFormatter::class,
             'with' => [
                 'stream' => 'php://stderr',
             ],
