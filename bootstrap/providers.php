@@ -24,9 +24,15 @@ return [
     App\Providers\KataraServices\CityServiceProvider::class,
     App\Providers\KataraServices\ProductCatalogServiceProvider::class,
     App\Providers\KataraServices\UnitOfMeasurementServiceProvider::class,
+    App\Providers\KataraServices\ProductBrandServiceProvider::class,
+    App\Providers\KataraServices\ProductPresentationServiceProvider::class,
+    App\Providers\KataraServices\ProductTypeServiceProvider::class,
 
     App\Providers\ZukoServices\ProductCategoryServiceProvider::class,
     App\Providers\ZukoServices\ProductCatalogServiceProvider::class,
+    App\Providers\ZukoServices\ProductBrandServiceProvider::class,
+    App\Providers\ZukoServices\ProductPresentationServiceProvider::class,
+    App\Providers\ZukoServices\ProductTypeServiceProvider::class,
 
     App\Providers\AzulaServices\InventoryServiceProvider::class,
 
