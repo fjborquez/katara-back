@@ -25,7 +25,7 @@ class ProductCatalogRequest extends FormRequest
             'category_id' => ['required'],
             'brand_id' => [],
             'type_id' => ['required'],
-            'presentation_id' => []
+            'presentation_id' => [],
         ];
     }
 }
