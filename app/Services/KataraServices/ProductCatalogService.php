@@ -26,4 +26,26 @@ class ProductCatalogService implements ProductCatalogServiceInterface
             'code' => Response::HTTP_OK,
         ];
     }
+
+    public function create(array $data = []): array
+    {
+        $createProductCatalogResponse = $this->zukoProductCatalogService->create($data);
+
+        if ($createProductCatalogResponse->unprocessableEntity()) {
+            $message = $createProductCatalogResponse->json('message');
+            $code = $createProductCatalogResponse->status();
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($createProductCatalogResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'Product catalog created successfully',
+            'code' => Response::HTTP_CREATED,
+        ];
+    }
 }

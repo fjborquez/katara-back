@@ -39,6 +39,7 @@ Route::get('/nutritional-restriction', [NutritionalRestrictionController::class,
 Route::get('/consumption-level', [ConsumptionLevelController::class, 'list']);
 
 Route::get('/product-catalog', [ProductCatalogController::class, 'list']);
+Route::post('/product-catalog', [ProductCatalogController::class, 'store']);
 Route::get('/product-category', [ProductCategoryController::class, 'list']);
 
 Route::post('/inventory', [InventoryController::class, 'store']);
