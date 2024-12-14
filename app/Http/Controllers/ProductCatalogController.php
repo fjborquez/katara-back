@@ -23,6 +23,7 @@ class ProductCatalogController extends Controller
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             report($exception);
+
             return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -37,6 +38,7 @@ class ProductCatalogController extends Controller
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             report($exception);
+
             return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Services\KataraServices;
 
 use App\Exceptions\UnexpectedErrorException;
-use App\Services\KataraServices\ProductCatalogService;
 use App\Services\ZukoServices\ProductCatalogService as ZukoProductCatalogService;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Http\Client\Response;

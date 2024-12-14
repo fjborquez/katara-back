@@ -6,7 +6,6 @@ use App\Contracts\Services\AangServices\CityServiceInterface;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class CityService implements CityServiceInterface
 {
