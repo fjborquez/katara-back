@@ -27,6 +27,7 @@ return [
     App\Providers\KataraServices\ProductBrandServiceProvider::class,
     App\Providers\KataraServices\ProductPresentationServiceProvider::class,
     App\Providers\KataraServices\ProductTypeServiceProvider::class,
+    App\Providers\KataraServices\GoogleCloudLogWriterServiceProvider::class,
 
     App\Providers\ZukoServices\ProductCategoryServiceProvider::class,
     App\Providers\ZukoServices\ProductCatalogServiceProvider::class,
