@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Services\KataraServices;
 
-interface GoogleCloudLogWriterServiceInterface {
+interface GoogleCloudLogWriterServiceInterface
+{
     public function write($message);
 }
