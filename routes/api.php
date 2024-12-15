@@ -4,6 +4,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\ConsumptionLevelController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryHouseController;
+use App\Http\Controllers\LogWriterController;
 use App\Http\Controllers\NutritionalProfileController;
 use App\Http\Controllers\NutritionalRestrictionController;
 use App\Http\Controllers\ProductBrandController;
@@ -54,3 +55,5 @@ Route::get('/inventory', [InventoryController::class, 'list']);
 Route::get('/city', [CityController::class, 'list']);
 
 Route::get('/unit-of-measurement', [UnitOfMeasurementController::class, 'list']);
+
+Route::post('/log-writer', [LogWriterController::class, 'create']);
