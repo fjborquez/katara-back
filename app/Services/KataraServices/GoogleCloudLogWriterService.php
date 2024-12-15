@@ -10,8 +10,9 @@ class GoogleCloudLogWriterService implements GoogleCloudLogWriterServiceInterfac
 {
     public function write($message)
     {
-        Log::error('KATARA ERROR:');
-        Log::error($message);
+        $messageDecoded = json_decode($message, true);
+
+        Log::error('Katara error: '.$messageDecoded['message'], ['message' => $messageDecoded['stack']]);
 
         return [
             'message' => 'Logged',
