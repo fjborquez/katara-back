@@ -8,12 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GoogleCloudLogWriterService implements GoogleCloudLogWriterServiceInterface
 {
-    public function write($message) {
+    public function write($message)
+    {
         Log::alert($message);
 
         return [
             'message' => 'Logged',
-            'code' => Response::HTTP_CREATED
+            'code' => Response::HTTP_CREATED,
         ];
     }
 }
