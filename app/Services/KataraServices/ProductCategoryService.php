@@ -29,4 +29,26 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             'code' => Response::HTTP_OK,
         ];
     }
+
+    public function create(array $data = []): array
+    {
+        $productCategoryCreateResponse = $this->zukoProductCategoryService->create($data);
+
+        if ($productCategoryCreateResponse->unprocessableEntity()) {
+            $message = $productCategoryCreateResponse->json('message');
+            $code = $productCategoryCreateResponse->status();
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($productCategoryCreateResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' =>'Product category created successfully',
+            'code' => Response::HTTP_CREATED,
+        ];
+    }
 }

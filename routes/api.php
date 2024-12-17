@@ -46,6 +46,7 @@ Route::get('/consumption-level', [ConsumptionLevelController::class, 'list']);
 Route::get('/product-catalog', [ProductCatalogController::class, 'list']);
 Route::post('/product-catalog', [ProductCatalogController::class, 'store']);
 Route::get('/product-category', [ProductCategoryController::class, 'list']);
+Route::post('/product-category', [ProductCategoryController::class, 'store']);
 Route::get('/product-brand', [ProductBrandController::class, 'list']);
 Route::get('/product-type', [ProductTypeController::class, 'list']);
 Route::get('/product-presentation', [ProductPresentationController::class, 'list']);
