@@ -49,4 +49,14 @@ class ProductCategoryServiceTest extends TestCase
             $this->kataraProductCategoryService->list();
         }, UnexpectedErrorException::class);
     }
+
+    public function test_create_a_new_category()
+    {
+        $data = [
+            'name' => 'Bakery',
+        ];
+        $this->zukoProductCategoryService->shouldReceive('create')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_CREATED)));
+        $response = $this->kataraProductCategoryService->create($data);
+        $this->assertEquals(HttpFoundationResponse::HTTP_CREATED, $response['code']);
+    }
 }
