@@ -53,7 +53,7 @@ class ProductCategoryServiceTest extends TestCase
     public function test_create_a_new_category()
     {
         $data = [
-            'name' => 'Bakery'
+            'name' => 'Bakery',
         ];
         $this->zukoProductCategoryService->shouldReceive('create')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_CREATED)));
         $response = $this->kataraProductCategoryService->create($data);
