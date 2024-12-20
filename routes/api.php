@@ -48,6 +48,7 @@ Route::post('/product-catalog', [ProductCatalogController::class, 'store']);
 Route::get('/product-category', [ProductCategoryController::class, 'list']);
 Route::post('/product-category', [ProductCategoryController::class, 'store']);
 Route::get('/product-brand', [ProductBrandController::class, 'list']);
+Route::post('/product-brand', [ProductBrandController::class, 'store']);
 Route::get('/product-type', [ProductTypeController::class, 'list']);
 Route::get('/product-presentation', [ProductPresentationController::class, 'list']);
 

@@ -26,4 +26,26 @@ class ProductBrandService implements ProductBrandServiceInterface
             'code' => Response::HTTP_OK,
         ];
     }
+
+    public function create(array $data = []): array
+    {
+        $productBrandCreateResponse = $this->zukoProductBrandService->create($data);
+
+        if ($productBrandCreateResponse->unprocessableEntity()) {
+            $message = $productBrandCreateResponse->json('message');
+            $code = $productBrandCreateResponse->status();
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($productBrandCreateResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'Product brand created successfully',
+            'code' => Response::HTTP_CREATED,
+        ];
+    }
 }
