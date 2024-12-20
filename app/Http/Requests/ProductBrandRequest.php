@@ -22,8 +22,8 @@ class ProductBrandRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "max:30"],
-            "description" => ["required", "max:100"],
+            'name' => ['required', 'max:30'],
+            'description' => ['required', 'max:100'],
         ];
     }
 }
