@@ -47,7 +47,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         }
 
         return [
-            'message' =>'Product category created successfully',
+            'message' => 'Product category created successfully',
             'code' => Response::HTTP_CREATED,
         ];
     }
