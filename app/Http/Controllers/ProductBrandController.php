@@ -28,7 +28,8 @@ class ProductBrandController extends Controller
         }
     }
 
-    public function store(ProductBrandRequest $request) {
+    public function store(ProductBrandRequest $request)
+    {
         $validated = $request->safe()->only($this->fields);
 
         try {
@@ -37,6 +38,7 @@ class ProductBrandController extends Controller
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {
             report($exception);
+
             return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

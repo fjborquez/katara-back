@@ -44,7 +44,7 @@ class ProductBrandService implements ProductBrandServiceInterface
         }
 
         return [
-            'message' =>'Product brand created successfully',
+            'message' => 'Product brand created successfully',
             'code' => Response::HTTP_CREATED,
         ];
     }
