@@ -7,4 +7,6 @@ use Illuminate\Http\Client\Response;
 interface ProductTypeServiceInterface
 {
     public function list(): Response;
+
+    public function create(array $data): Response;
 }
