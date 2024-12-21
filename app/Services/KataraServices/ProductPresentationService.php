@@ -26,4 +26,26 @@ class ProductPresentationService implements ProductPresentationServiceInterface
             'code' => Response::HTTP_OK,
         ];
     }
+
+    public function create(array $data = []): array
+    {
+        $productPresentationCreateResponse = $this->zukoProductPresentationService->create($data);
+
+        if ($productPresentationCreateResponse->unprocessableEntity()) {
+            $message = $productPresentationCreateResponse->json('message');
+            $code = $productPresentationCreateResponse->status();
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($productPresentationCreateResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'Product presentation created successfully',
+            'code' => Response::HTTP_CREATED,
+        ];
+    }
 }
