@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductPresentationController extends Controller
 {
-    private $fields = ["description"];
+    private $fields = ['description'];
 
     public function __construct(
         private readonly ProductPresentationServiceInterface $productPresentationService

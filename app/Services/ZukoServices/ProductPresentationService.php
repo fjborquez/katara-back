@@ -18,6 +18,6 @@ class ProductPresentationService implements ProductPresentationServiceInterface
     public function create(array $data = []): Response
     {
         return Http::accept('application/json')->retry(3, 100, null, false)
-        ->post(Config::get('zuko.url').'/product-presentation', $data);
+            ->post(Config::get('zuko.url').'/product-presentation', $data);
     }
 }
