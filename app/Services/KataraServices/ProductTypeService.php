@@ -26,4 +26,26 @@ class ProductTypeService implements ProductTypeServiceInterface
             'code' => Response::HTTP_OK,
         ];
     }
+
+    public function create(array $data = []): array
+    {
+        $productTypeCreateResponse = $this->zukoProductTypeService->create($data);
+
+        if ($productTypeCreateResponse->unprocessableEntity()) {
+            $message = $productTypeCreateResponse->json('message');
+            $code = $productTypeCreateResponse->status();
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($productTypeCreateResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'Product type created successfully',
+            'code' => Response::HTTP_CREATED,
+        ];
+    }
 }
