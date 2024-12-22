@@ -326,6 +326,13 @@ class InventoryService implements InventoryServiceInterface
                 $bWeight = sortWeight($bStatus);
             }
 
+            if ($aWeight < $bWeight) {
+                return -1;
+            }
+            if ($aWeight > $bWeight) {
+                return 1;
+            }
+
             if ($a['expiration_date'] < $b['expiration_date']) {
                 return -1;
             }
@@ -337,13 +344,6 @@ class InventoryService implements InventoryServiceInterface
                 return -1;
             }
             if ($a['catalog_description'] > $b['catalog_description']) {
-                return 1;
-            }
-
-            if ($aWeight < $bWeight) {
-                return -1;
-            }
-            if ($aWeight > $bWeight) {
                 return 1;
             }
 
