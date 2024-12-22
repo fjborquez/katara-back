@@ -307,13 +307,6 @@ class InventoryService implements InventoryServiceInterface
 
             return $item;
         })->sort(function ($a, $b) {
-            if ($a['purchase_date'] < $b['purchase_date']) {
-                return -1;
-            }
-            if ($a['purchase_date'] > $b['purchase_date']) {
-                return 1;
-            }
-
             $aWeight = 0;
             $bWeight = 0;
 
@@ -333,13 +326,6 @@ class InventoryService implements InventoryServiceInterface
                 $bWeight = sortWeight($bStatus);
             }
 
-            if ($aWeight < $bWeight) {
-                return -1;
-            }
-            if ($aWeight > $bWeight) {
-                return 1;
-            }
-
             if ($a['expiration_date'] < $b['expiration_date']) {
                 return -1;
             }
@@ -351,6 +337,20 @@ class InventoryService implements InventoryServiceInterface
                 return -1;
             }
             if ($a['catalog_description'] > $b['catalog_description']) {
+                return 1;
+            }
+
+            if ($aWeight < $bWeight) {
+                return -1;
+            }
+            if ($aWeight > $bWeight) {
+                return 1;
+            }
+
+            if ($a['purchase_date'] < $b['purchase_date']) {
+                return -1;
+            }
+            if ($a['purchase_date'] > $b['purchase_date']) {
                 return 1;
             }
 
@@ -369,10 +369,10 @@ function sortWeight($status)
     if ($status['id'] == 2) {
         return 1;
     }
-    if ($status['id'] == 1) {
+    if ($status['id'] == 6) {
         return 2;
     }
-    if ($status['id'] == 6) {
+    if ($status['id'] == 1) {
         return 3;
     }
     if ($status['id'] == 3) {
