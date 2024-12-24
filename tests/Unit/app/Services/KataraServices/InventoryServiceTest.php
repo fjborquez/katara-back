@@ -524,9 +524,10 @@ class InventoryServiceTest extends TestCase
         }, UnexpectedErrorException::class);
     }
 
-    public function test_list_should_add_expiration_date_as_carbon_object() {
+    public function test_list_should_add_expiration_date_as_carbon_object()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -548,9 +549,10 @@ class InventoryServiceTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $response['message'][0]['expiration_date']);
     }
 
-    public function test_list_should_add_purchase_date_as_carbon_object() {
+    public function test_list_should_add_purchase_date_as_carbon_object()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -572,9 +574,10 @@ class InventoryServiceTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $response['message'][0]['purchase_date']);
     }
 
-    public function test_list_sorted_by_product_status_asc() {
+    public function test_list_sorted_by_product_status_asc()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -594,10 +597,10 @@ class InventoryServiceTest extends TestCase
                     [
                         'id' => 2,
                         'pivot' => [
-                            'is_active' => 1
-                        ]
-                    ]
-                ]
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'id' => 2,
@@ -612,19 +615,20 @@ class InventoryServiceTest extends TestCase
                     [
                         'id' => 6,
                         'pivot' => [
-                            'is_active' => 1
-                        ]
-                    ]
-                ]
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
         $this->assertEquals(2, $response['message'][0]['product_status'][0]['id']);
     }
 
-    public function test_list_sorted_by_product_status_desc() {
+    public function test_list_sorted_by_product_status_desc()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -644,10 +648,10 @@ class InventoryServiceTest extends TestCase
                     [
                         'id' => 6,
                         'pivot' => [
-                            'is_active' => 1
-                        ]
-                    ]
-                ]
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'id' => 2,
@@ -662,19 +666,20 @@ class InventoryServiceTest extends TestCase
                     [
                         'id' => 2,
                         'pivot' => [
-                            'is_active' => 1
-                        ]
-                    ]
-                ]
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
         $this->assertEquals(2, $response['message'][0]['product_status'][0]['id']);
     }
 
-    public function test_list_sorted_by_product_expiration_date_asc() {
+    public function test_list_sorted_by_product_expiration_date_asc()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -706,9 +711,10 @@ class InventoryServiceTest extends TestCase
         $this->assertEquals(new Carbon('2024-09-30'), $response['message'][0]['expiration_date']);
     }
 
-    public function test_list_sorted_by_product_expiration_date_desc() {
+    public function test_list_sorted_by_product_expiration_date_desc()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -740,9 +746,10 @@ class InventoryServiceTest extends TestCase
         $this->assertEquals(new Carbon('2024-09-30'), $response['message'][0]['expiration_date']);
     }
 
-    public function test_list_sorted_by_product_catalog_description_asc() {
+    public function test_list_sorted_by_product_catalog_description_asc()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -762,10 +769,10 @@ class InventoryServiceTest extends TestCase
                     [
                         'id' => 6,
                         'pivot' => [
-                            'is_active' => 1
-                        ]
-                    ]
-                ]
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'id' => 2,
@@ -780,19 +787,20 @@ class InventoryServiceTest extends TestCase
                     [
                         'id' => 6,
                         'pivot' => [
-                            'is_active' => 1
-                        ]
-                    ]
-                ]
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
         $this->assertEquals('A PRODUCT DESCRIPTION', $response['message'][0]['catalog_description']);
     }
 
-    public function test_list_sorted_by_product_catalog_description_desc() {
+    public function test_list_sorted_by_product_catalog_description_desc()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -812,10 +820,10 @@ class InventoryServiceTest extends TestCase
                     [
                         'id' => 6,
                         'pivot' => [
-                            'is_active' => 1
-                        ]
-                    ]
-                ]
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'id' => 2,
@@ -830,19 +838,20 @@ class InventoryServiceTest extends TestCase
                     [
                         'id' => 6,
                         'pivot' => [
-                            'is_active' => 1
-                        ]
-                    ]
-                ]
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
         $this->assertEquals('A PRODUCT DESCRIPTION', $response['message'][0]['catalog_description']);
     }
 
-    public function test_list_sorted_by_product_purchase_date_asc() {
+    public function test_list_sorted_by_product_purchase_date_asc()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -874,9 +883,10 @@ class InventoryServiceTest extends TestCase
         $this->assertEquals(new Carbon('2024-08-31'), $response['message'][0]['purchase_date']);
     }
 
-    public function test_list_sorted_by_product_purchase_date_desc() {
+    public function test_list_sorted_by_product_purchase_date_desc()
+    {
         $params = [
-            'house_id' => 1
+            'house_id' => 1,
         ];
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
@@ -907,5 +917,4 @@ class InventoryServiceTest extends TestCase
         $response = $this->inventoryService->list($params);
         $this->assertEquals(new Carbon('2024-08-30'), $response['message'][0]['purchase_date']);
     }
-
 }
