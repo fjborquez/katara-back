@@ -3,10 +3,10 @@
 use App\Exceptions\UnexpectedErrorException;
 use App\Services\KataraServices\UnitOfMeasurementService as KataraUnitOfMeasurementService;
 use App\Services\TophServices\UnitOfMeasurementService;
-use Tests\TestCase;
-use Illuminate\Http\Client\Response as ClientResponse;
 use GuzzleHttp\Psr7\Response as Psr7Response;
+use Illuminate\Http\Client\Response as ClientResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\TestCase;
 
 class UnitOfMeasurementServiceTest extends TestCase
 {
