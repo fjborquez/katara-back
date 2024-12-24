@@ -10,12 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class UnitOfMeasurementService implements UnitOfMeasurementServiceInterface
 {
     public function __construct(
-        private readonly TophUnitOfMeasurementServiceInterface $TophUnitOfMeasurementService
+        private readonly TophUnitOfMeasurementServiceInterface $tophUnitOfMeasurementService
     ) {}
 
     public function list(array $filter = []): array
     {
-        $unitOfMeasurementListResponse = $this->TophUnitOfMeasurementService->list($filter);
+        $unitOfMeasurementListResponse = $this->tophUnitOfMeasurementService->list($filter);
 
         if ($unitOfMeasurementListResponse->failed()) {
             throw new UnexpectedErrorException;
