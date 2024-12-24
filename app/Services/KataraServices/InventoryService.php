@@ -306,25 +306,12 @@ class InventoryService implements InventoryServiceInterface
             $item['purchase_date'] = $item['purchase_date'] != null ? new Carbon($item['purchase_date']) : null;
 
             return $item;
-        })->sort(function ($a, $b) {
+        })->sort(function ($product, $toCompare) {
             $aWeight = 0;
             $bWeight = 0;
 
-            if (array_key_exists('product_status', $a)) {
-                $aStatus = Arr::first($a['product_status'], function ($productStatus) {
-                    return $productStatus['pivot']['is_active'];
-                });
-
-                $aWeight = sortWeight($aStatus);
-            }
-
-            if (array_key_exists('product_status', $b)) {
-                $bStatus = Arr::first($b['product_status'], function ($productStatus) {
-                    return $productStatus['pivot']['is_active'];
-                });
-
-                $bWeight = sortWeight($bStatus);
-            }
+            $aWeight = $this->calculateProductStatusWeight($product);
+            $bWeight = $this->calculateProductStatusWeight($toCompare);
 
             if ($aWeight < $bWeight) {
                 return -1;
@@ -333,25 +320,19 @@ class InventoryService implements InventoryServiceInterface
                 return 1;
             }
 
-            if ($a['expiration_date'] < $b['expiration_date']) {
-                return -1;
-            }
-            if ($a['expiration_date'] > $b['expiration_date']) {
-                return 1;
+            $expirationDateComparison = $this->productComparation($product, $toCompare, 'expiration_date');
+            if ($expirationDateComparison != 0) {
+                return $expirationDateComparison;
             }
 
-            if ($a['catalog_description'] < $b['catalog_description']) {
-                return -1;
-            }
-            if ($a['catalog_description'] > $b['catalog_description']) {
-                return 1;
+            $catalogDescriptionComparison = $this->productComparation($product, $toCompare, 'catalog_description');
+            if ($catalogDescriptionComparison != 0) {
+                return $catalogDescriptionComparison;
             }
 
-            if ($a['purchase_date'] < $b['purchase_date']) {
-                return -1;
-            }
-            if ($a['purchase_date'] > $b['purchase_date']) {
-                return 1;
+            $purchaseDateComparison = $this->productComparation($product, $toCompare, 'purchase_date');
+            if ($purchaseDateComparison != 0) {
+                return $purchaseDateComparison;
             }
 
             return 0;
@@ -362,22 +343,58 @@ class InventoryService implements InventoryServiceInterface
             'code' => Response::HTTP_OK,
         ];
     }
+
+    private function productStatusSortWeight($status)
+    {
+        if ($status['id'] == 2) {
+            return 1;
+        }
+        if ($status['id'] == 6) {
+            return 2;
+        }
+        if ($status['id'] == 1) {
+            return 3;
+        }
+        if ($status['id'] == 3) {
+            return 4;
+        }
+
+        return 0;
+    }
+
+    private function extractActiveProductStatus($inventory)
+    {
+        return Arr::first($inventory['product_status'], function ($productStatus) {
+            return $productStatus['pivot']['is_active'];
+        });
+    }
+
+    private function calculateProductStatusWeight($product)
+    {
+        if (array_key_exists('product_status', $product)) {
+            $aStatus = $this->extractActiveProductStatus($product);
+
+            if ($aStatus == null) {
+                return 0;
+            }
+
+            return $this->productStatusSortWeight($aStatus);
+        }
+
+        return 0;
+    }
+
+    private function productComparation($product, $toCompare, $property)
+    {
+        if ($product[$property] < $toCompare[$property]) {
+            return -1;
+        }
+        if ($product[$property] > $toCompare[$property]) {
+            return 1;
+        }
+
+        return 0;
+    }
 }
 
-function sortWeight($status)
-{
-    if ($status['id'] == 2) {
-        return 1;
-    }
-    if ($status['id'] == 6) {
-        return 2;
-    }
-    if ($status['id'] == 1) {
-        return 3;
-    }
-    if ($status['id'] == 3) {
-        return 4;
-    }
 
-    return 0;
-}
