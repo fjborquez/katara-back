@@ -18,7 +18,7 @@ class GoogleCloudLogWriterServiceTest extends TestCase
     {
         $message = [
             'stack' => 'test',
-            'message' => 'test'
+            'message' => 'test',
         ];
         $response = $this->googleCloudLogWriterService->write(json_encode($message));
         $this->assertEquals(Response::HTTP_CREATED, $response['code']);
