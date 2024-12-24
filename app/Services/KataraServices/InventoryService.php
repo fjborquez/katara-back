@@ -396,5 +396,3 @@ class InventoryService implements InventoryServiceInterface
         return 0;
     }
 }
-
-
