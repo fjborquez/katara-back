@@ -917,4 +917,50 @@ class InventoryServiceTest extends TestCase
         $response = $this->inventoryService->list($params);
         $this->assertEquals(new Carbon('2024-08-30'), $response['message'][0]['purchase_date']);
     }
+
+    public function test_discard_should_discard_an_inventory_item(): void
+    {
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+        ]))));
+        $this->azulaInventoryService->shouldReceive('discard')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $response = $this->inventoryService->discard(1);
+        $this->assertEquals(HttpFoundationResponse::HTTP_OK, $response['code']);
+    }
+
+    public function test_discard_should_return_not_found_code_when_inventory_item_is_not_found(): void
+    {
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NOT_FOUND)));
+        $response = $this->inventoryService->discard(1);
+        $this->assertEquals(HttpFoundationResponse::HTTP_NOT_FOUND, $response['code']);
+    }
+
+    public function test_discard_should_throw_an_exception_when_inventory_item_return_error(): void
+    {
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
+        $this->assertThrows(fn () => $this->inventoryService->discard(1), UnexpectedErrorException::class);
+    }
+
+    public function test_discard_should_throw_an_exception_when_inventory_is_not_discarded(): void
+    {
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+        ]))));
+        $this->azulaInventoryService->shouldReceive('discard')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
+        $this->assertThrows(fn () => $this->inventoryService->discard(1), UnexpectedErrorException::class);
+    }
 }
