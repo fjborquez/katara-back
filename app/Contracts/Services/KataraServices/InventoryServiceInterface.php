@@ -7,4 +7,6 @@ interface InventoryServiceInterface
     public function create(array $data = []): array;
 
     public function list(): array;
+
+    public function discard(int $id): array;
 }

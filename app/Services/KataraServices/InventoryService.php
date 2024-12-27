@@ -344,6 +344,35 @@ class InventoryService implements InventoryServiceInterface
         ];
     }
 
+    public function discard(int $id): array
+    {
+        $inventoryGetResponse = $this->azulaInventoryService->get($id);
+
+        if ($inventoryGetResponse->notFound()) {
+            $message = 'Inventory item not found';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($inventoryGetResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $inventory = $inventoryGetResponse->json();
+        $inventoryPutResponse = $this->azulaInventoryService->discard($id);
+
+        if ($inventoryPutResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'Item: '.$inventory['quantity'].' '.$inventory['uom_abbreviation'].' '.$inventory['catalog_description'].' has been discarded',
+            'code' => Response::HTTP_OK,
+        ];
+    }
+
     private function productStatusSortWeight($status)
     {
         if ($status['id'] == 2) {
