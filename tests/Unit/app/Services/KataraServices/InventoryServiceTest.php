@@ -945,7 +945,7 @@ class InventoryServiceTest extends TestCase
     public function test_discard_should_throw_an_exception_when_inventory_item_return_error(): void
     {
         $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(fn() => $this->inventoryService->discard(1), UnexpectedErrorException::class);
+        $this->assertThrows(fn () => $this->inventoryService->discard(1), UnexpectedErrorException::class);
     }
 
     public function test_discard_should_throw_an_exception_when_inventory_is_not_discarded(): void
@@ -961,6 +961,6 @@ class InventoryServiceTest extends TestCase
             'quantity' => 100,
         ]))));
         $this->azulaInventoryService->shouldReceive('discard')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
-        $this->assertThrows(fn() => $this->inventoryService->discard(1), UnexpectedErrorException::class);
+        $this->assertThrows(fn () => $this->inventoryService->discard(1), UnexpectedErrorException::class);
     }
 }
