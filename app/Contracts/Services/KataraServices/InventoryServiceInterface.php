@@ -9,4 +9,6 @@ interface InventoryServiceInterface
     public function list(): array;
 
     public function discard(int $id): array;
+
+    public function update(int $id, array $data = []): array;
 }

@@ -51,4 +51,18 @@ class InventoryHouseController extends Controller
             return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function update(int $userId, int $houseId, int $inventoryId, InventoryHouseRequest $request)
+    {
+        $validated = $request->safe()->only($this->fields);
+
+        try {
+            $response = $this->inventoryService->update($inventoryId, $validated);
+
+            return response()->json(['message' => $response['message']], $response['code']);
+        } catch (UnexpectedErrorException $exception) {
+            report($exception);
+            return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
