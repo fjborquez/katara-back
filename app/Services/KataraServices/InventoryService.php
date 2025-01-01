@@ -155,7 +155,7 @@ class InventoryService implements InventoryServiceInterface
         if (empty($detail)) {
             return [
                 'message' => 'Inventory not exists',
-                'code' => Response::HTTP_NOT_FOUND
+                'code' => Response::HTTP_NOT_FOUND,
             ];
         }
 
@@ -172,7 +172,7 @@ class InventoryService implements InventoryServiceInterface
         if (empty($existingDetailsByCatalogAndExclude)) {
             $updatedDetail = $this->updateInventory($detailId, $newDetailData);
 
-            if ($this->isError($updatedDetail))  {
+            if ($this->isError($updatedDetail)) {
                 return $updatedDetail;
             }
 
@@ -184,10 +184,10 @@ class InventoryService implements InventoryServiceInterface
 
         $existingDetailByUomAndExpirationDate = $this->searchItemDetails($existingDetailsByCatalogAndExclude, $newDetailData);
 
-        if (!empty($existingDetailByUomAndExpirationDate)) {
+        if (! empty($existingDetailByUomAndExpirationDate)) {
             $updatedDetail = $this->updateInventory($detailId, $newDetailData);
 
-            if ($this->isError($updatedDetail))  {
+            if ($this->isError($updatedDetail)) {
                 return $updatedDetail;
             }
 
@@ -242,7 +242,7 @@ class InventoryService implements InventoryServiceInterface
             } else {
                 return [
                     'message' => 'Inventory created successfully',
-                    'code' => Response::HTTP_CREATED
+                    'code' => Response::HTTP_CREATED,
                 ];
             }
 
@@ -420,9 +420,8 @@ class InventoryService implements InventoryServiceInterface
      * Search an item in the complete inventory items,
      * with the different occurencies.
      *
-     * @param mixed $inventory Complete inventory items
-     * @param mixed $item An item to be searched in the complete inventory items
-     *
+     * @param  mixed  $inventory  Complete inventory items
+     * @param  mixed  $item  An item to be searched in the complete inventory items
      * @return array An array with the searched items if they exists, else null
      */
     private function searchItem($inventory, $item)
@@ -433,9 +432,8 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $items an array of inventory items of the same product catalog
-     * @param mixed $item an item to be searched in the inventory items
-     *
+     * @param  mixed  $items  an array of inventory items of the same product catalog
+     * @param  mixed  $item  an item to be searched in the inventory items
      * @return array with the item properties if them exists, else null
      */
     private function searchItemDetails($items, $item)
@@ -447,10 +445,9 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $items array with the items of a product catalog in the inventory
-     * @param mixed $item array with the item properties to be searched in the inventory
-     * @param mixed $property property to be searched in the item
-     *
+     * @param  mixed  $items  array with the items of a product catalog in the inventory
+     * @param  mixed  $item  array with the item properties to be searched in the inventory
+     * @param  mixed  $property  property to be searched in the item
      * @return array with the item properties if them exists, else null
      */
     private function searchItemDetailsByProperty($items, $item, $property)
@@ -461,9 +458,8 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $uoms array with the uoms
-     * @param mixed $uomId id to search
-     *
+     * @param  mixed  $uoms  array with the uoms
+     * @param  mixed  $uomId  id to search
      * @return array with the uom properties, if exists
      */
     private function getFromUomById($uoms, $uomId)
@@ -474,10 +470,9 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $baseItemDetail Item to multiply with factor
-     * @param mixed $toApplyItemDetail Item to sum to the multiply with factor result
-     * @param mixed $uom the uom to be applied
-     *
+     * @param  mixed  $baseItemDetail  Item to multiply with factor
+     * @param  mixed  $toApplyItemDetail  Item to sum to the multiply with factor result
+     * @param  mixed  $uom  the uom to be applied
      * @return array with the new quantity and uom data
      */
     private function calculateQuantity($baseItemDetail, $toApplyItemDetail, $uom)
@@ -492,8 +487,7 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param array $detail An array with the inventory detail to be created
-     *
+     * @param  array  $detail  An array with the inventory detail to be created
      * @return array an empty array if the inventory detail was created, or an error
      */
     private function createInventoryDetail(array $detail)
@@ -513,8 +507,7 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param array $response The http content response
-     *
+     * @param  array  $response  The http content response
      * @return bool true if the response is an error (message and code), false otherwise
      */
     private function isError(array $response)
@@ -522,10 +515,8 @@ class InventoryService implements InventoryServiceInterface
         return array_key_exists('message', $response) && array_key_exists('code', $response);
     }
 
-
     /**
-     * @param mixed $houseId Id of the house to be searched
-     *
+     * @param  mixed  $houseId  Id of the house to be searched
      * @return array with the house properties
      */
     private function searchHouseById($houseId)
@@ -545,8 +536,7 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param array $params to filter the inventory
-     *
+     * @param  array  $params  to filter the inventory
      * @return array with the inventory details
      */
     private function searchInventoryByParams($params = [])
@@ -567,8 +557,7 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $uomId Uom id to be searched
-     *
+     * @param  mixed  $uomId  Uom id to be searched
      * @return array the properties of the searched uom
      */
     private function getUom($uomId)
@@ -588,13 +577,14 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $detailId The id of the inventory detail to be modified
-     * @param array $data The inventory with changes to update
-     *
+     * @param  mixed  $detailId  The id of the inventory detail to be modified
+     * @param  array  $data  The inventory with changes to update
      * @return array An array with the error message and the error code if the inventory detail was not updated
+     *
      * @throws UnexpectedErrorException If the inventory detail was not updated because an unexpected error
      */
-    private function updateInventory($detailId, $data = []) {
+    private function updateInventory($detailId, $data = [])
+    {
         $inventoryUpdateResponse = $this->azulaInventoryService->update($detailId, $data);
 
         if ($inventoryUpdateResponse->unprocessableEntity()) {
@@ -610,9 +600,8 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $originalUomId The if of the uom to find the list
-     * @param mixed $uomToBeSearchId The id of the uom to be searched in the list
-     *
+     * @param  mixed  $originalUomId  The if of the uom to find the list
+     * @param  mixed  $uomToBeSearchId  The id of the uom to be searched in the list
      * @return array The new uom or an error array
      */
     private function searchFromUom($originalUom, $uomToBeSearch)
@@ -627,8 +616,7 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $detail Item detail where the expiration date will be searched
-     *
+     * @param  mixed  $detail  Item detail where the expiration date will be searched
      * @return mixed The expiration date if exists, else null|
      */
     private function getExpirationDateOrNull($detail)
@@ -637,9 +625,9 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $detailId The id of the inventory detail to be searched
-     *
+     * @param  mixed  $detailId  The id of the inventory detail to be searched
      * @return array The inventory detail properties
+     *
      * @throws UnexpectedErrorException If the inventory detail was not found because an unexpected error
      */
     private function searchDetailById($detailId)
@@ -659,8 +647,7 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $houseId The id of the house to be searched
-     *
+     * @param  mixed  $houseId  The id of the house to be searched
      * @return array The house properties or an error array
      */
     private function searchActiveHouse($houseId)
@@ -682,14 +669,13 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
-     * @param mixed $inventory A list of product details
-     * @param mixed $detailToExclude The detail to be excluded from the inventory
-     *
+     * @param  mixed  $inventory  A list of product details
+     * @param  mixed  $detailToExclude  The detail to be excluded from the inventory
      * @return array Inventory without the detail to be excluded
      */
     private function inventoryExcludingItem($inventory, $detailToExclude)
     {
-        return array_filter($inventory, function($item) use ($detailToExclude) {
+        return array_filter($inventory, function ($item) use ($detailToExclude) {
             return $item['id'] !== $detailToExclude['id'];
         });
     }
