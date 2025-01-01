@@ -963,4 +963,321 @@ class InventoryServiceTest extends TestCase
         $this->azulaInventoryService->shouldReceive('discard')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
         $this->assertThrows(fn () => $this->inventoryService->discard(1), UnexpectedErrorException::class);
     }
+
+    public function test_update_should_merge_products()
+    {
+        $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'is_active' => true,
+            'description' => 'A HOUSE',
+        ]))));
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 2,
+            'catalog_id' => 2,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+            'catalog_id' => 1,
+        ]))));
+        $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            [
+                'id' => 1,
+                'catalog_id' => 1,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 2,
+                'uom_abbreviation' => 'g',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 100,
+            ],
+            [
+                'id' => 2,
+                'catalog_id' => 2,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 2,
+                'uom_abbreviation' => 'g',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 100,
+            ],
+        ]))));
+        $newUom = [
+            'uom_abbreviation' => 'kg',
+            'from_conversions' => [
+                [
+                    'to_unit_id' => 2,
+                    'factor' => 10.00,
+                ],
+            ],
+        ];
+        $oldUom = [
+            'uom_abbreviation' => 'g',
+            'from_conversions' => [
+                [
+                    'to_unit_id' => 3,
+                    'factor' => 0.10,
+                ],
+            ],
+        ];
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->tophUnitOfMeasurementService->shouldReceive('get')->twice()
+            ->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($newUom))),
+                new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($oldUom))));
+        $this->azulaInventoryService->shouldReceive('discard')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->assertIsArray($this->inventoryService->update(1, [
+            'id' => 1,
+            'house_id' => 1,
+            'catalog_id' => 2,
+            'uom_id' => 3,
+            'uom_abbreviation' => 'kg',
+            'quantity' => 2,
+        ]));
+    }
+
+    public function test_update_should_return_error_when_there_is_no_active_house(): void
+    {
+        $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NOT_FOUND)));
+        $this->assertIsArray($this->inventoryService->update(1, [
+            'id' => 1,
+            'house_id' => 1,
+            'catalog_id' => 2,
+            'uom_id' => 3,
+            'uom_abbreviation' => 'kg',
+            'quantity' => 2,
+        ]));
+    }
+
+    public function test_update_should_return_error_when_there_is_an_error_when_get_inventory_detail(): void
+    {
+        $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'is_active' => true,
+            'description' => 'A HOUSE',
+        ]))));
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NOT_FOUND)));
+        $this->assertIsArray($this->inventoryService->update(1, [
+            'id' => 1,
+            'house_id' => 1,
+            'catalog_id' => 2,
+            'uom_id' => 3,
+            'uom_abbreviation' => 'kg',
+            'quantity' => 2,
+        ]));
+    }
+
+    public function test_update_should_return_not_found_when_there_is_no_inventory_detail(): void
+    {
+        $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'is_active' => true,
+            'description' => 'A HOUSE',
+        ]))));
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([]))));
+        $this->assertIsArray($this->inventoryService->update(1, [
+            'id' => 1,
+            'house_id' => 1,
+            'catalog_id' => 2,
+            'uom_id' => 3,
+            'uom_abbreviation' => 'kg',
+            'quantity' => 2,
+        ]));
+    }
+
+    public function test_update_should_update_inventory_when_there_is_no_inventory_detail_when_exclude_id(): void
+    {
+        $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'is_active' => true,
+            'description' => 'A HOUSE',
+        ]))));
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+        ]))));
+        $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            [
+                'id' => 1,
+                'catalog_id' => 1,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 2,
+                'uom_abbreviation' => 'g',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 100,
+            ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->assertIsArray($this->inventoryService->update(1, [
+            'id' => 1,
+            'house_id' => 1,
+            'catalog_id' => 2,
+            'uom_id' => 3,
+            'uom_abbreviation' => 'kg',
+            'quantity' => 2,
+        ]));
+    }
+
+    public function test_update_should_not_update_inventory_when_there_is_no_inventory_detail_when_exclude_id(): void
+    {
+        $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'is_active' => true,
+            'description' => 'A HOUSE',
+        ]))));
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+        ]))));
+        $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            [
+                'id' => 1,
+                'catalog_id' => 1,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 2,
+                'uom_abbreviation' => 'g',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 100,
+            ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY)));
+        $this->assertIsArray($this->inventoryService->update(1, [
+            'id' => 1,
+            'house_id' => 1,
+            'catalog_id' => 2,
+            'uom_id' => 3,
+            'uom_abbreviation' => 'kg',
+            'quantity' => 2,
+        ]));
+    }
+
+    public function test_update_should_update_when_there_is_no_empty_existing_detail_by_uom_and_expiration_date(): void
+    {
+        $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'is_active' => true,
+            'description' => 'A HOUSE',
+        ]))));
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+        ]))));
+        $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            [
+                'id' => 1,
+                'catalog_id' => 1,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 2,
+                'uom_abbreviation' => 'g',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 100,
+            ],
+            [
+                'id' => 2,
+                'catalog_id' => 2,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 2,
+                'uom_abbreviation' => 'g',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 100,
+            ],
+            [
+                'id' => 3,
+                'catalog_id' => 2,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 3,
+                'uom_abbreviation' => 'kg',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 1,
+            ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->assertIsArray($this->inventoryService->update(1, [
+            'id' => 1,
+            'house_id' => 1,
+            'catalog_id' => 2,
+            'uom_id' => 3,
+            'uom_abbreviation' => 'kg',
+            'quantity' => 2,
+            'expiration_date' => '2024-09-30',
+        ]));
+    }
+
+    public function test_update_should_return_error_when_there_is_an_error_when_update_existing_detail_by_uom_and_expiration_date(): void
+    {
+        $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'is_active' => true,
+            'description' => 'A HOUSE',
+        ]))));
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+        ]))));
+        $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            [
+                'id' => 1,
+                'catalog_id' => 1,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 2,
+                'uom_abbreviation' => 'g',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 100,
+            ],
+            [
+                'id' => 2,
+                'catalog_id' => 2,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 2,
+                'uom_abbreviation' => 'g',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 100,
+            ],
+            [
+                'id' => 3,
+                'catalog_id' => 2,
+                'catalog_description' => 'A PRODUCT DESCRIPTION',
+                'uom_id' => 3,
+                'uom_abbreviation' => 'kg',
+                'purchase_date' => '2024-08-31',
+                'expiration_date' => '2024-09-30',
+                'quantity' => 1,
+            ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY)));
+        $this->assertIsArray($this->inventoryService->update(1, [
+            'id' => 1,
+            'house_id' => 1,
+            'catalog_id' => 2,
+            'uom_id' => 3,
+            'uom_abbreviation' => 'kg',
+            'quantity' => 2,
+            'expiration_date' => '2024-09-30',
+        ]));
+    }
 }
