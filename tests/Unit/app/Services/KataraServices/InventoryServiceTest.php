@@ -964,7 +964,8 @@ class InventoryServiceTest extends TestCase
         $this->assertThrows(fn () => $this->inventoryService->discard(1), UnexpectedErrorException::class);
     }
 
-    public function test_update_should_merge_products() {
+    public function test_update_should_merge_products()
+    {
         $this->aangHouseService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'is_active' => true,
             'description' => 'A HOUSE',
@@ -978,7 +979,7 @@ class InventoryServiceTest extends TestCase
             'purchase_date' => '2024-08-31',
             'expiration_date' => '2024-09-30',
             'quantity' => 100,
-            'catalog_id' => 1
+            'catalog_id' => 1,
         ]))));
         $this->azulaInventoryService->shouldReceive('list')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             [
@@ -1030,7 +1031,7 @@ class InventoryServiceTest extends TestCase
             'house_id' => 1,
             'catalog_id' => 2,
             'uom_id' => 3,
-            'uom_abbreviation'=> 'kg',
+            'uom_abbreviation' => 'kg',
             'quantity' => 2,
         ]));
     }
@@ -1043,7 +1044,7 @@ class InventoryServiceTest extends TestCase
             'house_id' => 1,
             'catalog_id' => 2,
             'uom_id' => 3,
-            'uom_abbreviation'=> 'kg',
+            'uom_abbreviation' => 'kg',
             'quantity' => 2,
         ]));
     }
@@ -1060,7 +1061,7 @@ class InventoryServiceTest extends TestCase
             'house_id' => 1,
             'catalog_id' => 2,
             'uom_id' => 3,
-            'uom_abbreviation'=> 'kg',
+            'uom_abbreviation' => 'kg',
             'quantity' => 2,
         ]));
     }
@@ -1077,7 +1078,7 @@ class InventoryServiceTest extends TestCase
             'house_id' => 1,
             'catalog_id' => 2,
             'uom_id' => 3,
-            'uom_abbreviation'=> 'kg',
+            'uom_abbreviation' => 'kg',
             'quantity' => 2,
         ]));
     }
@@ -1116,7 +1117,7 @@ class InventoryServiceTest extends TestCase
             'house_id' => 1,
             'catalog_id' => 2,
             'uom_id' => 3,
-            'uom_abbreviation'=> 'kg',
+            'uom_abbreviation' => 'kg',
             'quantity' => 2,
         ]));
     }
@@ -1155,7 +1156,7 @@ class InventoryServiceTest extends TestCase
             'house_id' => 1,
             'catalog_id' => 2,
             'uom_id' => 3,
-            'uom_abbreviation'=> 'kg',
+            'uom_abbreviation' => 'kg',
             'quantity' => 2,
         ]));
     }
@@ -1214,7 +1215,7 @@ class InventoryServiceTest extends TestCase
             'house_id' => 1,
             'catalog_id' => 2,
             'uom_id' => 3,
-            'uom_abbreviation'=> 'kg',
+            'uom_abbreviation' => 'kg',
             'quantity' => 2,
             'expiration_date' => '2024-09-30',
         ]));
@@ -1274,7 +1275,7 @@ class InventoryServiceTest extends TestCase
             'house_id' => 1,
             'catalog_id' => 2,
             'uom_id' => 3,
-            'uom_abbreviation'=> 'kg',
+            'uom_abbreviation' => 'kg',
             'quantity' => 2,
             'expiration_date' => '2024-09-30',
         ]));
