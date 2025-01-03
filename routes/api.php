@@ -38,6 +38,7 @@ Route::get('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentControll
 Route::get('/user/{id}/houses/{houseId}/inventory', [InventoryHouseController::class, 'list']);
 Route::post('/user/{id}/houses/{houseId}/inventory', [InventoryHouseController::class, 'store']);
 Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}', [InventoryHouseController::class, 'update']);
+Route::get('/user/{id}/houses/{houseId}/inventory/{inventoryId}', [InventoryHouseController::class, 'get']);
 Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}/discard', [InventoryHouseController::class, 'discard']);
 Route::delete('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentController::class, 'delete']);
 

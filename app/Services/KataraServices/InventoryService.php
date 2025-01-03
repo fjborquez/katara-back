@@ -335,6 +335,30 @@ class InventoryService implements InventoryServiceInterface
         ];
     }
 
+    public function get(int $inventoryId): array
+    {
+        $inventoryGetResponse = $this->azulaInventoryService->get($inventoryId);
+
+        if ($inventoryGetResponse->notFound()) {
+            $message = 'Inventory not found';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($inventoryGetResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $inventory = $inventoryGetResponse->json();
+
+        return [
+            'message' => $inventory,
+            'code' => Response::HTTP_OK,
+        ];
+    }
+
     public function discard(int $id): array
     {
         $inventoryGetResponse = $this->azulaInventoryService->get($id);
