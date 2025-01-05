@@ -22,6 +22,7 @@ class InventoryHouseRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => [],
             'quantity' => ['required', 'gt:0'],
             'expiration_date' => ['sometimes', 'nullable', 'after:yesterday'],
             'catalog_id' => ['required', 'gt:0'],

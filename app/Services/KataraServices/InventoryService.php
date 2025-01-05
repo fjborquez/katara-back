@@ -167,7 +167,7 @@ class InventoryService implements InventoryServiceInterface
             'house_id' => $data['house_id'],
         ]);
         $existingDetailsByCatalog = $this->searchItem($inventory, $newDetailData);
-        $existingDetailsByCatalogAndExclude = $this->inventoryExcludingItem($existingDetailsByCatalog, $newDetailData);
+        $existingDetailsByCatalogAndExclude = array_values($this->inventoryExcludingItem($existingDetailsByCatalog, $newDetailData));
 
         if (empty($existingDetailsByCatalogAndExclude)) {
             $updatedDetail = $this->updateInventory($detailId, $newDetailData);
@@ -196,8 +196,8 @@ class InventoryService implements InventoryServiceInterface
                 'code' => Response::HTTP_OK,
             ];
         } else {
-            $newFromConversion = $this->searchFromUom($newDetailData['uom_id'], $existingDetailsByCatalogAndExclude[1]['uom_id']);
-            $oldFromConversion = $this->searchFromUom($existingDetailsByCatalogAndExclude[1]['uom_id'], $newDetailData['uom_id']);
+            $newFromConversion = $this->searchFromUom($newDetailData['uom_id'], $existingDetailsByCatalogAndExclude[0]['uom_id']);
+            $oldFromConversion = $this->searchFromUom($existingDetailsByCatalogAndExclude[0]['uom_id'], $newDetailData['uom_id']);
 
             if ($newFromConversion != null && $this->isError($newFromConversion)) {
                 return $newFromConversion;
@@ -221,21 +221,21 @@ class InventoryService implements InventoryServiceInterface
             }
 
             if ($newFromConversion['factor'] >= $oldFromConversion['factor']) {
-                $quantityWithUom = $this->calculateQuantity($existingDetailsByCatalogAndExclude[1], $newDetailData, $oldFromConversion);
+                $quantityWithUom = $this->calculateQuantity($existingDetailsByCatalogAndExclude[0], $newDetailData, $oldFromConversion);
             } else {
-                $quantityWithUom = $this->calculateQuantity($newDetailData, $existingDetailsByCatalogAndExclude[1], $newFromConversion);
+                $quantityWithUom = $this->calculateQuantity($newDetailData, $existingDetailsByCatalogAndExclude[0], $newFromConversion);
             }
 
             $newDetailData['quantity'] = $quantityWithUom['quantity'];
             $newDetailData['uom_abbreviation'] = $quantityWithUom['uom']['abbreviation'];
             $newDetailData['uom_id'] = $quantityWithUom['uom']['id'];
-            $updatedInventory = $this->updateInventory($existingDetailsByCatalogAndExclude[1]['id'], $newDetailData);
+            $updatedInventory = $this->updateInventory($existingDetailsByCatalogAndExclude[0]['id'], $newDetailData);
 
             if ($this->isError($updatedInventory)) {
                 return $updatedInventory;
             }
 
-            $discardedInventory = $this->discard($existingDetailsByCatalogAndExclude[1]['id']);
+            $discardedInventory = $this->discard($existingDetailsByCatalogAndExclude[0]['id']);
 
             if ($this->isError($discardedInventory) && $discardedInventory['code'] != 200) {
                 return $updatedInventory;
