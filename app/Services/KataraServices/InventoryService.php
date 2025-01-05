@@ -235,7 +235,7 @@ class InventoryService implements InventoryServiceInterface
                 return $updatedInventory;
             }
 
-            $discardedInventory = $this->discard($existingDetailsByCatalogAndExclude[]['id']);
+            $discardedInventory = $this->discard($existingDetailsByCatalogAndExclude[0]['id']);
 
             if ($this->isError($discardedInventory) && $discardedInventory['code'] != 200) {
                 return $updatedInventory;
