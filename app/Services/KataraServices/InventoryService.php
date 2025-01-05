@@ -229,13 +229,13 @@ class InventoryService implements InventoryServiceInterface
             $newDetailData['quantity'] = $quantityWithUom['quantity'];
             $newDetailData['uom_abbreviation'] = $quantityWithUom['uom']['abbreviation'];
             $newDetailData['uom_id'] = $quantityWithUom['uom']['id'];
-            $updatedInventory = $this->updateInventory($existingDetailsByCatalogAndExclude[1]['id'], $newDetailData);
+            $updatedInventory = $this->updateInventory($existingDetailsByCatalogAndExclude[0]['id'], $newDetailData);
 
             if ($this->isError($updatedInventory)) {
                 return $updatedInventory;
             }
 
-            $discardedInventory = $this->discard($existingDetailsByCatalogAndExclude[1]['id']);
+            $discardedInventory = $this->discard($existingDetailsByCatalogAndExclude[]['id']);
 
             if ($this->isError($discardedInventory) && $discardedInventory['code'] != 200) {
                 return $updatedInventory;
