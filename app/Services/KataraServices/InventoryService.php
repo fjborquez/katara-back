@@ -565,11 +565,13 @@ class InventoryService implements InventoryServiceInterface
      */
     private function searchInventoryByParams($params = [])
     {
-        // TODO: filtrar inventarios expirados y descartados
-        $filterParams = $params;
         $filterParams = [
-            'filter[house_id]' => $params['house_id'],
+            'filter[has_active_product_status]' => true,
         ];
+
+        if (array_key_exists('house_id', $params)) {
+            $filterParams['filter[house_id]'] = $params['house_id'];
+        }
 
         $inventoryGetResponse = $this->azulaInventoryService->list($filterParams);
 
