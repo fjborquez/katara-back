@@ -1210,7 +1210,7 @@ class InventoryServiceTest extends TestCase
         $this->tophUnitOfMeasurementService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'id' => 1,
             'description' => 'A UOM DESCRIPTION',
-            'from_conversions' => []
+            'from_conversions' => [],
         ]))));
         $this->assertIsArray($this->inventoryService->update(1, [
             'id' => 1,
@@ -1275,7 +1275,7 @@ class InventoryServiceTest extends TestCase
         $this->tophUnitOfMeasurementService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
             'id' => 1,
             'description' => 'A UOM DESCRIPTION',
-            'from_conversions' => []
+            'from_conversions' => [],
         ]))));
         $this->assertIsArray($this->inventoryService->update(1, [
             'id' => 1,
