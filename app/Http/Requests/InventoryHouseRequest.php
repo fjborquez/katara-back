@@ -36,6 +36,7 @@ class InventoryHouseRequest extends FormRequest
             'uom_abbreviation' => [],
             'house_id' => ['gt:0'],
             'house_description' => [],
+            'product_status' => [],
         ];
     }
 
