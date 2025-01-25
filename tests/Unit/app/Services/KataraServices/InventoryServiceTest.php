@@ -1023,6 +1023,7 @@ class InventoryServiceTest extends TestCase
         ];
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
         $this->azulaInventoryService->shouldReceive('discard')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->tophUnitOfMeasurementService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($newUom))));
         $this->assertIsArray($this->inventoryService->update(1, [
             'id' => 1,
             'house_id' => 1,
