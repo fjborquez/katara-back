@@ -143,7 +143,7 @@ class InventoryService implements InventoryServiceInterface
     {
         $newDetailData = $data;
 
-        if (!empty($newDetailData['product_status'])) {
+        if (! empty($newDetailData['product_status'])) {
             $currentStatus = $this->extractActiveProductStatus($newDetailData);
 
             if ($currentStatus['is_final_phase']) {
