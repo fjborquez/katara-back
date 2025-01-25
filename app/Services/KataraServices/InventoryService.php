@@ -184,7 +184,7 @@ class InventoryService implements InventoryServiceInterface
 
         $existingDetailByUomAndExpirationDate = $this->searchItemDetails($existingDetailsByCatalogAndExclude, $newDetailData);
 
-        if (empty($existingDetailByUomAndExpirationDate)) {
+        if (! empty($existingDetailByUomAndExpirationDate)) {
             $updatedDetail = $this->updateInventory($detailId, $newDetailData);
 
             if ($this->isError($updatedDetail)) {
