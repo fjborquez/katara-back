@@ -185,10 +185,22 @@ class InventoryService implements InventoryServiceInterface
         $existingDetailByUomAndExpirationDate = $this->searchItemDetails($existingDetailsByCatalogAndExclude, $newDetailData);
 
         if (! empty($existingDetailByUomAndExpirationDate)) {
+            $newDetailData['quantity'] += $existingDetailByUomAndExpirationDate['quantity'];
             $updatedDetail = $this->updateInventory($detailId, $newDetailData);
 
             if ($this->isError($updatedDetail)) {
                 return $updatedDetail;
+            }
+
+            $discardedInventory = $this->discard($existingDetailByUomAndExpirationDate['id']);
+
+            if ($this->isError($discardedInventory) && $discardedInventory['code'] != 200) {
+                return $discardedInventory;
+            } else {
+                return [
+                    'message' => 'Inventory updated successfully',
+                    'code' => Response::HTTP_CREATED,
+                ];
             }
 
             return [
