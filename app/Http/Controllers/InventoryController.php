@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class InventoryController extends Controller
 {
     private $fields = ['house_id', 'quantity', 'uom_id', 'uom_abbreviation', 'purchase_date', 'expiration_date',
-        'catalog_id', 'catalog_description', 'brand_id', 'brand_name', 'category_id', 'category_name'];
+        'catalog_id', 'catalog_description', 'brand_id', 'brand_name', 'category_id', 'category_name', 'product_status'];
 
     public function __construct(
         private readonly InventoryServiceInterface $inventoryService

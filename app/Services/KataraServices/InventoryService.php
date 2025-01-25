@@ -6,6 +6,7 @@ use App\Contracts\Services\AangServices\HouseServiceInterface as AangHouseServic
 use App\Contracts\Services\AzulaServices\InventoryServiceInterface as AzulaInventoryServiceInterface;
 use App\Contracts\Services\KataraServices\InventoryServiceInterface;
 use App\Contracts\Services\TophServices\UnitOfMeasurementServiceInterface as TophUnitOfMeasurementServiceInterface;
+use App\Exceptions\InventoryUpdateNotAllowedException;
 use App\Exceptions\UnexpectedErrorException;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -140,12 +141,23 @@ class InventoryService implements InventoryServiceInterface
 
     public function update(int $detailId, array $data = []): array
     {
+        $newDetailData = $data;
+
+        if (!empty($newDetailData['product_status'])) {
+            $currentStatus = $this->extractActiveProductStatus($newDetailData);
+
+            if ($currentStatus['is_final_phase']) {
+                throw new InventoryUpdateNotAllowedException('Can not update a final phase item');
+            }
+        }
+
         $house = $this->searchActiveHouse($data['house_id']);
 
         if ($this->isError($house)) {
             return $house;
         }
 
+        $newDetailData['house_description'] = $house['description'];
         $detail = $this->searchDetailById($detailId);
 
         if ($this->isError($detail)) {
@@ -159,8 +171,6 @@ class InventoryService implements InventoryServiceInterface
             ];
         }
 
-        $newDetailData = $data;
-        $newDetailData['house_description'] = $house['description'];
         $newDetailData['expiration_date'] = $this->getExpirationDateOrNull($newDetailData);
 
         $inventory = $this->searchInventoryByParams([
