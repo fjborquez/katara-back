@@ -232,7 +232,7 @@ class InventoryService implements InventoryServiceInterface
                 $newDetailData['quantity'] = $quantityWithUom['quantity'];
                 $newDetailData['uom_abbreviation'] = $quantityWithUom['uom']['abbreviation'];
                 $newDetailData['uom_id'] = $quantityWithUom['uom']['id'];
-                $updatedInventory = $this->updateInventory($existingDetail['id'], $newDetailData);
+                $updatedInventory = $this->updateInventory($newDetailData['id'], $newDetailData);
 
                 if ($this->isError($updatedInventory)) {
                     return $updatedInventory;
@@ -241,10 +241,10 @@ class InventoryService implements InventoryServiceInterface
                 $discardedInventory = $this->discard($existingDetail['id']);
 
                 if ($this->isError($discardedInventory) && $discardedInventory['code'] != 200) {
-                    return $updatedInventory;
+                    return $discardedInventory;
                 } else {
                     return [
-                        'message' => 'Inventory created successfully',
+                        'message' => 'Inventory updated successfully',
                         'code' => Response::HTTP_CREATED,
                     ];
                 }
@@ -253,7 +253,7 @@ class InventoryService implements InventoryServiceInterface
                 $addedQuantity = $newDetailData['quantity'];
                 $newDetailData['quantity'] = $existingQuantity + $addedQuantity;
 
-                $updatedInventory = $this->updateInventory($existingDetail['id'], $newDetailData);
+                $updatedInventory = $this->updateInventory($newDetailData['id'], $newDetailData);
 
                 if ($this->isError($updatedInventory)) {
                     return $updatedInventory;
@@ -262,10 +262,10 @@ class InventoryService implements InventoryServiceInterface
                 $discardedInventory = $this->discard($existingDetail['id']);
 
                 if ($this->isError($discardedInventory) && $discardedInventory['code'] != 200) {
-                    return $updatedInventory;
+                    return $discardedInventory;
                 } else {
                     return [
-                        'message' => 'Inventory created successfully',
+                        'message' => 'Inventory updated successfully',
                         'code' => Response::HTTP_CREATED,
                     ];
                 }
