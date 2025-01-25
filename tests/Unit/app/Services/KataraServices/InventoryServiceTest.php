@@ -1022,9 +1022,6 @@ class InventoryServiceTest extends TestCase
             ],
         ];
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
-        $this->tophUnitOfMeasurementService->shouldReceive('get')->twice()
-            ->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($newUom))),
-                new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode($oldUom))));
         $this->azulaInventoryService->shouldReceive('discard')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
         $this->assertIsArray($this->inventoryService->update(1, [
             'id' => 1,
@@ -1210,6 +1207,11 @@ class InventoryServiceTest extends TestCase
             ],
         ]))));
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->tophUnitOfMeasurementService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'description' => 'A UOM DESCRIPTION',
+            'from_conversions' => []
+        ]))));
         $this->assertIsArray($this->inventoryService->update(1, [
             'id' => 1,
             'house_id' => 1,
@@ -1270,6 +1272,11 @@ class InventoryServiceTest extends TestCase
             ],
         ]))));
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY)));
+        $this->tophUnitOfMeasurementService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'description' => 'A UOM DESCRIPTION',
+            'from_conversions' => []
+        ]))));
         $this->assertIsArray($this->inventoryService->update(1, [
             'id' => 1,
             'house_id' => 1,
