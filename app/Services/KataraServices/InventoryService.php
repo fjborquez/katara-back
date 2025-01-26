@@ -461,28 +461,28 @@ class InventoryService implements InventoryServiceInterface
         if ($currentStatus['id'] === 3) {
             return [
                 'message' => 'Be careful!!! It is not possible to consume an expired product',
-                'code' => Response::HTTP_CONFLICT
+                'code' => Response::HTTP_CONFLICT,
             ];
         }
 
         if ($currentStatus['id'] == 4) {
             return [
                 'message' => 'The product is already consumed',
-                'code' => Response::HTTP_CONFLICT
+                'code' => Response::HTTP_CONFLICT,
             ];
         }
 
         if ($currentStatus['id'] == 5) {
             return [
                 'message' => 'It is not possible to consume a discarded product',
-                'code' => Response::HTTP_CONFLICT
+                'code' => Response::HTTP_CONFLICT,
             ];
         }
 
         $inventory['quantity'] = 0;
         $updateInventoryResponse = $this->updateInventory($id, $inventory);
 
-        if (!empty($updateInventoryResponse)) {
+        if (! empty($updateInventoryResponse)) {
             return $updateInventoryResponse;
         }
 
