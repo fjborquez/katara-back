@@ -146,6 +146,10 @@ class InventoryService implements InventoryServiceInterface
         if (! empty($newDetailData['product_status'])) {
             $currentStatus = $this->extractActiveProductStatus($newDetailData);
 
+            if ($currentStatus['id'] == 3) {
+                throw new InventoryUpdateNotAllowedException('Can not update an expired item; it must be discarded');
+            }
+
             if ($currentStatus['is_final_phase']) {
                 throw new InventoryUpdateNotAllowedException('Can not update a final phase item');
             }
