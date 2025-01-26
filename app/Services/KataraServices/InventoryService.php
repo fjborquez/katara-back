@@ -146,6 +146,10 @@ class InventoryService implements InventoryServiceInterface
         if (! empty($newDetailData['product_status'])) {
             $currentStatus = $this->extractActiveProductStatus($newDetailData);
 
+            if ($currentStatus['id'] == 3) {
+                throw new InventoryUpdateNotAllowedException('Can not update an expired item; it must be discarded');
+            }
+
             if ($currentStatus['is_final_phase']) {
                 throw new InventoryUpdateNotAllowedException('Can not update a final phase item');
             }
@@ -430,6 +434,66 @@ class InventoryService implements InventoryServiceInterface
 
         return [
             'message' => 'Item: '.$inventory['quantity'].' '.$inventory['uom_abbreviation'].' '.$inventory['catalog_description'].' has been discarded',
+            'code' => Response::HTTP_OK,
+        ];
+    }
+
+    public function consume(int $id): array
+    {
+        $inventoryGetResponse = $this->azulaInventoryService->get($id);
+
+        if ($inventoryGetResponse->notFound()) {
+            $message = 'Inventory item not found';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($inventoryGetResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $inventory = $inventoryGetResponse->json();
+
+        $currentStatus = $this->extractActiveProductStatus($inventory);
+
+        if ($currentStatus['id'] === 3) {
+            return [
+                'message' => 'Be careful!!! It is not possible to consume an expired product',
+                'code' => Response::HTTP_CONFLICT,
+            ];
+        }
+
+        if ($currentStatus['id'] == 4) {
+            return [
+                'message' => 'The product is already consumed',
+                'code' => Response::HTTP_CONFLICT,
+            ];
+        }
+
+        if ($currentStatus['id'] == 5) {
+            return [
+                'message' => 'It is not possible to consume a discarded product',
+                'code' => Response::HTTP_CONFLICT,
+            ];
+        }
+
+        $inventory['quantity'] = 0;
+        $updateInventoryResponse = $this->updateInventory($id, $inventory);
+
+        if (! empty($updateInventoryResponse)) {
+            return $updateInventoryResponse;
+        }
+
+        $inventoryPutResponse = $this->azulaInventoryService->consume($id);
+
+        if ($inventoryPutResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'Item: '.$inventory['quantity'].' '.$inventory['uom_abbreviation'].' '.$inventory['catalog_description'].' has been consumed',
             'code' => Response::HTTP_OK,
         ];
     }
