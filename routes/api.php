@@ -40,6 +40,7 @@ Route::post('/user/{id}/houses/{houseId}/inventory', [InventoryHouseController::
 Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}', [InventoryHouseController::class, 'update']);
 Route::get('/user/{id}/houses/{houseId}/inventory/{inventoryId}', [InventoryHouseController::class, 'get']);
 Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}/discard', [InventoryHouseController::class, 'discard']);
+Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}/consume', [InventoryHouseController::class, 'consume']);
 Route::delete('/user/{id}/houses/{houseId}/residents/{personId}', [ResidentController::class, 'delete']);
 
 Route::get('/nutritional-restriction', [NutritionalRestrictionController::class, 'list']);
