@@ -99,7 +99,7 @@ jobs:
           version: '>= 363.0.0'
 
       - name: 'Decrypt .env file'
-        run: 'gcloud kms decrypt --ciphertext-file=envs/.env.prod.enc --plaintext-file=.env --location=global --keyring=aang-envs --key=key-envs --verbosity=debug'
+        run: 'gcloud kms decrypt --ciphertext-file=envs/.env.prod.enc --plaintext-file=.env --location=us-central1 --keyring=avatar --key=avatar --verbosity=debug'
 
       - name: Build and Push Container
         run: |-
