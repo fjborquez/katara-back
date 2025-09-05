@@ -6,9 +6,9 @@ steps:
       - decrypt
       - --ciphertext-file=/workspace/envs/.env.prod.enc
       - --plaintext-file=/workspace/.env
-      - --location=global
-      - --keyring=aang-envs
-      - --key=key-envs
+      - --location=us-central1
+      - --keyring=avatar
+      - --key=us-central1
       - --verbosity=debug
   - name: gcr.io/cloud-builders/npm
     args: ["install"]
@@ -19,22 +19,22 @@ steps:
       [
         "build",
         "-t",
-        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:$SHORT_SHA",
+        "gcr.io/avatar-471101/github.com/fjborquez/katara-back:$SHORT_SHA",
         "-t",
-        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:latest",
+        "gcr.io/avatar-471101/github.com/fjborquez/katara-back:latest",
         ".",
       ]
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "push",
-        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:$SHORT_SHA",
+        "gcr.io/avatar-471101/github.com/fjborquez/katara-back:$SHORT_SHA",
       ]
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "push",
-        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:latest",
+        "gcr.io/avatar-471101/github.com/fjborquez/katara-back:latest",
       ]
   - name: "gcr.io/cloud-builders/gcloud"
     args:
@@ -43,9 +43,9 @@ steps:
         "deploy",
         "katara-back",
         "--image",
-        "gcr.io/avatar-419000/github.com/fjborquez/katara-back:$SHORT_SHA",
+        "gcr.io/avatar-471101/github.com/fjborquez/katara-back:$SHORT_SHA",
         "--region",
-        "southamerica-east1",
+        "us-central1",
         "--platform",
         "managed",
         "--verbosity",
@@ -64,6 +64,6 @@ steps:
     env:
       - "PORT=8080"
 images:
-  - gcr.io/avatar-419000/github.com/fjborquez/katara-back:$SHORT_SHA
-  - gcr.io/avatar-419000/github.com/fjborquez/katara-back:latest
+  - gcr.io/avatar-471101/github.com/fjborquez/katara-back:$SHORT_SHA
+  - gcr.io/avatar-471101/github.com/fjborquez/katara-back:latest
 timeout: 2400s

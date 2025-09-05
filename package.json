@@ -4,8 +4,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "enc-env": "gcloud kms encrypt --plaintext-file=./envs/.env.dev --ciphertext-file=./envs/.env.dev.enc --location=global --keyring=aang-envs --key=key-envs",
-        "enc-env-prod": "gcloud kms encrypt --plaintext-file=./envs/.env.prod --ciphertext-file=./envs/.env.prod.enc --location=global --keyring=aang-envs --key=key-envs",
+        "enc-env": "gcloud kms encrypt --plaintext-file=./envs/.env.dev --ciphertext-file=./envs/.env.dev.enc --location=us-central1 --keyring=avatar --key=avatar",
+        "enc-env-prod": "gcloud kms encrypt --plaintext-file=./envs/.env.prod --ciphertext-file=./envs/.env.prod.enc --location=us-central1 --keyring=avatar --key=avatar",
         "enc-all-envs": "npm run enc-env && npm run enc-env-prod"
     },
     "devDependencies": {
