@@ -49,10 +49,10 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT_ID: avatar-419000 # TODO: update Google Cloud project id
-  GAR_LOCATION: us # TODO: update Artifact Registry location
+  PROJECT_ID: avatar-471101 # TODO: update Google Cloud project id
+  GAR_LOCATION: us-central1 # TODO: update Artifact Registry location
   SERVICE: katara-back
-  REGION: southamerica-east1 # TODO: update Cloud Run service region
+  REGION: us-central1 # TODO: update Cloud Run service region
 
 jobs:
   deploy:
