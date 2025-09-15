@@ -13,9 +13,9 @@ USER www-data
 COPY --chown=www-data:www-data . /var/www/html
 RUN composer install --optimize-autoloader
 
-RUN apt-get update && apt-get install -y tzdata && rm -rf /var/lib/apt/lists/*
 ENV TZ=America/Santiago
-RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \ && echo $TZ > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN printf '[PHP]\ndate.timezone = "America/Santiago"\n' > /usr/local/etc/php/conf.d/tzone.ini
 
 RUN php artisan key:generate
 RUN php artisan config:cache
