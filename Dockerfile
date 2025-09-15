@@ -13,6 +13,8 @@ USER www-data
 COPY --chown=www-data:www-data . /var/www/html
 RUN composer install --optimize-autoloader
 
+RUN apk add --no-cache tzdata && cp /usr/share/zoneinfo/America/Santiago /etc/localtime && echo "America/Santiago" > /etc/timezone
+
 RUN php artisan key:generate
 RUN php artisan config:cache
 RUN php artisan route:cache
