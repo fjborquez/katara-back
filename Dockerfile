@@ -8,11 +8,12 @@ ENV HOST 0.0.0.0
 EXPOSE 8080
 RUN chown -R www-data:www-data /run
 RUN chmod -R 755 /run
+
 ENV TZ=America/Santiago
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN printf '[PHP]\ndate.timezone = "America/Santiago"\n' > /usr/local/etc/php/conf.d/tzone.ini
-USER www-data
 
+USER www-data
 COPY --chown=www-data:www-data . /var/www/html
 RUN composer install --optimize-autoloader
 
