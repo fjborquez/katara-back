@@ -6,9 +6,11 @@ use App\Services\AzulaServices\InventoryService as AzulaInventoryService;
 use App\Services\KataraServices\InventoryService;
 use App\Services\TophServices\UnitOfMeasurementService as TophUnitOfMeasurementService;
 use Carbon\Carbon;
+use function PHPUnit\Framework\assertEquals;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Http\Client\Response;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
+
 use Tests\TestCase;
 
 class InventoryServiceTest extends TestCase
@@ -1288,5 +1290,181 @@ class InventoryServiceTest extends TestCase
             'quantity' => 2,
             'expiration_date' => '2024-09-30',
         ]));
+    }
+
+    public function test_consume_should_consume_an_inventory_item(): void
+    {
+        $inventoryId = 1;
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+            'product_status' => [
+                    [
+                        'id' => 1,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([]))));
+        $this->assertNotEmpty($this->inventoryService->consume($inventoryId));
+    }
+
+    public function test_consume_should_return_not_found_code_when_inventory_item_is_not_found(): void
+    {
+        $inventoryId = 1;
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NOT_FOUND)));
+        $this->assertEquals(HttpFoundationResponse::HTTP_NOT_FOUND, $this->inventoryService->consume($inventoryId)['code']);
+    }
+
+    public function test_consume_throws_unexpected_exception_when_inventory_item_returns_error(): void
+    {
+        $inventoryId = 1;
+        $this->expectException(UnexpectedErrorException::class);
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
+        $this->inventoryService->consume($inventoryId)['code'];
+    }
+
+    public function test_consume_should_avoid_to_consume_an_expired_inventory_item(): void
+    {
+        $inventoryId = 1;
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+            'product_status' => [
+                    [
+                        'id' => 3,
+                        'pivot' => [
+                            'is_active' => 1,
+                            ''
+                        ],
+                    ],
+                ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([]))));
+        assertEquals(HttpFoundationResponse::HTTP_CONFLICT, $this->inventoryService->consume($inventoryId)['code']);
+    }
+
+    public function test_consume_should_avoid_to_consume_a_consumed_inventory_item(): void
+    {
+        $inventoryId = 1;
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+            'product_status' => [
+                    [
+                        'id' => 4,
+                        'pivot' => [
+                            'is_active' => 1,
+                            ''
+                        ],
+                    ],
+                ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([]))));
+        assertEquals(HttpFoundationResponse::HTTP_CONFLICT, $this->inventoryService->consume($inventoryId)['code']);
+    }
+
+    public function test_consume_should_avoid_to_consume_a_discarded_inventory_item(): void
+    {
+        $inventoryId = 1;
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+            'product_status' => [
+                    [
+                        'id' => 5,
+                        'pivot' => [
+                            'is_active' => 1,
+                            ''
+                        ],
+                    ],
+                ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY)));
+        $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([]))));
+        assertEquals(HttpFoundationResponse::HTTP_CONFLICT, $this->inventoryService->consume($inventoryId)['code']);
+    }
+
+    public function test_consume_should_return_update_result(): void
+    {
+        $inventoryId = 1;
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+            'product_status' => [
+                    [
+                        'id' => 1,
+                        'pivot' => [
+                            'is_active' => 1,
+                            ''
+                        ],
+                    ],
+                ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY)));
+        $this->assertNotEmpty($this->inventoryService->consume($inventoryId));
+    }
+
+    public function test_consume_should_throws_unexpected_exception_when_consume_failed(): void
+    {
+        $this->expectException(UnexpectedErrorException::class);
+        $inventoryId = 1;
+        $this->azulaInventoryService->shouldReceive('get')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([
+            'id' => 1,
+            'catalog_id' => 1,
+            'catalog_description' => 'A PRODUCT DESCRIPTION',
+            'uom_id' => 2,
+            'uom_abbreviation' => 'g',
+            'purchase_date' => '2024-08-31',
+            'expiration_date' => '2024-09-30',
+            'quantity' => 100,
+            'product_status' => [
+                    [
+                        'id' => 1,
+                        'pivot' => [
+                            'is_active' => 1,
+                            ''
+                        ],
+                    ],
+                ],
+        ]))));
+        $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
+        $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
+        $this->inventoryService->consume($inventoryId);
     }
 }
