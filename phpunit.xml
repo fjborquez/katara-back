@@ -11,7 +11,7 @@
     </testsuites>
     <source>
         <include>
-            <directory>app/Services</directory>
+            <directory>app/Services/KataraServices</directory>
         </include>
     </source>
     <php>
