@@ -1,4 +1,4 @@
-FROM serversideup/php:8.3-fpm-apache
+FROM serversideup/php:8.4-fpm-apache
 
 USER root
 ENV APP_ENV=local
