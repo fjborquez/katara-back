@@ -6,12 +6,12 @@ use App\Services\AzulaServices\InventoryService as AzulaInventoryService;
 use App\Services\KataraServices\InventoryService;
 use App\Services\TophServices\UnitOfMeasurementService as TophUnitOfMeasurementService;
 use Carbon\Carbon;
-use function PHPUnit\Framework\assertEquals;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Http\Client\Response;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
-
 use Tests\TestCase;
+
+use function PHPUnit\Framework\assertEquals;
 
 class InventoryServiceTest extends TestCase
 {
@@ -1305,13 +1305,13 @@ class InventoryServiceTest extends TestCase
             'expiration_date' => '2024-09-30',
             'quantity' => 100,
             'product_status' => [
-                    [
-                        'id' => 1,
-                        'pivot' => [
-                            'is_active' => 1,
-                        ],
+                [
+                    'id' => 1,
+                    'pivot' => [
+                        'is_active' => 1,
                     ],
                 ],
+            ],
         ]))));
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
         $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([]))));
@@ -1346,14 +1346,14 @@ class InventoryServiceTest extends TestCase
             'expiration_date' => '2024-09-30',
             'quantity' => 100,
             'product_status' => [
-                    [
-                        'id' => 3,
-                        'pivot' => [
-                            'is_active' => 1,
-                            ''
-                        ],
+                [
+                    'id' => 3,
+                    'pivot' => [
+                        'is_active' => 1,
+                        '',
                     ],
                 ],
+            ],
         ]))));
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
         $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([]))));
@@ -1373,14 +1373,14 @@ class InventoryServiceTest extends TestCase
             'expiration_date' => '2024-09-30',
             'quantity' => 100,
             'product_status' => [
-                    [
-                        'id' => 4,
-                        'pivot' => [
-                            'is_active' => 1,
-                            ''
-                        ],
+                [
+                    'id' => 4,
+                    'pivot' => [
+                        'is_active' => 1,
+                        '',
                     ],
                 ],
+            ],
         ]))));
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
         $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([]))));
@@ -1400,14 +1400,14 @@ class InventoryServiceTest extends TestCase
             'expiration_date' => '2024-09-30',
             'quantity' => 100,
             'product_status' => [
-                    [
-                        'id' => 5,
-                        'pivot' => [
-                            'is_active' => 1,
-                            ''
-                        ],
+                [
+                    'id' => 5,
+                    'pivot' => [
+                        'is_active' => 1,
+                        '',
                     ],
                 ],
+            ],
         ]))));
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY)));
         $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_OK, [], json_encode([]))));
@@ -1427,14 +1427,14 @@ class InventoryServiceTest extends TestCase
             'expiration_date' => '2024-09-30',
             'quantity' => 100,
             'product_status' => [
-                    [
-                        'id' => 1,
-                        'pivot' => [
-                            'is_active' => 1,
-                            ''
-                        ],
+                [
+                    'id' => 1,
+                    'pivot' => [
+                        'is_active' => 1,
+                        '',
                     ],
                 ],
+            ],
         ]))));
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY)));
         $this->assertNotEmpty($this->inventoryService->consume($inventoryId));
@@ -1454,14 +1454,14 @@ class InventoryServiceTest extends TestCase
             'expiration_date' => '2024-09-30',
             'quantity' => 100,
             'product_status' => [
-                    [
-                        'id' => 1,
-                        'pivot' => [
-                            'is_active' => 1,
-                            ''
-                        ],
+                [
+                    'id' => 1,
+                    'pivot' => [
+                        'is_active' => 1,
+                        '',
                     ],
                 ],
+            ],
         ]))));
         $this->azulaInventoryService->shouldReceive('update')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_NO_CONTENT)));
         $this->azulaInventoryService->shouldReceive('consume')->andReturn(new Response(new Psr7Response(HttpFoundationResponse::HTTP_INTERNAL_SERVER_ERROR)));
