@@ -34,6 +34,7 @@ class ProductCatalogController extends Controller
 
         try {
             $response = $this->productCatalogService->create($validated);
+
             return response()->json(['message' => $response['message']], $response['code'], $response['headers']);
         } catch (UnexpectedErrorException $exception) {
             report($exception);
