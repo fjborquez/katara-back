@@ -46,6 +46,9 @@ class ProductCatalogService implements ProductCatalogServiceInterface
         return [
             'message' => 'Product catalog created successfully',
             'code' => Response::HTTP_CREATED,
+            'headers' => [
+                'Location' => $createProductCatalogResponse->header('Location'),
+            ],
         ];
     }
 }
