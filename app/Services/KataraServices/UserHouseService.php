@@ -5,6 +5,7 @@ namespace App\Services\KataraServices;
 use App\Contracts\Services\AangServices\HouseServiceInterface as AangHouseServiceInterface;
 use App\Contracts\Services\AangServices\PersonHouseServiceInterface as AangPersonHouseServiceInterface;
 use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
+use App\Contracts\Services\KataraServices\InventoryServiceInterface;
 use App\Contracts\Services\KataraServices\UserHouseServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
 use App\HouseRole;
@@ -15,7 +16,8 @@ class UserHouseService implements UserHouseServiceInterface
     public function __construct(
         private readonly AangHouseServiceInterface $aangHouseService,
         private readonly AangUserServiceInterface $aangUserService,
-        private readonly AangPersonHouseServiceInterface $aangPersonHouseService
+        private readonly AangPersonHouseServiceInterface $aangPersonHouseService,
+        private readonly InventoryServiceInterface $inventoryServiceInterface
     ) {}
 
     public function list(int $userId): array
@@ -27,9 +29,40 @@ class UserHouseService implements UserHouseServiceInterface
         }
 
         $user = $response->json();
+        $houseWithStatistics = [];
+
+        foreach ($user['person']['houses'] as $house) {
+            $inventory = $this->inventoryServiceInterface->list([
+                'house_id' => $house['id']
+            ])['message'];
+            $inventoryCount = 0;
+            $expiredCount = 0;
+
+            foreach ($inventory as $item) {
+                foreach($item['product_status'] as $status) {
+                    if ($status['pivot']['is_active']) {
+                        if ($status['id'] == 1 || $status['id'] == 2
+                            || $status['id'] == 3 || $status['id'] == 6) {
+                            $inventoryCount++;
+
+                            if ($status['id'] == 3) {
+                                $expiredCount++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if ($inventoryCount > 0) {
+                $house['statistics']['food_waste_percentage'] = ($expiredCount / $inventoryCount) * 100;
+            } else {
+                $house['statistics']['food_waste_percentage'] = 0;
+            }
+            $houseWithStatistics[] = $house;
+        }
 
         return [
-            'message' => $user['person']['houses'],
+            'message' => $houseWithStatistics,
             'code' => $response->status(),
         ];
     }
