@@ -21,6 +21,8 @@ class UserHouseServiceTest extends TestCase
 
     private $kataraUserHouseService;
 
+    private $inventoryService;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,7 +30,9 @@ class UserHouseServiceTest extends TestCase
         $this->aangHouseService = Mockery::mock(AangHouseServiceInterface::class);
         $this->aangUserService = Mockery::mock(AangUserServiceInterface::class);
         $this->aangPersonHouseService = Mockery::mock(AangPersonHouseServiceInterface::class);
-        $this->kataraUserHouseService = new UserHouseService($this->aangHouseService, $this->aangUserService, $this->aangPersonHouseService);
+        $this->inventoryService = Mockery::mock(\App\Contracts\Services\KataraServices\InventoryServiceInterface::class);
+        $this->kataraUserHouseService = new UserHouseService($this->aangHouseService, $this->aangUserService,
+            $this->aangPersonHouseService, $this->inventoryService);
     }
 
     public function test_create_should_create_a_new_user_house_relationship()
