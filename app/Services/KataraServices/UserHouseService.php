@@ -33,13 +33,13 @@ class UserHouseService implements UserHouseServiceInterface
 
         foreach ($user['person']['houses'] as $house) {
             $inventory = $this->inventoryServiceInterface->list([
-                'house_id' => $house['id']
+                'house_id' => $house['id'],
             ])['message'];
             $inventoryCount = 0;
             $expiredCount = 0;
 
             foreach ($inventory as $item) {
-                foreach($item['product_status'] as $status) {
+                foreach ($item['product_status'] as $status) {
                     if ($status['pivot']['is_active']) {
                         if ($status['id'] == 1 || $status['id'] == 2
                             || $status['id'] == 3 || $status['id'] == 6) {
