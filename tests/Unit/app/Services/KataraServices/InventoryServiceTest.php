@@ -542,13 +542,21 @@ class InventoryServiceTest extends TestCase
                 'catalog_description' => 'A PRODUCT DESCRIPTION',
                 'uom_id' => 2,
                 'uom_abbreviation' => 'g',
-                'purchase_date' => '2024-08-31',
-                'expiration_date' => '2024-09-30',
+                'purchase_date' => Carbon::createFromFormat('Y-m-d', '2024-08-31'),
+                'expiration_date' => Carbon::createFromFormat('Y-m-d', '2024-09-30'),
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 2,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertInstanceOf(Carbon::class, $response['message'][0]['expiration_date']);
+        $this->assertInstanceOf(Carbon::class, $response['message']['items'][0]['expiration_date']);
     }
 
     public function test_list_should_add_purchase_date_as_carbon_object()
@@ -567,13 +575,21 @@ class InventoryServiceTest extends TestCase
                 'catalog_description' => 'A PRODUCT DESCRIPTION',
                 'uom_id' => 2,
                 'uom_abbreviation' => 'g',
-                'purchase_date' => '2024-08-31',
-                'expiration_date' => '2024-09-30',
+                'purchase_date' => Carbon::createFromFormat('Y-m-d', '2024-08-31'),
+                'expiration_date' => Carbon::createFromFormat('Y-m-d', '2024-09-30'),
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 2,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertInstanceOf(Carbon::class, $response['message'][0]['purchase_date']);
+        $this->assertInstanceOf(Carbon::class, $response['message']['items'][0]['purchase_date']);
     }
 
     public function test_list_sorted_by_product_status_asc()
@@ -624,7 +640,7 @@ class InventoryServiceTest extends TestCase
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertEquals(2, $response['message'][0]['product_status'][0]['id']);
+        $this->assertEquals(2, $response['message']['items'][0]['product_status'][0]['id']);
     }
 
     public function test_list_sorted_by_product_status_desc()
@@ -675,7 +691,7 @@ class InventoryServiceTest extends TestCase
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertEquals(2, $response['message'][0]['product_status'][0]['id']);
+        $this->assertEquals(2, $response['message']['items'][0]['product_status'][0]['id']);
     }
 
     public function test_list_sorted_by_product_expiration_date_asc()
@@ -697,6 +713,14 @@ class InventoryServiceTest extends TestCase
                 'purchase_date' => '2024-08-31',
                 'expiration_date' => '2024-09-30',
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 6,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'id' => 2,
@@ -707,10 +731,18 @@ class InventoryServiceTest extends TestCase
                 'purchase_date' => '2024-08-31',
                 'expiration_date' => '2024-10-30',
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 6,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertEquals(new Carbon('2024-09-30'), $response['message'][0]['expiration_date']);
+        $this->assertEquals(new Carbon('2024-09-30'), $response['message']['items'][0]['expiration_date']);
     }
 
     public function test_list_sorted_by_product_expiration_date_desc()
@@ -732,6 +764,14 @@ class InventoryServiceTest extends TestCase
                 'purchase_date' => '2024-08-31',
                 'expiration_date' => '2024-10-30',
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 6,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'id' => 2,
@@ -742,10 +782,18 @@ class InventoryServiceTest extends TestCase
                 'purchase_date' => '2024-08-31',
                 'expiration_date' => '2024-09-30',
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 6,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertEquals(new Carbon('2024-09-30'), $response['message'][0]['expiration_date']);
+        $this->assertEquals(new Carbon('2024-09-30'), $response['message']['items'][0]['expiration_date']);
     }
 
     public function test_list_sorted_by_product_catalog_description_asc()
@@ -796,7 +844,7 @@ class InventoryServiceTest extends TestCase
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertEquals('A PRODUCT DESCRIPTION', $response['message'][0]['catalog_description']);
+        $this->assertEquals('A PRODUCT DESCRIPTION', $response['message']['items'][0]['catalog_description']);
     }
 
     public function test_list_sorted_by_product_catalog_description_desc()
@@ -847,7 +895,7 @@ class InventoryServiceTest extends TestCase
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertEquals('A PRODUCT DESCRIPTION', $response['message'][0]['catalog_description']);
+        $this->assertEquals('A PRODUCT DESCRIPTION', $response['message']['items'][0]['catalog_description']);
     }
 
     public function test_list_sorted_by_product_purchase_date_asc()
@@ -869,6 +917,14 @@ class InventoryServiceTest extends TestCase
                 'purchase_date' => '2024-09-31',
                 'expiration_date' => '2024-09-30',
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 6,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'id' => 2,
@@ -879,10 +935,18 @@ class InventoryServiceTest extends TestCase
                 'purchase_date' => '2024-08-31',
                 'expiration_date' => '2024-09-30',
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 6,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertEquals(new Carbon('2024-08-31'), $response['message'][0]['purchase_date']);
+        $this->assertEquals(new Carbon('2024-08-31'), $response['message']['items'][0]['purchase_date']);
     }
 
     public function test_list_sorted_by_product_purchase_date_desc()
@@ -904,6 +968,14 @@ class InventoryServiceTest extends TestCase
                 'purchase_date' => '2024-08-30',
                 'expiration_date' => '2024-09-30',
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 6,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'id' => 2,
@@ -914,10 +986,18 @@ class InventoryServiceTest extends TestCase
                 'purchase_date' => '2024-09-30',
                 'expiration_date' => '2024-09-30',
                 'quantity' => 100,
+                'product_status' => [
+                    [
+                        'id' => 6,
+                        'pivot' => [
+                            'is_active' => 1,
+                        ],
+                    ],
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
-        $this->assertEquals(new Carbon('2024-08-30'), $response['message'][0]['purchase_date']);
+        $this->assertEquals(new Carbon('2024-08-30'), $response['message']['items'][0]['purchase_date']);
     }
 
     public function test_discard_should_discard_an_inventory_item(): void

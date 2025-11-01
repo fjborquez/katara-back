@@ -393,8 +393,37 @@ class InventoryService implements InventoryServiceInterface
             return 0;
         });
 
+        $inventoryCount = 0;
+        $expiredCount = 0;
+        $items = array_values($sortedInventoryListCollection->toArray());
+        $statistics = [];
+
+        foreach ($items as $item) {
+            foreach ($item['product_status'] as $status) {
+                if ($status['pivot']['is_active']) {
+                    if ($status['id'] == 1 || $status['id'] == 2
+                        || $status['id'] == 3 || $status['id'] == 6) {
+                        $inventoryCount++;
+
+                        if ($status['id'] == 3) {
+                            $expiredCount++;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($inventoryCount > 0) {
+            $statistics['food_waste_percentage'] = ($expiredCount / $inventoryCount) * 100;
+        } else {
+            $statistics['food_waste_percentage'] = 0;
+        }
+
         return [
-            'message' => array_values($sortedInventoryListCollection->toArray()),
+            'message' => [
+                'items' => $items,
+                'statistics' => $statistics,
+            ],
             'code' => Response::HTTP_OK,
         ];
     }
