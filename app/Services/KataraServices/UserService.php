@@ -5,9 +5,9 @@ namespace App\Services\KataraServices;
 use App\Contracts\Services\AangServices\NutritionalProfileServiceInterface as AangNutritionalProfileServiceInterface;
 use App\Contracts\Services\AangServices\PersonServiceInterface as AangPersonServiceInterface;
 use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
-use App\Services\AzulaServices\InventoryService as AzulaInventoryService;
 use App\Contracts\Services\KataraServices\UserServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
+use App\Services\AzulaServices\InventoryService as AzulaInventoryService;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserService implements UserServiceInterface
@@ -85,7 +85,7 @@ class UserService implements UserServiceInterface
         return [
             'message' => [
                 'items' => $users,
-                'statistics' => $statistics
+                'statistics' => $statistics,
             ],
             'code' => $response->status(),
         ];

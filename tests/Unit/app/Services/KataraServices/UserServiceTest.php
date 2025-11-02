@@ -4,12 +4,12 @@ use App\Exceptions\UnexpectedErrorException;
 use App\Services\AangServices\NutritionalProfileService;
 use App\Services\AangServices\PersonService;
 use App\Services\AangServices\UserService;
+use App\Services\AzulaServices\InventoryService;
 use App\Services\KataraServices\UserService as KataraServicesUserService;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Http\Client\Response as ClientResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
-use App\Services\AzulaServices\InventoryService;
 
 class UserServiceTest extends TestCase
 {
@@ -324,8 +324,8 @@ class UserServiceTest extends TestCase
         $this->assertEquals([
             'items' => [['id' => 1], ['id' => 2]],
             'statistics' => [
-                'food_waste_percentage' => 0
-            ]
+                'food_waste_percentage' => 0,
+            ],
         ], $response['message']);
     }
 
