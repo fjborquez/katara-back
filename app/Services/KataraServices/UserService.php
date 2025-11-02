@@ -7,6 +7,7 @@ use App\Contracts\Services\AangServices\PersonServiceInterface as AangPersonServ
 use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
 use App\Contracts\Services\KataraServices\UserServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
+use App\Services\AzulaServices\InventoryService as AzulaInventoryService;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserService implements UserServiceInterface
@@ -14,7 +15,8 @@ class UserService implements UserServiceInterface
     public function __construct(
         private readonly AangUserServiceInterface $aangUserService,
         private readonly AangPersonServiceInterface $aangPersonService,
-        private readonly AangNutritionalProfileServiceInterface $aangNutritionalProfileService
+        private readonly AangNutritionalProfileServiceInterface $aangNutritionalProfileService,
+        private readonly AzulaInventoryService $azulaInventoryService,
     ) {}
 
     public function get(int $userId): array
@@ -47,8 +49,44 @@ class UserService implements UserServiceInterface
             throw new UnexpectedErrorException;
         }
 
+        $users = $response->json();
+        $inventoryResponse = $this->azulaInventoryService->list([
+            'filter[has_active_product_status]' => true,
+            'include' => 'productStatus',
+        ]);
+
+        $inventory = $inventoryResponse->json();
+        $statistics = [];
+
+        $inventoryCount = 0;
+        $expiredCount = 0;
+
+        foreach ($inventory as $item) {
+            foreach ($item['product_status'] as $status) {
+                if ($status['pivot']['is_active']) {
+                    if ($status['id'] == 1 || $status['id'] == 2
+                        || $status['id'] == 3 || $status['id'] == 6) {
+                        $inventoryCount++;
+
+                        if ($status['id'] == 3) {
+                            $expiredCount++;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($inventoryCount > 0) {
+            $statistics['food_waste_percentage'] = ($expiredCount / $inventoryCount) * 100;
+        } else {
+            $statistics['food_waste_percentage'] = 0;
+        }
+
         return [
-            'message' => $response->json(),
+            'message' => [
+                'items' => $users,
+                'statistics' => $statistics,
+            ],
             'code' => $response->status(),
         ];
     }
