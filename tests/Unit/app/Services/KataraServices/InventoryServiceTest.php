@@ -585,7 +585,7 @@ class InventoryServiceTest extends TestCase
                             'is_active' => 1,
                         ],
                     ],
-                ]
+                ],
             ],
         ]))));
         $response = $this->inventoryService->list($params);
@@ -720,7 +720,7 @@ class InventoryServiceTest extends TestCase
                             'is_active' => 1,
                         ],
                     ],
-                ]
+                ],
             ],
             [
                 'id' => 2,
@@ -924,7 +924,7 @@ class InventoryServiceTest extends TestCase
                             'is_active' => 1,
                         ],
                     ],
-                ]
+                ],
             ],
             [
                 'id' => 2,
