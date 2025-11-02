@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Http\Client\Response as ClientResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+use App\Services\AzulaServices\InventoryService;
 
 class UserServiceTest extends TestCase
 {
@@ -20,13 +21,21 @@ class UserServiceTest extends TestCase
 
     private $kataraUserService;
 
+    private $azulaInventoryService;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->aangUserService = Mockery::mock(UserService::class);
         $this->aangPersonService = Mockery::mock(PersonService::class);
         $this->aangNutritionalProfileService = Mockery::mock(NutritionalProfileService::class);
-        $this->kataraUserService = new KataraServicesUserService($this->aangUserService, $this->aangPersonService, $this->aangNutritionalProfileService);
+        $this->azulaInventoryService = Mockery::mock(InventoryService::class);
+        $this->kataraUserService = new KataraServicesUserService(
+            $this->aangUserService,
+            $this->aangPersonService,
+            $this->aangNutritionalProfileService,
+            $this->azulaInventoryService
+        );
     }
 
     public function test_create_should_create_new_user()
@@ -306,11 +315,18 @@ class UserServiceTest extends TestCase
 
     public function test_list_should_return_a_list_of_users()
     {
-        $listResponse = new ClientResponse(new Psr7Response(Response::HTTP_OK, [], json_encode(['data' => [['id' => 1], ['id' => 2]]])));
+        $listResponse = new ClientResponse(new Psr7Response(Response::HTTP_OK, [], json_encode([['id' => 1], ['id' => 2]])));
         $this->aangUserService->shouldReceive('list')->once()->andReturn($listResponse);
+        $this->azulaInventoryService->shouldReceive('list')->andReturn(new ClientResponse(
+            new Psr7Response(Response::HTTP_OK, [], json_encode([]))));
         $response = $this->kataraUserService->list();
         $this->assertEquals(Response::HTTP_OK, $response['code']);
-        $this->assertEquals(['data' => [['id' => 1], ['id' => 2]]], $response['message']);
+        $this->assertEquals([
+            'items' => [['id' => 1], ['id' => 2]],
+            'statistics' => [
+                'food_waste_percentage' => 0
+            ]
+        ], $response['message']);
     }
 
     public function test_list_should_throw_an_exception_when_there_is_a_server_error()
