@@ -200,6 +200,7 @@ class InventoryService implements InventoryServiceInterface
 
         if (! empty($existingDetailByUomAndExpirationDate)) {
             $newDetailData['quantity'] += $existingDetailByUomAndExpirationDate['quantity'];
+            $newDetailData['merged_id'] = $existingDetailByUomAndExpirationDate['id'];
             $updatedDetail = $this->updateInventory($detailId, $newDetailData);
 
             if ($this->isError($updatedDetail)) {
@@ -259,6 +260,7 @@ class InventoryService implements InventoryServiceInterface
                     $newDetailData['quantity'] = $quantityWithUom['quantity'];
                     $newDetailData['uom_abbreviation'] = $quantityWithUom['uom']['abbreviation'];
                     $newDetailData['uom_id'] = $quantityWithUom['uom']['id'];
+                    $newDetailData['merged_id'] = $existingDetail['id'];
                     $updatedInventory = $this->updateInventory($newDetailData['id'], $newDetailData);
 
                     if ($this->isError($updatedInventory)) {
@@ -279,6 +281,7 @@ class InventoryService implements InventoryServiceInterface
                     $existingQuantity = $existingDetail['quantity'];
                     $addedQuantity = $newDetailData['quantity'];
                     $newDetailData['quantity'] = $existingQuantity + $addedQuantity;
+                    $newDetailData['merged_id'] = $existingDetail['id'];
 
                     $updatedInventory = $this->updateInventory($newDetailData['id'], $newDetailData);
 
