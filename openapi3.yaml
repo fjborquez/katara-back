@@ -1,0 +1,1384 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  version: 0.0.1
+x-google-api-management:
+  backends:
+    katara-back:
+      address: 'https://katara-back-563591661235.us-central1.run.app/api'
+x-google-backend: katara-back
+paths:
+  /city:
+    get:
+      operationId: city.list
+      tags:
+        - City
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /consumption-level:
+    get:
+      operationId: consumptionLevel.list
+      tags:
+        - ConsumptionLevel
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /inventory:
+    post:
+      operationId: inventory.store
+      tags:
+        - Inventory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+    get:
+      operationId: inventory.list
+      tags:
+        - Inventory
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  '/user/{userId}/houses/{houseId}/inventory':
+    get:
+      operationId: inventoryHouse.list
+      tags:
+        - InventoryHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: inventoryHouse.store
+      tags:
+        - InventoryHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryHouseRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  '/user/{userId}/houses/{houseId}/inventory/{inventoryId}':
+    put:
+      operationId: inventoryHouse.update
+      tags:
+        - InventoryHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: inventoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryHouseRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    get:
+      operationId: inventoryHouse.get
+      tags:
+        - InventoryHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: inventoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  '/user/{userId}/houses/{houseId}/inventory/{inventoryId}/discard':
+    put:
+      operationId: inventoryHouse.discard
+      tags:
+        - InventoryHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: inventoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  '/user/{userId}/houses/{houseId}/inventory/{inventoryId}/consume':
+    put:
+      operationId: inventoryHouse.consume
+      tags:
+        - InventoryHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: inventoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /log-writer:
+    post:
+      operationId: logWriter.create
+      tags:
+        - LogWriter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogWriterRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+  '/user/{userId}/nutritional-profile':
+    get:
+      operationId: nutritionalProfile.get
+      tags:
+        - NutritionalProfile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  '/user/{userId}/nutritional-profile/{productCategoryId}':
+    delete:
+      operationId: nutritionalProfile.delete
+      tags:
+        - NutritionalProfile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: productCategoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /nutritional-restriction:
+    get:
+      operationId: nutritionalRestriction.list
+      tags:
+        - NutritionalRestriction
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /product-brand:
+    get:
+      operationId: productBrand.list
+      tags:
+        - ProductBrand
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: productBrand.store
+      tags:
+        - ProductBrand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductBrandRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /product-catalog:
+    get:
+      operationId: productCatalog.list
+      tags:
+        - ProductCatalog
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: productCatalog.store
+      tags:
+        - ProductCatalog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCatalogRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /product-category:
+    get:
+      operationId: productCategory.list
+      tags:
+        - ProductCategory
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: productCategory.store
+      tags:
+        - ProductCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /product-presentation:
+    get:
+      operationId: productPresentation.list
+      tags:
+        - ProductPresentation
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: productPresentation.store
+      tags:
+        - ProductPresentation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductPresentationRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /product-type:
+    get:
+      operationId: productType.list
+      tags:
+        - ProductType
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: productType.store
+      tags:
+        - ProductType
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductTypeRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  '/user/{userId}/houses/{houseId}/residents':
+    post:
+      operationId: resident.create
+      tags:
+        - Resident
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResidentRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+    get:
+      operationId: resident.list
+      tags:
+        - Resident
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+  '/user/{userId}/houses/{houseId}/residents/{residentId}':
+    put:
+      operationId: resident.update
+      tags:
+        - Resident
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: residentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResidentRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+    get:
+      operationId: resident.get
+      tags:
+        - Resident
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: residentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+    delete:
+      operationId: resident.delete
+      tags:
+        - Resident
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: residentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+  /unit-of-measurement:
+    get:
+      operationId: unitOfMeasurement.list
+      tags:
+        - UnitOfMeasurement
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /user:
+    post:
+      operationId: user.create
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+    get:
+      operationId: user.list
+      tags:
+        - User
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+  '/user/{userId}':
+    put:
+      operationId: user.update
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+    get:
+      operationId: user.get
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+  '/user/{userId}/enable':
+    put:
+      operationId: user.enable
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+  '/user/{userId}/disable':
+    put:
+      operationId: user.disable
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+  '/user/{userId}/houses':
+    get:
+      operationId: userHouse.list
+      tags:
+        - UserHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: userHouse.create
+      tags:
+        - UserHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserHouseRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      operationId: userHouse.update
+      tags:
+        - UserHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserHouseRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '422':
+          $ref: '#/components/responses/ValidationException'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  '/user/{userId}/houses/{houseId}/enable':
+    put:
+      operationId: userHouse.enable
+      tags:
+        - UserHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  '/user/{userId}/houses/{houseId}/disable':
+    put:
+      operationId: userHouse.disable
+      tags:
+        - UserHouse
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    InventoryHouseRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        quantity:
+          type: string
+        expiration_date:
+          type: string
+          nullable: true
+        catalog_id:
+          type: string
+        catalog_description:
+          type: string
+        category_id:
+          type: string
+        category_name:
+          type: string
+        purchase_date:
+          type: string
+        brand_id:
+          type: string
+        brand_name:
+          type: string
+        uom_id:
+          type: string
+        uom_abbreviation:
+          type: string
+        house_id:
+          type: string
+        house_description:
+          type: string
+        product_status:
+          type: string
+      required:
+        - quantity
+        - catalog_id
+        - catalog_description
+        - category_id
+        - category_name
+        - uom_id
+      title: InventoryHouseRequest
+    InventoryRequest:
+      type: object
+      properties:
+        quantity:
+          type: string
+        expiration_date:
+          type: string
+        catalog_id:
+          type: string
+        catalog_description:
+          type: string
+        category_id:
+          type: string
+        category_name:
+          type: string
+        purchase_date:
+          type: string
+        brand_id:
+          type: string
+        brand_name:
+          type: string
+        uom_id:
+          type: string
+        uom_abbreviation:
+          type: string
+        house_id:
+          type: string
+        product_status:
+          type: string
+      required:
+        - quantity
+        - catalog_id
+        - catalog_description
+        - category_id
+        - category_name
+      title: InventoryRequest
+    LogWriterRequest:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+      title: LogWriterRequest
+    ProductBrandRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 30
+        description:
+          type: string
+          maxLength: 100
+      required:
+        - name
+        - description
+      title: ProductBrandRequest
+    ProductCatalogRequest:
+      type: object
+      properties:
+        category_id:
+          type: string
+        brand_id:
+          type: string
+        type_id:
+          type: string
+        presentation_id:
+          type: string
+      required:
+        - category_id
+        - type_id
+      title: ProductCatalogRequest
+    ProductCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 30
+      required:
+        - name
+      title: ProductCategoryRequest
+    ProductPresentationRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 30
+      required:
+        - description
+      title: ProductPresentationRequest
+    ProductTypeRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 60
+      required:
+        - description
+      title: ProductTypeRequest
+    ResidentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 30
+        lastname:
+          type: string
+          maxLength: 30
+        date_of_birth:
+          type: string
+        nutritionalProfile:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - lastname
+        - date_of_birth
+        - nutritionalProfile
+      title: ResidentRequest
+    UserHouseRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 30
+        city_id:
+          type: string
+        is_default:
+          type: string
+        house_id:
+          type: string
+      required:
+        - description
+        - city_id
+      title: UserHouseRequest
+    UserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 30
+        lastname:
+          type: string
+          maxLength: 30
+        date_of_birth:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        nutritionalProfile:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - lastname
+        - date_of_birth
+        - email
+        - password
+        - nutritionalProfile
+      title: UserRequest
+  responses:
+    ValidationException:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Errors overview.
+              errors:
+                type: object
+                description: A detailed description of each field that failed validation.
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+            required:
+              - message
+              - errors
