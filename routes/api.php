@@ -7,6 +7,7 @@ use App\Http\Controllers\InventoryHouseController;
 use App\Http\Controllers\LogWriterController;
 use App\Http\Controllers\NutritionalProfileController;
 use App\Http\Controllers\NutritionalRestrictionController;
+use App\Http\Controllers\OauthTokenController;
 use App\Http\Controllers\ProductBrandController;
 use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ProductCategoryController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\UnitOfMeasurementController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserHouseController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return 'Hello World';
@@ -70,3 +72,4 @@ Route::get('/city', [CityController::class, 'list']);
 Route::get('/unit-of-measurement', [UnitOfMeasurementController::class, 'list']);
 
 Route::post('/log-writer', [LogWriterController::class, 'create']);
+Route::post('/oauth/token', [OauthTokenController::class, 'create']);
