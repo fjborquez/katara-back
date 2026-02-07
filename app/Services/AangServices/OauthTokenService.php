@@ -2,10 +2,10 @@
 
 namespace App\Services\AangServices;
 
-use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Config;
 use App\Contracts\Services\AangServices\OauthTokenServiceInterface;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 
 class OauthTokenService implements OauthTokenServiceInterface
 {
