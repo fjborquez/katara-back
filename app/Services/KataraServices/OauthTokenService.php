@@ -35,7 +35,7 @@ class OauthTokenService implements OauthTokenServiceInterface
 
         return [
             'message' => $oauthTokenResponse->json(),
-            'code' => Response::HTTP_CREATED
+            'code' => Response::HTTP_CREATED,
         ];
 
     }
