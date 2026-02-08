@@ -19,8 +19,9 @@ class OauthTokenService implements OauthTokenServiceInterface
         $data['client_id'] = env('AANG_OAUTH_TOKEN_CLIENT_ID');
         $data['client_secret'] = env('AANG_OAUTH_TOKEN_CLIENT_SECRET');
 
+        dd($data);
+
         $oauthTokenResponse = $this->aangOauthTokenService->create($data);
-        dd($oauthTokenResponse);
 
         if ($oauthTokenResponse->unprocessableEntity()) {
             $message = $oauthTokenResponse->json('message');
