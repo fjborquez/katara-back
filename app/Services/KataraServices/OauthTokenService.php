@@ -21,8 +21,6 @@ class OauthTokenService implements OauthTokenServiceInterface
         $data['client_id'] = Config::get('aang.oauth_token_client_id');
         $data['client_secret'] = Config::get('aang.oauth_token_client_secret');
 
-        dd($data);
-
         $oauthTokenResponse = $this->aangOauthTokenService->create($data);
 
         if ($oauthTokenResponse->unprocessableEntity()) {
