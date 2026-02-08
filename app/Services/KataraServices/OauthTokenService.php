@@ -16,7 +16,7 @@ class OauthTokenService implements OauthTokenServiceInterface
     public function create(array $data = []): array
     {
         $data['grant_type'] = 'password';
-        $data['client_id'] = env('AANG_OAUTH_TOKEN_CLIENT_ID');
+        $data['client_id'] = env('APP_NAME');
         $data['client_secret'] = env('AANG_OAUTH_TOKEN_CLIENT_SECRET');
 
         dd($data);
