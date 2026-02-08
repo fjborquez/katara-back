@@ -8,7 +8,6 @@ use App\Exceptions\UnexpectedErrorException;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class OauthTokenService implements OauthTokenServiceInterface
 {
     public function __construct(
