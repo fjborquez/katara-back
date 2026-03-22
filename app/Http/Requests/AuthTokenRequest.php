@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OauthTokenRequest extends FormRequest
+class AuthTokenRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,7 @@ class OauthTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['required'],
+            'email' => ['required'],
             'password' => ['required'],
         ];
     }

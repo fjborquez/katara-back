@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services\KataraServices;
 
-interface OauthTokenServiceInterface
+interface AuthTokenServiceInterface
 {
     public function create(array $data = []): array;
 }

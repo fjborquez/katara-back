@@ -2,29 +2,32 @@
 
 namespace App\Services\KataraServices;
 
-use App\Contracts\Services\AangServices\OauthTokenServiceInterface as AangServiceOauthTokenServiceInterface;
-use App\Contracts\Services\KataraServices\OauthTokenServiceInterface;
+use App\Contracts\Services\AangServices\AuthTokenServiceInterface as AangServiceAuthTokenServiceInterface;
+use App\Contracts\Services\KataraServices\AuthTokenServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
-use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
 
-class OauthTokenService implements OauthTokenServiceInterface
+class AuthTokenService implements AuthTokenServiceInterface
 {
     public function __construct(
-        private readonly AangServiceOauthTokenServiceInterface $aangOauthTokenService
+        private readonly AangServiceAuthTokenServiceInterface $aangAuthTokenService
     ) {}
 
     public function create(array $data = []): array
     {
-        $data['grant_type'] = 'password';
-        $data['client_id'] = Config::get('aang.oauth_token_client_id');
-        $data['client_secret'] = Config::get('aang.oauth_token_client_secret');
-
-        $oauthTokenResponse = $this->aangOauthTokenService->create($data);
+        $oauthTokenResponse = $this->aangAuthTokenService->create($data);
 
         if ($oauthTokenResponse->unprocessableEntity()) {
             $message = $oauthTokenResponse->json('message');
             $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($oauthTokenResponse->unauthorized()) {
+            $message = 'invalid credentials';
+            $code = Response::HTTP_UNAUTHORIZED;
 
             return [
                 'message' => $message,

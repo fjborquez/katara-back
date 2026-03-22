@@ -12,7 +12,7 @@ return [
     App\Providers\AangServices\NutritionalProfileServiceProvider::class,
     App\Providers\AangServices\ConsumptionLevelServiceProvider::class,
     App\Providers\AangServices\CityServiceProvider::class,
-    App\Providers\AangServices\OauthTokenServiceProvider::class,
+    App\Providers\AangServices\AuthTokenServiceProvider::class,
 
     App\Providers\KataraServices\UserHouseServiceProvider::class,
     App\Providers\KataraServices\NutritionalProfileServiceProvider::class,
@@ -29,7 +29,7 @@ return [
     App\Providers\KataraServices\ProductPresentationServiceProvider::class,
     App\Providers\KataraServices\ProductTypeServiceProvider::class,
     App\Providers\KataraServices\GoogleCloudLogWriterServiceProvider::class,
-    App\Providers\KataraServices\OauthTokenServiceProvider::class,
+    App\Providers\KataraServices\AuthTokenServiceProvider::class,
 
     App\Providers\ZukoServices\ProductCategoryServiceProvider::class,
     App\Providers\ZukoServices\ProductCatalogServiceProvider::class,

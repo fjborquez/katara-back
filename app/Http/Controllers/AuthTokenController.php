@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Services\KataraServices\OauthTokenServiceInterface;
+use App\Contracts\Services\KataraServices\AuthTokenServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
-use App\Http\Requests\OauthTokenRequest;
+use App\Http\Requests\AuthTokenRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class OauthTokenController extends Controller
+class AuthTokenController extends Controller
 {
-    private $fields = ['username', 'password'];
+    private $fields = ['email', 'password'];
 
     public function __construct(
-        private readonly OauthTokenServiceInterface $oauthTokenService
+        private readonly AuthTokenServiceInterface $authTokenService
     ) {}
 
-    public function create(OauthTokenRequest $request)
+    public function create(AuthTokenRequest $request)
     {
         $validated = $request->safe()->only($this->fields);
 
         try {
-            $response = $this->oauthTokenService->create($validated);
+            $response = $this->authTokenService->create($validated);
 
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {

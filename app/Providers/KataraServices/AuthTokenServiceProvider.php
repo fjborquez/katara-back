@@ -2,11 +2,11 @@
 
 namespace App\Providers\KataraServices;
 
-use App\Contracts\Services\KataraServices\OauthTokenServiceInterface;
-use App\Services\KataraServices\OauthTokenService;
+use App\Contracts\Services\KataraServices\AuthTokenServiceInterface;
+use App\Services\KataraServices\AuthTokenService;
 use Illuminate\Support\ServiceProvider;
 
-class OauthTokenServiceProvider extends ServiceProvider
+class AuthTokenServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -22,8 +22,8 @@ class OauthTokenServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(
-            OauthTokenServiceInterface::class,
-            OauthTokenService::class
+            AuthTokenServiceInterface::class,
+            AuthTokenService::class
         );
     }
 }
