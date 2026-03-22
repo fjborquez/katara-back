@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Contracts\Services\AangServices\AuthTokenServiceInterface as AangAuthTokenServiceInterface;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Contracts\Services\AangServices\AuthTokenServiceInterface as AangAuthTokenServiceInterface;
-
 
 class IsValid
 {
@@ -17,14 +16,13 @@ class IsValid
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
         $checkResponse = $this->aangAuthTokenService->check($request->bearerToken());
 
-        if ($checkResponse->unauthorized())
-        {
+        if ($checkResponse->unauthorized()) {
             return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
 

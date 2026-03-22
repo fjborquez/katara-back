@@ -1,34 +1,55 @@
 <?php
 
+use App\Providers\AangServices\AuthTokenServiceProvider;
+use App\Providers\AangServices\CityServiceProvider;
+use App\Providers\AangServices\ConsumptionLevelServiceProvider;
+use App\Providers\AangServices\HouseServiceProvider;
+use App\Providers\AangServices\NutritionalProfileServiceProvider;
+use App\Providers\AangServices\NutritionalRestrictionServiceProvider;
+use App\Providers\AangServices\PersonHouseServiceProvider;
+use App\Providers\AangServices\PersonServiceProvider;
+use App\Providers\AangServices\ResidentServiceProvider;
+use App\Providers\AangServices\UserServiceProvider;
+use App\Providers\AppServiceProvider;
+use App\Providers\KataraServices\GoogleCloudLogWriterServiceProvider;
+use App\Providers\KataraServices\InventoryServiceProvider;
+use App\Providers\KataraServices\ProductBrandServiceProvider;
+use App\Providers\KataraServices\ProductCatalogServiceProvider;
+use App\Providers\KataraServices\ProductCategoryServiceProvider;
+use App\Providers\KataraServices\ProductPresentationServiceProvider;
+use App\Providers\KataraServices\ProductTypeServiceProvider;
+use App\Providers\KataraServices\UnitOfMeasurementServiceProvider;
+use App\Providers\KataraServices\UserHouseServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
+    AppServiceProvider::class,
 
-    App\Providers\AangServices\HouseServiceProvider::class,
-    App\Providers\AangServices\UserServiceProvider::class,
-    App\Providers\AangServices\PersonHouseServiceProvider::class,
-    App\Providers\AangServices\NutritionalRestrictionServiceProvider::class,
-    App\Providers\AangServices\PersonServiceProvider::class,
-    App\Providers\AangServices\ResidentServiceProvider::class,
-    App\Providers\AangServices\NutritionalProfileServiceProvider::class,
-    App\Providers\AangServices\ConsumptionLevelServiceProvider::class,
-    App\Providers\AangServices\CityServiceProvider::class,
-    App\Providers\AangServices\AuthTokenServiceProvider::class,
+    HouseServiceProvider::class,
+    UserServiceProvider::class,
+    PersonHouseServiceProvider::class,
+    NutritionalRestrictionServiceProvider::class,
+    PersonServiceProvider::class,
+    ResidentServiceProvider::class,
+    NutritionalProfileServiceProvider::class,
+    ConsumptionLevelServiceProvider::class,
+    CityServiceProvider::class,
+    AuthTokenServiceProvider::class,
 
-    App\Providers\KataraServices\UserHouseServiceProvider::class,
+    UserHouseServiceProvider::class,
     App\Providers\KataraServices\NutritionalProfileServiceProvider::class,
     App\Providers\KataraServices\NutritionalRestrictionServiceProvider::class,
     App\Providers\KataraServices\UserServiceProvider::class,
     App\Providers\KataraServices\ResidentServiceProvider::class,
     App\Providers\KataraServices\ConsumptionLevelServiceProvider::class,
-    App\Providers\KataraServices\ProductCategoryServiceProvider::class,
-    App\Providers\KataraServices\InventoryServiceProvider::class,
+    ProductCategoryServiceProvider::class,
+    InventoryServiceProvider::class,
     App\Providers\KataraServices\CityServiceProvider::class,
-    App\Providers\KataraServices\ProductCatalogServiceProvider::class,
-    App\Providers\KataraServices\UnitOfMeasurementServiceProvider::class,
-    App\Providers\KataraServices\ProductBrandServiceProvider::class,
-    App\Providers\KataraServices\ProductPresentationServiceProvider::class,
-    App\Providers\KataraServices\ProductTypeServiceProvider::class,
-    App\Providers\KataraServices\GoogleCloudLogWriterServiceProvider::class,
+    ProductCatalogServiceProvider::class,
+    UnitOfMeasurementServiceProvider::class,
+    ProductBrandServiceProvider::class,
+    ProductPresentationServiceProvider::class,
+    ProductTypeServiceProvider::class,
+    GoogleCloudLogWriterServiceProvider::class,
     App\Providers\KataraServices\AuthTokenServiceProvider::class,
 
     App\Providers\ZukoServices\ProductCategoryServiceProvider::class,

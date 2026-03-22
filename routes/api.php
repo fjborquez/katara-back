@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthTokenController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ConsumptionLevelController;
 use App\Http\Controllers\InventoryController;
@@ -7,7 +8,6 @@ use App\Http\Controllers\InventoryHouseController;
 use App\Http\Controllers\LogWriterController;
 use App\Http\Controllers\NutritionalProfileController;
 use App\Http\Controllers\NutritionalRestrictionController;
-use App\Http\Controllers\AuthTokenController;
 use App\Http\Controllers\ProductBrandController;
 use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ProductCategoryController;

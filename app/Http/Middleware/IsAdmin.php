@@ -11,14 +11,13 @@ class IsAdmin
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
         $bearerToken = $request->bearerToken();
 
-        if (!$bearerToken)
-        {
+        if (! $bearerToken) {
             return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
 
@@ -28,8 +27,7 @@ class IsAdmin
 
         $isAdmin = in_array('admin', $payloadJson->scopes);
 
-        if (!$isAdmin)
-        {
+        if (! $isAdmin) {
             return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
 

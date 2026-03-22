@@ -313,7 +313,7 @@ class UserService implements UserServiceInterface
 
         return [
             'message' => 'User enabled successfully',
-            'code' => RESPONSE::HTTP_OK,
+            'code' => Response::HTTP_OK,
         ];
     }
 
@@ -343,7 +343,7 @@ class UserService implements UserServiceInterface
 
         return [
             'message' => 'User disabled successfully',
-            'code' => RESPONSE::HTTP_OK,
+            'code' => Response::HTTP_OK,
         ];
     }
 }

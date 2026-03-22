@@ -3,6 +3,7 @@
 use App\Contracts\Services\AangServices\HouseServiceInterface as AangHouseServiceInterface;
 use App\Contracts\Services\AangServices\PersonHouseServiceInterface as AangPersonHouseServiceInterface;
 use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
+use App\Contracts\Services\KataraServices\InventoryServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
 use App\HouseRole;
 use App\Services\KataraServices\UserHouseService;
@@ -30,7 +31,7 @@ class UserHouseServiceTest extends TestCase
         $this->aangHouseService = Mockery::mock(AangHouseServiceInterface::class);
         $this->aangUserService = Mockery::mock(AangUserServiceInterface::class);
         $this->aangPersonHouseService = Mockery::mock(AangPersonHouseServiceInterface::class);
-        $this->inventoryService = Mockery::mock(\App\Contracts\Services\KataraServices\InventoryServiceInterface::class);
+        $this->inventoryService = Mockery::mock(InventoryServiceInterface::class);
         $this->kataraUserHouseService = new UserHouseService($this->aangHouseService, $this->aangUserService,
             $this->aangPersonHouseService, $this->inventoryService);
     }
