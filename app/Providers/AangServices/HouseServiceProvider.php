@@ -22,7 +22,7 @@ class HouseServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(
-            HouseserviceInterface::class,
+            HouseServiceInterface::class,
             HouseService::class
         );
     }

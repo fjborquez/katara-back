@@ -4,7 +4,9 @@ namespace App\Contracts\Services\AangServices;
 
 use Illuminate\Http\Client\Response;
 
-interface OauthTokenServiceInterface
+interface AuthTokenServiceInterface
 {
     public function create(array $data = []): Response;
+
+    public function check(string $token): Response;
 }

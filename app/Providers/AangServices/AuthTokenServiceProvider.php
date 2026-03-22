@@ -2,11 +2,11 @@
 
 namespace App\Providers\AangServices;
 
-use App\Contracts\Services\AangServices\OauthTokenServiceInterface;
-use App\Services\AangServices\OauthTokenService;
+use App\Contracts\Services\AangServices\AuthTokenServiceInterface;
+use App\Services\AangServices\AuthTokenService;
 use Illuminate\Support\ServiceProvider;
 
-class OauthTokenServiceProvider extends ServiceProvider
+class AuthTokenServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -22,8 +22,8 @@ class OauthTokenServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(
-            OauthTokenServiceInterface::class,
-            OauthTokenService::class
+            AuthTokenServiceInterface::class,
+            AuthTokenService::class
         );
     }
 }
