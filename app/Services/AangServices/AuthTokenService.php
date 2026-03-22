@@ -13,4 +13,10 @@ class AuthTokenService implements AuthTokenServiceInterface
     {
         return Http::accept('application/json')->retry(3, 100, null, false)->post(Config::get('aang.url').'/auth/token', $data);
     }
+
+    public function check(string $token): Response
+    {
+        return Http::accept('application/json')->retry(3, 100, null, false)->withHeader('Authorization', 'Bearer ' . $token)
+            ->get(Config::get('aang.url').'/auth/token/check');
+    }
 }
