@@ -38,7 +38,7 @@ class UserHouseService implements UserHouseServiceInterface
 
             if ($inventoryResponse['code'] !== Response::HTTP_OK) {
                 continue;
-            };
+            }
 
             $inventory = $inventoryResponse['message']['items'];
             $inventoryCount = 0;
