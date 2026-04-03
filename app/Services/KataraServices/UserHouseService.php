@@ -32,9 +32,15 @@ class UserHouseService implements UserHouseServiceInterface
         $houseWithStatistics = [];
 
         foreach ($user['person']['houses'] as $house) {
-            $inventory = $this->inventoryServiceInterface->list([
+            $inventoryResponse = $this->inventoryServiceInterface->list([
                 'house_id' => $house['id'],
-            ])['message']['items'];
+            ]);
+
+            if ($inventoryResponse['code'] !== Response::HTTP_OK) {
+                continue;
+            };
+
+            $inventory = $inventoryResponse['message']['items'];
             $inventoryCount = 0;
             $expiredCount = 0;
 
