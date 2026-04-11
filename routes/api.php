@@ -29,6 +29,7 @@ Route::middleware(['isValid', 'isAdmin'])->put('/user/{id}', [UserController::cl
 Route::middleware(['isValid', 'isAdmin'])->get('/user/{id}', [UserController::class, 'get']);
 Route::middleware(['isValid', 'isAdmin'])->put('/user/{id}/enable', [UserController::class, 'enable']);
 Route::middleware(['isValid', 'isAdmin'])->put('/user/{id}/disable', [UserController::class, 'disable']);
+Route::middleware(['isValid', 'isAdmin'])->post('/user/{id}/invite', [UserController::class, 'invite']);
 Route::middleware(['isValid', 'isAdmin'])->get('/user/{id}/nutritional-profile', [NutritionalProfileController::class, 'get']);
 Route::middleware(['isValid', 'isAdmin'])->delete('/user/{id}/nutritional-profile/{productCategoryId}', [NutritionalProfileController::class, 'delete']);
 Route::middleware(['isValid', 'isAdmin'])->get('/user/{id}/houses', [UserHouseController::class, 'list']);

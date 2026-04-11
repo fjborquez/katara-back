@@ -7,7 +7,11 @@ use App\Contracts\Services\AangServices\PersonServiceInterface as AangPersonServ
 use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
 use App\Contracts\Services\KataraServices\UserServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
+use App\Mail\InviteUser;
 use App\Services\AzulaServices\InventoryService as AzulaInventoryService;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserService implements UserServiceInterface
@@ -345,5 +349,60 @@ class UserService implements UserServiceInterface
             'message' => 'User disabled successfully',
             'code' => Response::HTTP_OK,
         ];
+    }
+
+    public function invite(int $userId): array
+    {
+        $userResponse = $this->aangUserService->get($userId);
+
+        if ($userResponse->notFound()) {
+            $message = 'User not found';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } else if ($userResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $user = $userResponse->json();
+
+        $tokenGenerationResponse = $this->aangUserService->passwordToken(['email' => $user['email']]);
+
+        if ($tokenGenerationResponse->notFound()) {
+            $message = 'User not found';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } else if ($tokenGenerationResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $token = $tokenGenerationResponse->json()['message']['password_token'];
+
+        try {
+            Mail::to($user['email'])->send(new InviteUser(
+                $user['person'],
+                $token,
+                Config::get('korra.url')
+            ));
+
+            return [
+                'message' => 'User invited successfully',
+                'code' => Response::HTTP_OK,
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error al enviar correo de invitación: '.$e->getMessage());
+
+            return [
+                'message' => $e->getMessage(),
+                'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
+            ];
+        }
     }
 }
