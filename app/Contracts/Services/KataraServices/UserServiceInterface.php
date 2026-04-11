@@ -15,4 +15,6 @@ interface UserServiceInterface
     public function enable(int $id): array;
 
     public function disable(int $id): array;
+
+    public function invite(int $userId): array;
 }

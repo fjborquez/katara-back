@@ -17,4 +17,6 @@ interface UserServiceInterface
     public function disable(int $id): Response;
 
     public function get(int $id): Response;
+
+    public function passwordToken(array $data = []): Response;
 }
