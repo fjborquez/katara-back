@@ -19,8 +19,7 @@ class InviteUser extends Mailable
         protected array $person,
         protected string $token,
         protected string $korraUrl
-    )
-    {
+    ) {
         //
     }
 

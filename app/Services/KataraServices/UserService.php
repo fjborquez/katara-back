@@ -363,7 +363,7 @@ class UserService implements UserServiceInterface
                 'message' => $message,
                 'code' => $code,
             ];
-        } else if ($userResponse->failed()) {
+        } elseif ($userResponse->failed()) {
             throw new UnexpectedErrorException;
         }
 
@@ -379,7 +379,7 @@ class UserService implements UserServiceInterface
                 'message' => $message,
                 'code' => $code,
             ];
-        } else if ($tokenGenerationResponse->failed()) {
+        } elseif ($tokenGenerationResponse->failed()) {
             throw new UnexpectedErrorException;
         }
 
